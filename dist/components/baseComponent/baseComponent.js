@@ -1,4 +1,4 @@
-/// <reference path="../references.ts"/>
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,29 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core'); //beta
-var common_1 = require('angular2/common'); //beta
-var FirstComponent = (function () {
+/// <reference path="../../../vendor.d.ts"/>
+var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
+var BaseComponent = (function () {
     // Constructor
-    function FirstComponent() {
+    function BaseComponent() {
     }
     // Functions
-    FirstComponent.prototype.ngAfterViewInit = function () {
+    BaseComponent.prototype.ngAfterViewInit = function () {
     };
-    FirstComponent = __decorate([
-        //beta
+    BaseComponent = __decorate([
         core_1.Component({
-            selector: 'component',
+            selector: 'base-component',
             styles: [],
             directives: [common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
-            templateUrl: '/src/app/components/component1/component.html',
+            templateUrl: '/src/app/components/baseComponent/baseComponent.html',
         }), 
         __metadata('design:paramtypes', [])
-    ], FirstComponent);
-    return FirstComponent;
-})();
-exports.FirstComponent = FirstComponent;
-// $(function(){
-// 	//
-// }) 
-//# sourceMappingURL=component.js.map
+    ], BaseComponent);
+    return BaseComponent;
+}());
+exports.BaseComponent = BaseComponent;
+//# sourceMappingURL=baseComponent.js.map

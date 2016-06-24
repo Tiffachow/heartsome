@@ -1,3 +1,5 @@
+/// <reference path="../references.ts"/>
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,21 +9,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var browser_1 = require('angular2/platform/browser');
-var core_1 = require('angular2/core');
-var CombineComponents = (function () {
-    function CombineComponents() {
+var core_1 = require('angular2/core'); //beta
+var common_1 = require('angular2/common'); //beta
+var FirstComponent = (function () {
+    // Constructor
+    function FirstComponent() {
     }
-    CombineComponents.prototype.ngOnInit = function () { };
-    CombineComponents = __decorate([
+    // Functions
+    FirstComponent.prototype.ngAfterViewInit = function () {
+    };
+    FirstComponent = __decorate([
+        //beta
         core_1.Component({
-            selector: 'app',
-            template: "<component></component>",
+            selector: 'component',
+            styles: [],
+            directives: [common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
+            templateUrl: '/src/app/components/component1/component.html',
         }), 
         __metadata('design:paramtypes', [])
-    ], CombineComponents);
-    return CombineComponents;
-})();
-exports.CombineComponents = CombineComponents;
-browser_1.bootstrap(CombineComponents, []).catch(function (err) { return console.error(err); }); //services injected here are singletons available app-wide
-//# sourceMappingURL=app.js.map
+    ], FirstComponent);
+    return FirstComponent;
+}());
+exports.FirstComponent = FirstComponent;
+// $(function(){
+// 	//
+// }) 
+//# sourceMappingURL=component.js.map
