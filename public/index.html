@@ -8,37 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="Keywords" content="music player radio radio.com listen audio play.it"> -->
 
-        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="stylesheets/main.css">
-        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script> <!--zone.js and reflect-metadata-->
-        <script src="../node_modules/systemjs/dist/system.src.js"></script>
-        <script src="../node_modules/rxjs/bundles/Rx.js"></script>
-        <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
-        <script>
-            System.config({
-                //map tells the System loader where to look for things
-                map: {
-                    app: "./app",
-                    "rxjs": '/node_modules/rxjs'
-                },
-                //packages defines our app package
-                packages: {
-                    app: {
-                        main: './app.js',
-                        defaultExtension: 'js'
-                    },
-                    "rxjs": {
-                        defaultExtension: 'js'
-                    }
-                }
-            });
-            System.import('app')
-                .catch(console.error.bind(console));
-        </script>
+        <link rel="stylesheet" href="dist/stylesheets/main.css">
+        <script src="dist/scripts/all.min.js"></script>
     </head>
     <body>
-        <app></app>
+        YO YO YO HELLO WORLD
+        <app>app not working</app>
     </body>
 </html>
