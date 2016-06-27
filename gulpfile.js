@@ -5,12 +5,12 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var sourcemaps = require('gulp-sourcemaps');
-var del = require('del');
 var less = require('gulp-less');
 var uglifycss = require('gulp-uglifycss');
 var browserify = require('gulp-browserify');
 var typescript = require('gulp-tsc');
 var rename = require("gulp-rename");
+var del = require('del');
 var path = require('path');
 
 var paths = {
@@ -40,7 +40,7 @@ gulp.task('bundle', function() {
 			insertGlobals : true,
 			debug : !gulp.env.production
 		}))
-		.pipe(rename('modules-bundle.js'))
+		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest('./public/client/scripts/'));
 });
 
@@ -91,7 +91,7 @@ gulp.task('compile:tsc', function(){
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-	gulp.watch([paths.client.scripts, '!./public/client/scripts/modules-bundle.js'], ['scripts']);
+	gulp.watch([paths.client.scripts, '!./public/client/scripts/bundle.js'], ['scripts']);
 	gulp.watch(paths.client.images, ['images']);
 	gulp.watch(paths.client.stylesheets, ['styles']);
 	gulp.watch(paths.client.angular, ['compile:tsc']);

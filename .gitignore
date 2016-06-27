@@ -33,4 +33,4 @@ npm-debug.log
 
 # Build
 public/dist
-public/client/scripts/modules-bundle.js
+public/client/scripts/bundle.js
