@@ -11,7 +11,7 @@ import {BaseComponent} from './components/baseComponent/baseComponent';
 @Component({
 	selector: 'app',
 	template: `
-		<prime-player [ngClass]="{debug:debug}"></prime-player>
+		<base-component [ngClass]="{debug:debug}"></base-component>
 		<button class="debug-btn" (click)="debug=!debug">DEBUG</button>
 	`,
 	directives: [BaseComponent, ROUTER_DIRECTIVES, RouterLink, RouterOutlet]

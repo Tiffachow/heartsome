@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 app.use(session({
   cookieName: 'session',
   secret: 'acetones knessets uncurbs pyrone spurting misusage coseys insulars thymiest scantier',

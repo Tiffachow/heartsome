@@ -6,7 +6,7 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
     selector: 'base-component',
     styles: [],
    	directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
-	templateUrl: '/src/app/components/baseComponent/baseComponent.html',
+	templateUrl: '/client/app/components/baseComponent/baseComponent.html',
 })
 
 export class BaseComponent {

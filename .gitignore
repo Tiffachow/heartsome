@@ -30,3 +30,7 @@ node_modules
 npm-debug.log
 
 .DS_Store
+
+# Build
+public/dist
+public/client/scripts/modules-bundle.js

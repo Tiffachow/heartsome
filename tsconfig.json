@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "target": "ES5",
-        "outDir": "./dist",
-        "sourceRoot": "./app",
+        "outDir": "./public/dist/app",
+        "sourceRoot": "./public/client/app",
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
