@@ -1,4 +1,4 @@
-# heartsome
+# heartsome [![Build Status](https://travis-ci.org/Tiffachow/heartsome.svg?branch=develop)](https://travis-ci.org/Tiffachow/heartsome)
 personal website
 
 *	Angular2 RC1
