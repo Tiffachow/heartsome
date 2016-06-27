@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var multer = require('multer');
-var bcrypt = require('bcrypt');
 var Projects = require('../models/database');
 
 var router = express.Router();
