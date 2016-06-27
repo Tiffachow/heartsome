@@ -77,8 +77,6 @@ gulp.task('compile:tsc', function(){
 	gulp.src(paths.client.angular)
 		.pipe(typescript({
 			"target": "ES5",
-			"outDir": "./public/dist/app",
-			"sourceRoot": "./public/client/app",
 			"module": "commonjs",
 			"moduleResolution": "node",
 			"sourceMap": true,
