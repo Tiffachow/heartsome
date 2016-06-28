@@ -1,4 +1,5 @@
 global.jQuery = require('jquery');
+global.$ = global.jQuery;
 global.Tether = require('tether');
 require('bootstrap');
 
@@ -13,31 +14,43 @@ require('../../../node_modules/systemjs/dist/system.src.js');
 var map = {
     'app':                        '../../dist/app',
     '@angular':                   '../../../node_modules/@angular',
-    'rxjs':                       '../../../node_modules/rxjs'
+    'rxjs':                       '../../../node_modules/rxjs',
+    '@angular/router':            '../../../node_modules/@angular/router'
 };
 
 // packages tells the System loader how to load when no filename and/or no extension
 var packages = {
     'app':                        { main: './app.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' }
+    'rxjs':                       { defaultExtension: 'js' },
+    '@angular/router':            { main: './index.js',  defaultExtension: 'js' },
 };
 
 var ngPackageNames = [
     'common',
     'compiler',
     'core',
+    'forms',
     'http',
     'platform-browser',
     'platform-browser-dynamic',
-    'router',
+    // 'router',
     'router-deprecated',
     'upgrade',
 ];
 
+// Individual files (~300 requests):
+function packIndex(pkgName) {
+    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+}
+// Bundled (~40 requests):
+function packUmd(pkgName) {
+    packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+}
+// Most environments should use UMD; some (Karma) need the individual index files
+var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
 // Add package entries for angular packages
-ngPackageNames.forEach(function(pkgName) {
-    packages['@angular/'+pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
-});
+ngPackageNames.forEach(setPackageConfig);
+
 
 var config = {
     map: map,

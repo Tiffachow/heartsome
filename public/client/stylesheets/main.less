@@ -1,8 +1,30 @@
+.debug * { outline: 2px dotted red }
+.debug * * { outline: 2px dotted green }
+.debug * * * { outline: 2px dotted orange }
+.debug * * * * { outline: 2px dotted blue }
+.debug * * * * * { outline: 1px solid red }
+.debug * * * * * * { outline: 1px solid green }
+.debug * * * * * * * { outline: 1px solid orange }
+.debug * * * * * * * * { outline: 1px solid blue }
+.debug-btn {
+	margin: 20px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	padding: 50px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+	color: #00B7FF;
+}
+
+.version-ctrl {
+	left: 0;
+	margin: 20px;
+	position: absolute;
+	top: 0;
 }
