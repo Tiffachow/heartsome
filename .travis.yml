@@ -5,11 +5,8 @@ node_js:
     - "4"
     - "node"
 env:
-    - dbuser=enterhere
-    - password=enterhere
-    - adminpassword=enterhere
+    - dbuser=enterhere password=enterhere adminpassword=enterhere
 script: npm run gulp
-
 
 # Install apt addons
 # before_install
