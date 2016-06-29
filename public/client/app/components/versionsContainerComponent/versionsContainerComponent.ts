@@ -1,5 +1,6 @@
 /// <reference path="../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, OnDestroy} from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import {CORE_DIRECTIVES} from '@angular/common';
 
 import {VersionsService} from './../../services/VersionsService';
@@ -17,15 +18,33 @@ import {VersionTypographyComponent} from './../../version-typography/components/
 
 export class VersionsContainerComponent {
 	versionsService: VersionsService;
+	router: Router;
+	route: ActivatedRoute;
+	version: string;
+	sub: any;
 
 	// Constructor
-	constructor(versionsService: VersionsService) {
+	constructor(versionsService: VersionsService, router: Router, route: ActivatedRoute) {
 		this.versionsService = versionsService;
+		this.router = router;
+		this.route = route;
+		this.version = this.route.params["version"];
 	}
 
 	// Functions
 	ngOnInit() {
-		console.log("Selected version: N/A yet.");
+		this.sub = this.route
+			.params
+			.subscribe(params => {
+				this.version = params['version'];
+			});
+		console.log("Selected version: "+this.version);
+	}
+
+	ngOnDestroy() {
+		if (this.sub) {
+			this.sub.unsubscribe();
+		}
 	}
 
 	ngAfterViewInit(){
