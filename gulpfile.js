@@ -72,13 +72,15 @@ gulp.task('bundle:browserify', function() {
 gulp.task('bundle:rollup', function() {
 	return gulp.src('./public/client/scripts/modules.js')
 		.pipe(sourcemaps.init())
-		.pipe(rollup())
-		.pipe(rename('bundle.js'))
+		.pipe(rollup({
+			entry: './public/client/scripts/modules.js'
+		}))
+		// .pipe(rename('bundle.js'))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./public/client/scripts/'));
+		.pipe(gulp.dest('./public/client/scripts/bundle/'));
 });
 
-gulp.task('scripts', ['bundle:rollup'], function() {
+gulp.task('scripts', ['bundle:browserify'], function() {
 	// Minify and copy all JavaScript (except vendor scripts)
 	// with sourcemaps all the way down
 	return gulp.src([paths.client.scripts, '!./public/client/scripts/modules.js'])

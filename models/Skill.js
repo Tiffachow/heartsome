@@ -14,22 +14,22 @@ var SkillsSchema = new Schema({ //new collection
     createdAt: 		           { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('SkillsModel', SkillsSchema); //retrieve model
+module.exports = mongoose.model('SkillModel', SkillsSchema); //retrieve model
 
 
 // +++++++++++++++++++++++++++++++++
 
 // var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/test');
-// require('SkillsModel');
+// var Skill = require('Skill');
 
 // TO USE ELSEWHERE:
 // Instantiate it
-// var skillsModelInstance = new SkillsModel(); //create new instance of model, new document in collection
-// skillsModelInstance.name = 'Angular2';
-// SkillsModel.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
+// var skillInstance = new Skill(); //create new instance of model, new document in collection
+// skillInstance.name = 'Angular2';
+// Skill.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
 //   // docs.forEach
 // });
-// skillsModelInstance.save(function (err) {
+// skillInstance.save(function (err) {
 //   //
 // });

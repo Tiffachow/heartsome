@@ -15,22 +15,22 @@ var AppVersionsSchema = new Schema({ //new collection
     createdAt: 		{ type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('AppVersionsModel', AppVersionsSchema); //retrieve model
+module.exports = mongoose.model('AppVersionModel', AppVersionsSchema); //retrieve model
 
 
 // +++++++++++++++++++++++++++++++++
 
 // var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/test');
-// require('AppVersionsModel');
+// var AppVersion = require('AppVersion');
 
 // TO USE ELSEWHERE:
 // Instantiate it
-// var appVersionsModelInstance = new AppVersionsModel(); //create new instance of model, new document in collection
-// appVersionsModelInstance.name = 'material';
-// AppVersionsModel.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
+// var appVersionInstance = new AppVersion(); //create new instance of model, new document in collection
+// appVersionInstance.name = 'material';
+// AppVersion.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
 //   // docs.forEach
 // });
-// appVersionsModelInstance.save(function (err) {
+// appVersionInstance.save(function (err) {
 //   //
 // });

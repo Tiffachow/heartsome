@@ -6,11 +6,12 @@ import {VersionsService} from './../../services/VersionsService';
 
 import {VersionCubicComponent} from './../../version-cubic/components/baseComponent/baseComponent';
 import {VersionMaterialComponent} from './../../version-material/components/baseComponent/baseComponent';
+import {VersionTypographyComponent} from './../../version-typography/components/baseComponent/baseComponent';
 
 @Component({
 	selector: 'versions-container',
 	styles: [],
-	directives: [CORE_DIRECTIVES, VersionCubicComponent, VersionMaterialComponent],
+	directives: [CORE_DIRECTIVES, VersionCubicComponent, VersionMaterialComponent, VersionTypographyComponent],
 	templateUrl: '/client/app/components/versionsContainerComponent/versionsContainerComponent.html',
 })
 

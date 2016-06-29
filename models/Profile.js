@@ -19,22 +19,22 @@ var ProfilesSchema = new Schema({ //new collection
     createdAt: 		           { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('ProfilesModel', ProfilesSchema); //retrieve model
+module.exports = mongoose.model('ProfileModel', ProfilesSchema); //retrieve model
 
 
 // +++++++++++++++++++++++++++++++++
 
 // var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/test');
-// require('ProfilesModel');
+// var Profile = require('Profile');
 
 // TO USE ELSEWHERE:
 // Instantiate it
-// var profilesModelInstance = new ProfilesModel(); //create new instance of model, new document in collection
-// profilesModelInstance.title = 'Web Developer';
-// ProfilesModel.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
+// var profileInstance = new Profile(); //create new instance of model, new document in collection
+// profileInstance.title = 'Web Developer';
+// Profile.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
 //   // docs.forEach
 // });
-// profilesModelInstance.save(function (err) {
+// profileInstance.save(function (err) {
 //   //
 // });

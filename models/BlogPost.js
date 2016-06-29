@@ -19,22 +19,22 @@ var BlogPostsSchema = new Schema({ //new collection
     createdAt: 		{ type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('BlogPostsModel', BlogPostsSchema); //retrieve model
+module.exports = mongoose.model('BlogPostModel', BlogPostsSchema); //retrieve model
 
 
 // +++++++++++++++++++++++++++++++++
 
 // var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/test');
-// require('BlogPostsModel');
+// var BlogPost = require('BlogPost');
 
 // TO USE ELSEWHERE:
 // Instantiate it
-// var blogPostsModelInstance = new BlogPostsModel(); //create new instance of model, new document in collection
-// blogPostsModelInstance.title = 'Revamping Heartsome';
-// BlogPostsModel.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
+// var blogPostInstance = new BlogPost(); //create new instance of model, new document in collection
+// blogPostInstance.title = 'Revamping Heartsome';
+// BlogPost.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
 //   // docs.forEach
 // });
-// blogPostsModelInstance.save(function (err) {
+// blogPostInstance.save(function (err) {
 //   //
 // });
