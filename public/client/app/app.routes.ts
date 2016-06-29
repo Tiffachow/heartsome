@@ -9,6 +9,7 @@ import {DashboardComponent} from './components/adminComponent/adminComponent';
 
 import {VersionCubicComponent} from './version-cubic/components/baseComponent/baseComponent';
 import {VersionMaterialComponent} from './version-material/components/baseComponent/baseComponent';
+import {VersionTypographyComponent} from './version-typography/components/baseComponent/baseComponent';
 
 export const routes: RouterConfig = [
 	{

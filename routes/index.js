@@ -2,7 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 var multer = require('multer');
-var Projects = require('../models/database');
+
+var Project = require('../models/Project');
+var AppVersion = require('../models/AppVersion');
+var BlogPost = require('../models/BlogPost');
+var Profile = require('../models/Profile');
+var Skill = require('../models/Skill');
 
 var router = express.Router();
 // router.use(multer()); // for parsing multipart/form-data
@@ -23,7 +28,7 @@ router.get('/api/home', function(req, res) {
   } else {
     var query = {"private": false};
   };
-  Projects.find(query, function (err, projects) {
+  Project.find(query, function (err, projects) {
     // find all projects
     return res.json({projects: projects});
   });
@@ -71,7 +76,7 @@ router.post('/api/new', function(req, res) {
       colors: req.body["colors"],
       time_spent: req.body["time_spent"],
     };
-    var newProject = new Projects({
+    var newProject = new Project({
       contributors: data.contributors,
       title: data.title,
       description: data.description,
@@ -102,7 +107,7 @@ router.post('/api/new', function(req, res) {
 /* GET project. */
 router.get('/api/project/:title', function(req, res) {
   var title = req.params["title"];
-  Projects.findOne({"title":title}, function(err, project){
+  Project.findOne({"title":title}, function(err, project){
     if (err) {
       console.log("Failed to add new project. Err: " + err);
       return res.json({success: false});
@@ -129,7 +134,7 @@ router.put('/api/project/:title', function(req, res) {
       colors: req.body["colors"],
       time_spent: req.body["time_spent"],
     };
-    Projects.findOne({"title":title}, function(err, project){
+    Project.findOne({"title":title}, function(err, project){
       if (err) {
         console.log("Failed to find project. Err: " + err);
         return res.json({success: false, admin: true});
@@ -168,7 +173,7 @@ router.put('/api/project/:title', function(req, res) {
 router.delete('/api/project/:title', function(req, res) {
   if (req.session && req.session.admin) {
     var title = req.params["title"];
-    Projects.find({"title":title}).remove(function(err){
+    Project.find({"title":title}).remove(function(err){
       if (err) {
         console.log("Failed to delete project. Err: " + err);
         return res.json({success: false, admin: true});

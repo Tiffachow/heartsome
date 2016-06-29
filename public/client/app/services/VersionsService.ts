@@ -9,7 +9,8 @@ export class VersionsService {
 	constructor() {
 		this.versions = [ //mock? maybe store in DB/AWS later
 			"cubic",
-			"material"
+			"material",
+			"typography"
 		];
 	}
 
