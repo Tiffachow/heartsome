@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class VersionsService {
-	versions: Array;
+	versions: Array<string>;
 
 	constructor() {
 		this.versions = [ //mock? maybe store in DB/AWS later

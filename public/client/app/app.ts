@@ -3,7 +3,7 @@ import {AfterViewInit, OnInit, enableProdMode} from '@angular/core';
 import {APP_BASE_HREF} from '@angular/common';
 import {bootstrap} from '@angular/platform-browser-dynamic';
 import {Component, provide} from '@angular/core';
-import {Routes, Router, RouteSegment, ROUTER_DIRECTIVES} from '@angular/router';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import { APP_ROUTER_PROVIDERS } from './app.routes';
 import {JSONP_PROVIDERS, Jsonp, Http, HTTP_PROVIDERS} from '@angular/http';
 
@@ -16,8 +16,9 @@ import {VersionsService} from './services/VersionsService';
 })
 
 export class AppComponent {
+	router: Router;
+	versionsService: VersionsService;
 	debug: boolean;
-	versions: Array;
 
 	constructor(router: Router, versionsService: VersionsService) {
 		this.router = router;

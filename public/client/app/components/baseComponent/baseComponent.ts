@@ -1,7 +1,7 @@
 /// <reference path="../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {Routes, Router, RouteSegment, ROUTER_DIRECTIVES} from '@angular/router';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
 	selector: 'base-component',
