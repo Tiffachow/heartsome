@@ -1,0 +1,37 @@
+<div [ngClass]="{debug:debug}">
+
+	<!-- Split button -->
+	<div class="btn-group">
+		<button type="button" class="btn btn-danger">Select Version</button>
+		<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu">
+			<li *ngFor="let version of versionsService.versions">
+				<a [routerLink]="['v/app', {version: version}]">{{version}}</a>
+			</li>
+			<li role="separator" class="divider"></li>
+			<li><a [routerLink]="['roulette']">let's play roulette!</a></li>
+		</ul>
+	</div>
+
+	<div class="btn-group">
+		<button type="button" class="btn btn-info">Menu</button>
+		<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a [routerLink]="['roulette']">Roulette</a></li>
+			<li *ngFor="let version of versionsService.versions"><a [routerLink]="['v/app', {version: version}]">Version: {{version}}</a></li>
+			<li><a [routerLink]="['admin']">Dashboard - Admin Login</a></li>
+			<li><a [routerLink]="['']">Home / Roulette</a></li>
+		</ul>
+	</div>
+
+	<button type="button" class="btn btn-warning debug-btn" (click)="debug=!debug">DEBUG: {{debug}}</button>
+
+	<router-outlet></router-outlet>
+
+</div>

@@ -1,7 +1,7 @@
 global.jQuery = require('jquery');
 global.$ = global.jQuery;
 global.Tether = require('tether');
-require('bootstrap');
+require('../../../node_modules/bootstrap/dist/js/bootstrap.min.js');
 
 // Polyfill(s) for older browsers
 require('../../../node_modules/core-js/client/shim.min.js');

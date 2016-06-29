@@ -8,17 +8,13 @@ var router = express.Router();
 // router.use(multer()); // for parsing multipart/form-data
 // ================================================================================
 
-
 /* GET home page. */
-router.get('/', function(req, res) {
-  console.log("DEFAULT VERSION");
-  return res.render('index', {base: req.baseUrl, version: null});
+// for: '/', '/v/**', '/roulette', '/admin' routes
+router.get(/[\/,\/v\/**,\/roulette,\/admin]/gim, function(req, res) {
+  return res.render('index', {base: req.baseUrl});
 });
 
-router.get('/v/:version', function(req, res) {
-  console.log("Vers: "+req.params.version);
-  return res.render('index', {base: req.baseUrl, version: req.params.version});
-});
+// ================================================================================
 
 /* GET home page. */
 router.get('/api/home', function(req, res) {

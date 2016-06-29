@@ -17,7 +17,11 @@ var paths = {
   client: {
   	scripts: './public/client/scripts/**/*',
   	images: './public/client/images/**/*',
-  	stylesheets: './public/client/stylesheets/*.less',
+  	fonts: './public/client/fonts/**/*',
+  	stylesheets: {
+  		less: './public/client/stylesheets/*.less',
+  		css: './public/client/stylesheets/*.css',
+  	},
   	angular: ['./public/client/app/**/*.ts', './public/client/app/components/**/*.ts', './public/client/app/services/*.ts']
   },
   dist: './public/dist/'
@@ -37,8 +41,7 @@ gulp.task('clean', function() {
 gulp.task('bundle', function() {
 	return gulp.src('./public/client/scripts/modules.js')
 		.pipe(browserify({
-			insertGlobals : true,
-			debug : !gulp.env.production
+			insertGlobals : true
 		}))
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest('./public/client/scripts/'));
@@ -63,14 +66,25 @@ gulp.task('images', function() {
 		.pipe(gulp.dest(paths.dist + 'images'));
 });
 
-gulp.task('styles', function () {
-	return gulp.src(paths.client.stylesheets)
+gulp.task('compile:less', function () {
+	return gulp.src(paths.client.stylesheets.less)
 		.pipe(less())
+		.pipe(gulp.dest('./public/client/stylesheets'));
+});
+
+gulp.task('styles', ['compile:less'], function () {
+	return gulp.src(paths.client.stylesheets.css)
 		.pipe(uglifycss({
 			"maxLineLen": 80,
 			"uglyComments": true
 		}))
+		.pipe(concat('all.min.css'))
 		.pipe(gulp.dest(paths.dist + 'stylesheets'));
+});
+
+gulp.task('copy:fonts', function() {
+	return gulp.src(paths.client.fonts)
+		.pipe(gulp.dest(paths.dist + 'fonts'));
 });
 
 gulp.task('compile:tsc', function(){
@@ -93,13 +107,13 @@ gulp.task('compile:tsc', function(){
 gulp.task('watch', function() {
 	gulp.watch([paths.client.scripts, '!./public/client/scripts/bundle.js'], ['scripts']);
 	gulp.watch(paths.client.images, ['images']);
-	gulp.watch(paths.client.stylesheets, ['styles']);
+	gulp.watch(paths.client.stylesheets.less, ['styles']);
 	gulp.watch(paths.client.angular, ['compile:tsc']);
 });
 
 // The default task (called when you run `gulp` from cli)
 //  clean && watch
-gulp.task('default', ['scripts', 'images', 'styles', 'compile:tsc']);
+gulp.task('default', ['scripts', 'images', 'styles', 'copy:fonts', 'compile:tsc']);
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//

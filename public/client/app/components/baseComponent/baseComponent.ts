@@ -1,38 +1,27 @@
 /// <reference path="../../../vendor.d.ts"/>
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
-// import {Router, RouterLink, RouterOutlet, RouteParams} from '@angular/router-deprecated';
-import { Routes, RouteSegment, ROUTER_DIRECTIVES , OnActivate} from '@angular/router';
-
-import {VersionCubicComponent} from '../../version-cubic/components/baseComponent/baseComponent';
-import {VersionMaterialComponent} from '../../version-material/components/baseComponent/baseComponent';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {CORE_DIRECTIVES} from '@angular/common';
+import {Routes, Router, RouteSegment, ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
 	selector: 'base-component',
 	styles: [],
-	directives: [CORE_DIRECTIVES, FORM_DIRECTIVES,
-		VersionCubicComponent, VersionMaterialComponent],
-	templateUrl: '/client/app/components/baseComponent/baseComponent.html',
+	directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
+	templateUrl: '/client/app/components/baseComponent/baseComponent.html'
 })
 
-export class BaseComponent implements OnActivate {
-	@Input() version: string;
+export class BaseComponent {
 
 	// Constructor
 	constructor() {
 	}
 
-	routerOnActivate(curr: RouteSegment) {
-		console.log("ROUTER ACTIVATED");
-		this.version = curr.getParam("vers");
-	}
-
 	// Functions
 	ngOnInit(){
+		console.log("NEW BASE > ROUTER OUTLET COMPONENT");
 	}
 
 	ngAfterViewInit(){
-		console.log("Current Version: " + this.version);
 	}
 
 }

@@ -1,15 +1,15 @@
-/// <reference path="../../../../vendor.d.ts"/>
+/// <reference path="../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 
 @Component({
-	selector: 'version-material',
+	selector: 'dashboard',
 	styles: [],
 	directives: [CORE_DIRECTIVES],
-	templateUrl: '/client/app/version-material/components/baseComponent/baseComponent.html',
+	templateUrl: '/client/app/components/adminComponent/adminComponent.html',
 })
 
-export class VersionMaterialComponent {
+export class DashboardComponent {
 
 
 	// Constructor
