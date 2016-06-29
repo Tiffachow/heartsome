@@ -1,36 +1,39 @@
 /// <reference path="../vendor.d.ts"/>
-import {OnInit, enableProdMode} from '@angular/core';
+import {AfterViewInit, OnInit, enableProdMode} from '@angular/core';
+import {APP_BASE_HREF} from '@angular/common';
 import {bootstrap} from '@angular/platform-browser-dynamic';
 import {Component, provide} from '@angular/core';
-import {APP_BASE_HREF} from '@angular/common';
-import {AuxRoute, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouterLink, RouterOutlet} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import { APP_ROUTER_PROVIDERS } from './app.routes';
 import {JSONP_PROVIDERS, Jsonp, Http, HTTP_PROVIDERS} from '@angular/http';
 
-import {BaseComponent} from './components/baseComponent/baseComponent';
+import {VersionsService} from './services/VersionsService';
 
 @Component({
 	selector: 'app',
-	template: `
-		<base-component [ngClass]="{debug:debug}"></base-component>
-		<button class="debug-btn" (click)="debug=!debug">DEBUG</button>
-	`,
-	directives: [BaseComponent, ROUTER_DIRECTIVES, RouterLink, RouterOutlet]
+	templateUrl: '/client/app/app.html',
+	directives: [ROUTER_DIRECTIVES]
 })
 
-@RouteConfig([
-	{ path: '/', redirectTo: ['Home'] },
-	{ path: '/home', component: BaseComponent, name: 'Home' },
-	// { path: '/app_dev.php/listen/station/:station_slug', component: StationPageComponent, name: 'Station' },
-	// { path: '/404', component: ErrorPageComponent, name: '404' }
-])
+export class AppComponent {
+	router: Router;
+	versionsService: VersionsService;
+	debug: boolean;
 
-export class CombineComponents {
-
-	constructor(){
+	constructor(router: Router, versionsService: VersionsService) {
+		this.router = router;
+		this.versionsService = versionsService;
+		this.debug = true;
 	}
 	ngOnInit() {
+	}
+	ngAfterViewInit() {
 	}
 }
 
 enableProdMode();
-bootstrap(CombineComponents, [JSONP_PROVIDERS, HTTP_PROVIDERS, ROUTER_PROVIDERS, provide(APP_BASE_HREF, {useValue : "/" })]).catch(err => console.error(err)); //services injected here are singletons available app-wide
+bootstrap(AppComponent, [
+	JSONP_PROVIDERS, HTTP_PROVIDERS, APP_ROUTER_PROVIDERS,
+	provide(APP_BASE_HREF, {useValue : "/" }),
+	VersionsService
+]).catch(err => console.error(err)); //services injected here are singletons available app-wide

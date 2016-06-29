@@ -9,6 +9,14 @@ var router = express.Router();
 // ================================================================================
 
 /* GET home page. */
+// for: '/', '/v/**', '/roulette', '/admin' routes
+router.get(/[\/,\/v\/**,\/roulette,\/admin]/gim, function(req, res) {
+  return res.render('index', {base: req.baseUrl});
+});
+
+// ================================================================================
+
+/* GET home page. */
 router.get('/api/home', function(req, res) {
   if (req.session && req.session.admin) {
     var query = {};
