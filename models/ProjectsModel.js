@@ -6,15 +6,14 @@ var Schema = mongoose.Schema,
 var ProjectsSchema = new Schema({ //new collection
     id: 			ObjectId,
     contributors: 	{
-    	name: String,
-    	link: String,
+    	name:       String,
+    	link:       String
     },
     title: 			String,
     description: 	String,
-    snapshots: 		Array,
+    images: 		Array,
     date: 			Date,
     private: 		Boolean,
-    colors: 		Array,
     time_spent: 	String,
     createdAt: 		{ type: Date, default: Date.now },
 });
@@ -29,10 +28,14 @@ module.exports = mongoose.model('ProjectsModel', ProjectsSchema); //retrieve mod
 
 // +++++++++++++++++++++++++++++++++
 
+// var mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/test');
+// require('ProjectsModel');
+
 // TO USE ELSEWHERE:
 // Instantiate it
 // var projectsModelInstance = new ProjectsModel(); //create new instance of model, new document in collection
-// projectsModelInstance.title = 'hello';
+// projectsModelInstance.title = 'Flippy';
 // ProjectsModel.find({}, function (err, docs) { //findOne, findById, update, http://mongoosejs.com/docs/queries.html
 //   // docs.forEach
 // });
