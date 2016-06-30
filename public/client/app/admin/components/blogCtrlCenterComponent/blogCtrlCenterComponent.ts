@@ -1,10 +1,11 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {CORE_DIRECTIVES, NgForm} from '@angular/common';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
 import {BlogPostsService} from './../../../services/BlogPostsService';
+import {TagSuggestService} from './../../../services/TagSuggestService';
 
 @Component({
 	selector: 'blog-control-center',
@@ -18,17 +19,19 @@ import {BlogPostsService} from './../../../services/BlogPostsService';
 export class BlogCtrlCenterComponent {
 	messageService: MessageService;
 	blogPostsService: BlogPostsService;
+	tagSuggestService: TagSuggestService;
 	openEditor: String;
-	currentlyEditingID: Number;
 	messageSubscription: Subscription;
+	currentlyEditing: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, blogPostsService: BlogPostsService) {
+	constructor(messageService: MessageService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService) {
 		this.messageService = messageService;
 		this.blogPostsService = blogPostsService;
+		this.tagSuggestService = tagSuggestService;
 		this.openEditor = null;
-		this.currentlyEditingID = null;
 		this.messageSubscription;
+		this.currentlyEditing = null;
 	}
 
 	// Functions
@@ -50,17 +53,17 @@ export class BlogCtrlCenterComponent {
 					case "create":
 						if (message["data"][0]["ctrlCenter"] == "blog") {
 							this.openEditor = "create";
+							this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
+							this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
 						}
 						break;
 					case "edit":
 						if (message["data"][0]["ctrlCenter"] == "blog") {
-							this.currentlyEditingID = message["data"][0]["id"];
-							this.openEditor = "edit";
-						}
-						break;
-					case "delete":
-						if (message["data"][0]["ctrlCenter"] == "blog") {
-							this.blogPostsService.delete(message["data"][0]["id"]);
+							this.currentlyEditing = this.blogPostsService.getOne(message["data"][0]["id"], function(){
+								this.openEditor = "edit";
+								this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
+								this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
+							}.bind(this));
 						}
 						break;
 				}
@@ -68,9 +71,31 @@ export class BlogCtrlCenterComponent {
 		);
 	}
 
-	onSubmit(task, data, id) {
+	onTriggerEditModal(id) {
+		console.log("trigger modal for "+id);
+		this.blogPostsService.getOne(id, function(post){
+			console.log("callback, post= "+JSON.stringify(post));
+			this.currentlyEditing = post;
+			this.openEditor = "edit";
+			this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
+			this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
+		}.bind(this));
+	}
+
+	onSubmit(task, e, id?) {
+		e.preventDefault();
 		// if data valid:
-		this.blogPostsService[task](data, id, function(){this.openEditor = null;}.bind(this));
+		var dataObject = JSON.parse(JSON.stringify($(".post-"+task+"-form").serializeArray()));
+		dataObject["post-tags"] = this.tagSuggestService.getInputTags("post-tags");
+		dataObject["post-categories"] = this.tagSuggestService.getInputTags("post-categories");
+		// upload blog post body to s3 & then:
+		dataObject["post-body"] = "s3linktopostfile";
+
+		if (id) { //edit
+			this.blogPostsService[task](dataObject, id, function(){this.openEditor = null;}.bind(this));
+		} else { //create
+			this.blogPostsService[task](dataObject, function(){this.openEditor = null;}.bind(this));
+		}
 	}
 
 }

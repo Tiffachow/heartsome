@@ -12,7 +12,7 @@ export class ProfileService {
 	constructor(messageService: MessageService) {
 		this.messageService = messageService;
 		this.profile = { //mock? retrieve from mongoDB later
-			id: 1
+			id: 1,
 			firstName: "Tiffany",
 			lastName: "Chow",
 			title: "Web Developer",
@@ -38,9 +38,13 @@ export class ProfileService {
 	}
 
 	getProfile(callback?) {
+		var result = {};
+		return result;
 	}
 
 	edit(data, id?, callback?) {
 		// callback on success
+		var result = {};
+		return result;
 	}
 }

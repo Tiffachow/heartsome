@@ -5,15 +5,11 @@ var Schema = mongoose.Schema,
 
 var BlogPostsSchema = new Schema({ //new collection
 	id:                                   ObjectId,
-	authors:                          {
-		name:                 String,
-		link:                     String
-	},
-	title:                                 String,
+	title:                               { type: String, required: true },
 	description:                     String,
 	tldr:                                  String,
-	body:                               String, //link to AWS S3 markdown file
-	images:                           [String],
+	body:                               { type: String, required: true }, //link to AWS S3 markdown file
+	image:                             { type: String, default: "/dist/images/defaultpostimg.png" },
 	private:                            { type: Boolean, default: false },
 	tags:                                [String],
 	categories:                      [String],

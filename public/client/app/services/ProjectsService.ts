@@ -52,16 +52,24 @@ export class ProjectsService {
 	}
 
 	create(data, callback?) {
+		var result = {};
+		return result;
 	}
 
 	getAll(sortDate?, filterTech?, filterCustomer?, callback?) {
+		var result = [];
+		return result;
 	}
 
 	getOne(id, callback?) {
+		var result = {};
+		return result;
 	}
 
 	edit(data, id, callback?) {
 		// callback on success
+		var result = {};
+		return result;
 	}
 
 	delete(id, callback?) {

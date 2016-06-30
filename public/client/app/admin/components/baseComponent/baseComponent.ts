@@ -6,6 +6,11 @@ import {REACTIVE_FORM_DIRECTIVES, FormControl, FormGroup} from '@angular/forms';
 import {MessageService} from './../../../services/MessageService';
 import {AccountService} from './../../../services/AccountService';
 
+import {ProfileService} from './../../../services/ProfileService';
+import {BlogPostsService} from './../../../services/BlogPostsService';
+import {ProjectsService} from './../../../services/ProjectsService';
+import {VersionsService} from './../../../services/VersionsService';
+
 import {ProfileCtrlCenterComponent} from './../profileCtrlCenterComponent/profileCtrlCenterComponent';
 import {ProjectsCtrlCenterComponent} from './../projectsCtrlCenterComponent/projectsCtrlCenterComponent';
 import {BlogCtrlCenterComponent} from './../blogCtrlCenterComponent/blogCtrlCenterComponent';
@@ -28,11 +33,20 @@ export class DashboardComponent {
 	currentCtrlCenter: String;
 	messageService: MessageService;
 	accountService: AccountService;
+	profileService: ProfileService;
+	blogPostsService: BlogPostsService;
+	projectsService: ProjectsService;
+	versionsService: VersionsService;
 
 	// Constructor
-	constructor(messageService: MessageService, accountService: AccountService) {
+	constructor(messageService: MessageService, accountService: AccountService, profileService: ProfileService,
+		blogPostsService: BlogPostsService, projectsService: ProjectsService, versionsService: VersionsService) {
 		this.messageService = messageService;
 		this.accountService = accountService;
+		this.profileService = profileService;
+		this.versionsService = versionsService;
+		this.blogPostsService = blogPostsService;
+		this.projectsService = projectsService;
 		this.activeCtrlCenter;
 		this.currentCtrlCenter;
 	}

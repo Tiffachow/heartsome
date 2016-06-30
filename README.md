@@ -3,7 +3,7 @@ personal portfolio web app
 
 *	Gulp
 *	Typescript
-*	Rollup / Browserify, Uglify
+*	Browserify, Uglify
 *	Less
 *	MEAN stack
 	*	Mongoose

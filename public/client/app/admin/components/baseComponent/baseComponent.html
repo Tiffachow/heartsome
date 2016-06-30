@@ -25,17 +25,17 @@
 		</li>
 		<li role="presentation" [ngClass]="{active: activeCtrlCenter.versions}">
 			<a (click)="setActiveCtrlCenter('versions')">
-				App Versions <span class="badge">3</span>
+				App Versions <span class="badge">{{versionsService.versions.length}}</span>
 			</a>
 		</li>
 		<li role="presentation" [ngClass]="{active: activeCtrlCenter.blog}">
 			<a (click)="setActiveCtrlCenter('blog')">
-				Blog Posts <span class="badge">0</span>
+				Blog Posts <span class="badge">{{blogPostsService.blogPosts.length}}</span>
 			</a>
 		</li>
 		<li role="presentation" [ngClass]="{active: activeCtrlCenter.projects}">
 			<a (click)="setActiveCtrlCenter('projects')">
-				Projects <span class="badge">10</span>
+				Projects <span class="badge">{{projectsService.projects.length}}</span>
 			</a>
 		</li>
 		<li role="presentation" [ngClass]="{active: activeCtrlCenter.account}">

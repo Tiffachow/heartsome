@@ -46,6 +46,8 @@ export class VersionsService {
 	}
 
 	create(data, callback?) {
+		var result = {};
+		return result;
 	}
 
 	getAll(playRoulette?, sortDate?, filterTag?, callback?) {
@@ -53,13 +55,19 @@ export class VersionsService {
 		if (playRoulette) {
 			return this.playRoulette();
 		}
+		var result = [];
+		return result;
 	}
 
 	getOne(id, callback?) {
+		var result = {};
+		return result;
 	}
 
 	edit(data, id, callback?) {
 		// callback on success
+		var result = {};
+		return result;
 	}
 
 	delete(id, callback?) {
