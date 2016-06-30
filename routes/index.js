@@ -7,7 +7,6 @@ var Project = require('../models/Project');
 var AppVersion = require('../models/AppVersion');
 var BlogPost = require('../models/BlogPost');
 var Profile = require('../models/Profile');
-var Skill = require('../models/Skill');
 
 var router = express.Router();
 // router.use(multer()); // for parsing multipart/form-data

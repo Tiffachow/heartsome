@@ -5,7 +5,7 @@ import { provideRouter, RouterConfig } from '@angular/router';
 import {BaseComponent} from './components/baseComponent/baseComponent';
 import {VersionsContainerComponent} from './components/versionsContainerComponent/versionsContainerComponent';
 import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
-import {DashboardComponent} from './components/adminComponent/adminComponent';
+import {DashboardComponent} from './admin/components/baseComponent/baseComponent';
 
 import {VersionCubicComponent} from './version-cubic/components/baseComponent/baseComponent';
 import {VersionMaterialComponent} from './version-material/components/baseComponent/baseComponent';
@@ -36,5 +36,5 @@ export const routes: RouterConfig = [
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes)
+	provideRouter(routes)
 ];

@@ -1,18 +1,17 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+	ObjectId = Schema.ObjectId;
 
 var AppVersionsSchema = new Schema({ //new collection
-    id: 			ObjectId,
-    name: 			String,
-    description: 	String,
-    date: 			Date,
-    time_spent: 	String,
-    private:        Boolean,
-    tags:           Array,
-    link:           String,
-    createdAt: 		{ type: Date, default: Date.now }
+	id:             	ObjectId,
+	name:           	{ type: String, required: true },
+	description:    	String,
+	timeSpent:     	String, // x Hrs
+	private:        	{ type: Boolean, default: false },
+	tags:           	[String],
+	link:           	String,
+	createdAt:      	{ type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('AppVersionModel', AppVersionsSchema); //retrieve model

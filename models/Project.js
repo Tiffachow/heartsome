@@ -1,21 +1,27 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+	ObjectId = Schema.ObjectId;
 
 var ProjectsSchema = new Schema({ //new collection
-    id: 			ObjectId,
-    contributors: 	{
-    	name:       String,
-    	link:       String
-    },
-    title: 			String,
-    description: 	String,
-    images: 		Array,
-    date: 			Date,
-    private: 		Boolean,
-    time_spent: 	String,
-    createdAt: 		{ type: Date, default: Date.now },
+	id:                                    ObjectId,
+	contributors:                   {
+		name:                 String,
+		links:                   [String]
+	},
+	builtFor:                          [{
+		name:                  String, //eg USA Rx
+		links:                   [String] //eg USARX.com
+	}],
+	title:                                 { type: String, required: true },
+	description:                     String,
+	tech:                                [String],
+	images:                           [String],
+	videos:                            [String],
+	date:                                Date,
+	private:                           { type: Boolean, default: false },
+	timeSpent:                       String,
+	createdAt:                       { type: Date, default: Date.now },
 });
 
 // a setter

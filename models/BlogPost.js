@@ -1,23 +1,29 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+	ObjectId = Schema.ObjectId;
 
 var BlogPostsSchema = new Schema({ //new collection
-    id: 			ObjectId,
-    authors:        {
-        name:       String,
-        link:       String
-    },
-    title: 			String,
-    description: 	String,
-    tldr:           String,
-    body:           String,
-    images: 		Array,
-    private: 		Boolean,
-    tags:           Array,
-    createdAt: 		{ type: Date, default: Date.now },
+	id:                                   ObjectId,
+	authors:                          {
+		name:                 String,
+		link:                     String
+	},
+	title:                                 String,
+	description:                     String,
+	tldr:                                  String,
+	body:                               String, //link to AWS S3 markdown file
+	images:                           [String],
+	private:                            { type: Boolean, default: false },
+	tags:                                [String],
+	categories:                      [String],
+	views:                              { type: Number, default: 0 },
+	shares:                            { type: Number, default: 0 },
+	createdAt:                       { type: Date, default: Date.now }
 });
+
+// https://developers.facebook.com/docs/plugins/comments/
+// https://heartsome.disqus.com/admin/settings/universalcode/
 
 module.exports = mongoose.model('BlogPostModel', BlogPostsSchema); //retrieve model
 

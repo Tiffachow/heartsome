@@ -17,7 +17,7 @@ import {VersionTypographyComponent} from './../../version-typography/components/
 
 export class RouletteComponent {
 	versionsService: VersionsService;
-	version: string;
+	version: Object;
 
 	// Constructor
 	constructor(versionsService:VersionsService) {
@@ -27,7 +27,7 @@ export class RouletteComponent {
 	// Functions
 
 	ngOnInit(){
-		this.version = this.versionsService.playRoulette();
+		this.version = this.versionsService.getAll(true);
 		console.log("Roulette version: " + this.version);
 	}
 

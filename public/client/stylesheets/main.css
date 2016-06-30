@@ -22,22 +22,127 @@
 .debug * * * * * * * * {
   outline: 1px solid blue;
 }
-.debug-btn {
-  margin: 20px;
-  position: absolute;
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot);
+  /* For IE6-8 */
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2'), url(../fonts/MaterialIcons-Regular.woff) format('woff'), url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+/* Rules for sizing the icon. */
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light {
+  color: #ffffff;
+}
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+.material-icons.orchid {
+  color: orchid;
+}
+body * {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  transition: all 250ms;
+}
+app .app-settings {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  position: fixed;
   right: 0;
   top: 0;
-}
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  z-index: 1000000000;
 }
 a {
   color: #00B7FF;
 }
-.version-ctrl {
-  left: 0;
-  margin: 20px;
+.fixed {
+  position: fixed;
+}
+base-component,
+dashboard {
   position: absolute;
-  top: 0;
+  width: 100vw;
+}
+dashboard h1 {
+  font-size: 50px;
+  margin-top: 50px;
+  text-align: center;
+}
+dashboard .btn.fixed {
+  left: 20px;
+  top: 20px;
+}
+dashboard .nav-tabs li:hover {
+  cursor: pointer;
+}
+dashboard .side-rail-menu {
+  bottom: 20px;
+  display: inline-block;
+  position: fixed;
+  right: 20px;
+}
+dashboard .side-rail-menu .create-new {
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+dashboard .side-rail-menu .create-new:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -webkit-transform: translateY(-5px);
+  -moz-transform: translateY(-5px);
+  transform: translateY(-5px);
+}
+dashboard .dashboard-content {
+  background: lightskyblue;
+  height: -56vh;
+  overflow-y: scroll;
+}
+dashboard .dashboard-content > * {
+  display: inline-block;
+  margin: 40px;
+  width: 20%;
 }
