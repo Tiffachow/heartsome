@@ -57,15 +57,6 @@ export class BlogCtrlCenterComponent {
 							this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
 						}
 						break;
-					case "edit":
-						if (message["data"][0]["ctrlCenter"] == "blog") {
-							this.currentlyEditing = this.blogPostsService.getOne(message["data"][0]["id"], function(){
-								this.openEditor = "edit";
-								this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
-								this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
-							}.bind(this));
-						}
-						break;
 				}
 			}
 		);
@@ -96,6 +87,18 @@ export class BlogCtrlCenterComponent {
 		} else { //create
 			this.blogPostsService[task](dataObject, function(){this.openEditor = null;}.bind(this));
 		}
+	}
+
+	readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	            $('#preview-post-img').attr('src', e.target.result);
+	        }
+
+	        reader.readAsDataURL(input.files[0]);
+	    }
 	}
 
 }

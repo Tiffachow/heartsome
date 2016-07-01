@@ -1,7 +1,7 @@
 <span>blog control center component</span>
 
 <!-- TO DO: display data w/ functions to edit and delete-->
-<div *ngFor="let post of blogPostsService.blogPosts">
+<div *ngFor="let post of blogPostsService.blogPosts" [ngClass]="{hideAnimated: openEditor}">
 	{{post | json}}
 	<div class="btn" (click)="onTriggerEditModal(post.id)">edit</div>
 	<div class="btn" (click)="blogPostsService.delete(post.id)">delete</div>
@@ -10,81 +10,84 @@
 <div *ngIf="openEditor">
 	<form *ngIf="openEditor=='create'" class="post-create-form" (ngSubmit)="onSubmit('create', $event)" #createForm="ngForm">
 		CREATE NEW POST
-		<!-- <div class="form-group">
+		<div class="form-group">
 			<label for="post-title">Title</label>
-			<input type="text" class="form-control" id="post-title" required placeholder="Post Title">
+			<input type="text" class="form-control" id="post-title" name="post-title" required placeholder="Post Title">
 		</div>
 		<div class="form-group">
 			<label for="post-description">Description</label>
-			<input type="text" class="form-control" id="post-description" placeholder="Description">
+			<input type="text" class="form-control" id="post-description" name="post-description" placeholder="Description">
 		</div>
 		<div class="form-group">
 			<label for="post-tldr">TL;DR</label>
-			<input type="text" class="form-control" id="post-tldr" placeholder="Yada yada... summareze pl0x">
+			<input type="text" class="form-control" id="post-tldr" name="post-tldr" placeholder="Yada yada... summareze pl0x">
 		</div>
 		<div class="form-group">
 			<label for="post-body">Post Body</label>
-			<textarea class="form-control" id="post-body" required placeholder="Write in markdown">
+			<textarea class="form-control" id="post-body" name="post-body" required placeholder="Write in markdown"></textarea>
 		</div>
+		<span>Preview Image:</span>
+		<img id="preview-post-img" src="#" alt="" width="100px">
 		<div class="form-group">
-			<label for="post-image">Add image</label>
-			<input type="file" id="post-image">
+			<label for="post-image">Add Image</label>
+			<input type="file" id="post-image" name="post-image" #newImg (change)="readURL(newImg)">
 			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
 		</div>
 		<div class="checkbox">
 			<label>
-				<input type="checkbox"> Private?
+				<input type="checkbox" id="post-private" name="post-private"> Private?
 			</label>
 		</div>
 		<div class="form-group">
 			<label for="post-tags">Tags</label>
-			<input type="text" class="form-control" id="post-tags" placeholder="Add tags">
+			<input type="text" class="form-control" id="post-tags" name="post-tags" placeholder="Add tags">
 		</div>
 		<div class="form-group">
 			<label for="post-categories">Categories</label>
-			<input type="text" class="form-control" id="post-categories" placeholder="Place in categories">
+			<input type="text" class="form-control" id="post-categories" name="post-categories" placeholder="Place in categories">
 		</div>
-		<button [disabled]="!createForm.form.valid" type="submit" class="btn btn-default">Create New Post</button> -->
+		<button [disabled]="!createForm.form.valid" type="submit" class="btn btn-default">Create New Post</button>
 	</form>
-
 	<form *ngIf="openEditor=='edit'" class="post-edit-form" (ngSubmit)="onSubmit('edit', $event)" #editForm="ngForm">
 		EDIT POST #{{currentlyEditing.id}}
-		<!-- <div class="form-group">
+		<div class="form-group">
 			<label for="post-title">Title</label>
-			<input type="text" class="form-control" id="post-title" required [value]="currentlyEditing.title" placeholder="Post Title">
+			<input type="text" class="form-control" id="post-title" name="post-title" required [value]="currentlyEditing.title" placeholder="Post Title">
 		</div>
 		<div class="form-group">
 			<label for="post-description">Description</label>
-			<input type="text" class="form-control" id="post-description" [value]="currentlyEditing.description" placeholder="Description">
+			<input type="text" class="form-control" id="post-description" name="post-description" [value]="currentlyEditing.description" placeholder="Description">
 		</div>
 		<div class="form-group">
 			<label for="post-tldr">TL;DR</label>
-			<input type="text" class="form-control" id="post-tldr" [value]="currentlyEditing.tldr" placeholder="Yada yada... summareze pl0x">
+			<input type="text" class="form-control" id="post-tldr" name="post-tldr" [value]="currentlyEditing.tldr" placeholder="Yada yada... summareze pl0x">
 		</div>
 		<div class="form-group">
 			<label for="post-body">Post Body</label>
-			<textarea class="form-control" id="post-body" required [value]="currentlyEditing.body" placeholder="Write in markdown">
+			<textarea class="form-control" id="post-body" name="post-body" required [value]="currentlyEditing.body" placeholder="Write in markdown"></textarea>
 		</div>
 		<span>Current Image:</span>
-		<img src="currentlyEditing.image" alt="">
+		<img [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+		<span>New Image:</span>
+		<img id="preview-post-img" [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
 		<div class="form-group">
 			<label for="post-image">Change image</label>
-			<input type="file" id="post-image">
+			<input type="file" id="post-image" name="post-image" #newImg (change)="readURL(newImg)">
 			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
 		</div>
 		<div class="checkbox">
 			<label>
-				<input type="checkbox" [checked]="currentlyEditing.private"> Private?
+				<input type="checkbox" [checked]="currentlyEditing.private" id="post-private" name="post-private"> Private?
 			</label>
 		</div>
 		<div class="form-group">
 			<label for="post-tags">Tags</label>
-			<input type="text" class="form-control" id="post-tags" [value]="currentlyEditing.tags.toString" placeholder="Add tags">
+			<input type="text" class="form-control" id="post-tags" name="post-tags" [value]="currentlyEditing.tags.toString()" placeholder="Add tags">
 		</div>
 		<div class="form-group">
 			<label for="post-categories">Categories</label>
-			<input type="text" class="form-control" id="post-categories" [value]="currentlyEditing.categories.toString" placeholder="Place in categories">
+			<input type="text" class="form-control" id="post-categories" name="post-categories" [value]="currentlyEditing.categories.toString()" placeholder="Place in categories">
 		</div>
-		<button [disabled]="!editForm.form.valid" type="submit" class="btn btn-default">Edit Post</button> -->
+		<button [disabled]="!editForm.form.valid" type="submit" class="btn btn-default">Edit Post</button>
 	</form>
 </div>

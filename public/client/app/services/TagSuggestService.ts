@@ -6,6 +6,26 @@ import {Injectable} from '@angular/core';
 export class TagSuggestService {
 
 	constructor() {
+		this.tags = [ //mock
+			{
+				id: 1,
+				name: "angular2",
+				type: "blogTag",
+				createdAt: new Date()
+			},
+			{
+				id: 2,
+				name: "nodejs",
+				type: "blogTag",
+				createdAt: new Date()
+			},
+			{
+				id: 3,
+				name: "website",
+				type: "blogTag",
+				createdAt: new Date()
+			},
+		];
 	}
 
 	create(data, callback?) {

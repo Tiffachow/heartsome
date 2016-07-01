@@ -10,11 +10,11 @@ export class BlogPostsService {
 		this.blogPosts = [ //mock? retrieve from mongoDB later
 			{
 				id: 1,
-				title: "Revamping Heartsome",
+				title: "Revamping Heartsome 1",
 				description: "the process",
 				tldr: null,
 				body: "baisubc;asuc;uai iabsi; asbdi",
-				image: "/dist/images/defaultpostimg.png",
+				image: null,
 				private: false,
 				tags: [],
 				categories: [],
@@ -24,11 +24,11 @@ export class BlogPostsService {
 			},
 			{
 				id: 2,
-				title: "Revamping Heartsome",
+				title: "Revamping Heartsome 2",
 				description: "the process",
 				tldr: null,
 				body: "baisubc;asuc;uai iabsi; asbdi",
-				image: "/dist/images/defaultpostimg.png",
+				image: null,
 				private: false,
 				tags: [],
 				categories: [],
@@ -38,11 +38,11 @@ export class BlogPostsService {
 			},
 			{
 				id: 3,
-				title: "Revamping Heartsome",
+				title: "Revamping Heartsome 3",
 				description: "the process",
 				tldr: null,
 				body: "baisubc;asuc;uai iabsi; asbdi",
-				image: "/dist/images/defaultpostimg.png",
+				image: null,
 				private: false,
 				tags: [],
 				categories: [],
@@ -55,50 +55,48 @@ export class BlogPostsService {
 
 	create(data, callback?) {
 		console.log("CREATED NEW POST WITH DATA "+JSON.stringify(data));
-		// var result = {};
-		// return result;
-		callback();
-		return this.blogPosts[2];
+		// update this.blogPosts
+		var result = this.blogPosts[2];
+		if (callback) callback(result);
+		return result;
 	}
 
 	getAll(sortDate?, filterTag?, filterCategory?, callback?) {
 		// var result = [];
 		// return result;
-		callback();
-		return this.blogPosts;
+		// update this.blogPosts;
+		var results = this.blogPosts;
+		if (callback) callback(results);
+		return results;
 	}
 
 	getOne(id, callback?) {
-		// var result = {};
-		// return result;
 		var result;
-		console.log("GOT POST WITH ID "+id);
-		for (var post in this.blogPosts){
-			if (post.id == id) {
-				result = post;
+		for (var i in this.blogPosts){
+			if (this.blogPosts[i].id == id) {
+				result = this.blogPosts[i];
 			}
 		}
-		console.log("result = "+result);
-		callback(result);
-		for (var post in this.blogPosts){
-			if (post.id == id) return post;
-		}
+		if (callback) callback(result);
+		return result;
 	}
 
 	edit(data, id, callback?) {
 		// callback on success
 		console.log("EDITED POST WITH ID "+id);
-		// var result = {};
-		// return result;
-		callback();
-		for (var post in this.blogPosts){
-			if (post.id == id) return post;
+		var result;
+		for (var i in this.blogPosts){
+			if (this.blogPosts[i].id == id) {
+				result = this.blogPosts[i];
+			}
 		}
+		if (callback) callback(result);
+		return result;
 	}
 
 	delete(id, callback?) {
 		console.log("DELETED POST WITH ID "+id);
-		callback();
+		if (callback) callback();
 	}
 
 }
