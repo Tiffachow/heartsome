@@ -1,5 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES, NgForm} from '@angular/common';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -42,6 +42,13 @@ export class BlogCtrlCenterComponent {
 	ngAfterViewInit() {
 	}
 
+	ngAfterViewChecked(){
+		if (!$("#post-tags").hasClass("tag-ctn")) {
+			this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
+			this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
+		}
+	}
+
 	ngOnDestroy(){
 		this.messageSubscription.unsubscribe();
 	}
@@ -53,8 +60,6 @@ export class BlogCtrlCenterComponent {
 					case "create":
 						if (message["data"][0]["ctrlCenter"] == "blog") {
 							this.openEditor = "create";
-							this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
-							this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
 						}
 						break;
 				}
@@ -65,20 +70,20 @@ export class BlogCtrlCenterComponent {
 	onTriggerEditModal(id) {
 		console.log("trigger modal for "+id);
 		this.blogPostsService.getOne(id, function(post){
-			console.log("callback, post= "+JSON.stringify(post));
+			console.log("callback, post = "+JSON.stringify(post));
 			this.currentlyEditing = post;
 			this.openEditor = "edit";
-			this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
-			this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
 		}.bind(this));
 	}
 
-	onSubmit(task, e, id?) {
-		e.preventDefault();
+	onSubmit(event, task, id?) {
+		event.preventDefault();
 		// if data valid:
 		var dataObject = JSON.parse(JSON.stringify($(".post-"+task+"-form").serializeArray()));
 		dataObject["post-tags"] = this.tagSuggestService.getInputTags("post-tags");
 		dataObject["post-categories"] = this.tagSuggestService.getInputTags("post-categories");
+		// upload img to s3 & then:
+		dataObject["post-image"] = "s3linktoimgfile";
 		// upload blog post body to s3 & then:
 		dataObject["post-body"] = "s3linktopostfile";
 

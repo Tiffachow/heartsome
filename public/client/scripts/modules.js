@@ -1,6 +1,7 @@
 global.jQuery = require('jquery');
 global.$ = global.jQuery;
 global.Tether = require('tether');
+global._ = require('underscore');
 require('../../../node_modules/bootstrap/dist/js/bootstrap.min.js');
 
 // Polyfill(s) for older browsers

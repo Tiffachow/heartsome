@@ -14,9 +14,30 @@ export class AccountService {
 		this.profileService = profileService;
 		this.messageService = messageService;
 		this.loggedIn = false;
+		this.checkLoginStatus();
 	}
 
-	login(email, password) {
+	checkLoginStatus() {
+		console.log("CHECK LOGIN STATUS");
+		var tryCount = 0;
+		(function tryRequest(this_) {
+			this_.http.get('api/login')
+				.subscribe(
+				data => {
+					this_.loggedIn = console.log(JSON.parse(data.loggedIn));
+				},
+				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
+				() => {
+					console.log("done checking login status");
+				}
+				);
+		})(this);
+	}
+
+	login(event) {
+		event.preventDefault();
+		var email = $("#user-email").val();
+		var password = $("#user-password").val();
 		// if credentials match account user's, log in
 		this.profileService.getProfile(function(){
 			var pw = "encrypt password";
@@ -28,6 +49,20 @@ export class AccountService {
 	}
 
 	logout() {
-		this.loggedIn = false;
+		console.log("TRYING TO LOGOUT");
+		var tryCount = 0;
+		(function tryRequest(this_) {
+			this_.http.get('api/logout')
+				.subscribe(
+				data => {
+					console.log(JSON.parse(data));
+				},
+				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
+				() => {
+					console.log("logged out");
+					this_.loggedIn = false;
+				}
+				);
+		})(this);
 	}
 }
