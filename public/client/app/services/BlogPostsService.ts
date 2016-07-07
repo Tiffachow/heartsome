@@ -1,7 +1,7 @@
 /// <reference path="../../vendor.d.ts"/>
 
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 import {UtilsService} from './UtilsService';
 
@@ -9,10 +9,11 @@ import {UtilsService} from './UtilsService';
 export class BlogPostsService {
 	blogPosts: Array<Object>;
 	http: Http;
+	utilsService: UtilsService;
 
-	constructor(http: Http) {
+	constructor(http: Http, utilsService: UtilsService) {
 		this.http = http;
-		this.utilsService = UtilsService;
+		this.utilsService = utilsService;
 		this.blogPosts = [ //mock? retrieve from mongoDB later
 			{
 				id: 1,
@@ -69,10 +70,9 @@ export class BlogPostsService {
 			this_.http.post('api/blog/new', body, options)
 				.subscribe(
 				data => {
-					console.log(JSON.parse(data));
-					if (JSON.parse(data.success)) {
-						// update this.blogPosts
-						this_.blogPosts = JSON.parse(data.posts);
+					console.log(data._body);
+					if (data._body.success) {
+						this_.blogPosts = data._body.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -95,10 +95,9 @@ export class BlogPostsService {
 			this_.http.get('api/blog/all')
 				.subscribe(
 				data => {
-					console.log(JSON.parse(data));
-					if (JSON.parse(data.success)) {
-						// update this.blogPosts
-						this_.blogPosts = JSON.parse(data.posts);
+					console.log(data._body);
+					if (data._body.success) {
+						this_.blogPosts = data._body.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -121,9 +120,9 @@ export class BlogPostsService {
 			this_.http.get('api/blog/post/'+id)
 				.subscribe(
 				data => {
-					console.log(JSON.parse(data));
-					if (JSON.parse(data.success)) {
-						result = JSON.parse(data.post);
+					console.log(data._body);
+					if (data._body.success) {
+						result = data._body.post;
 					} else {
 						console.log("Error getting post");
 					}
@@ -148,10 +147,9 @@ export class BlogPostsService {
 			this_.http.put('api/blog/post/'+id, body, options)
 				.subscribe(
 				data => {
-					console.log(JSON.parse(data));
-					if (JSON.parse(data.success)) {
-						// update this.blogPosts
-						this_.blogPosts = JSON.parse(data.posts);
+					console.log(data._body);
+					if (data._body.success) {
+						this_.blogPosts = data._body.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -179,10 +177,9 @@ export class BlogPostsService {
 			this_.http.delete('api/blog/post/'+id)
 				.subscribe(
 				data => {
-					console.log(JSON.parse(data));
-					if (JSON.parse(data.success)) {
-						// update this.blogPosts
-						this_.blogPosts = JSON.parse(data.posts);
+					console.log(data._body);
+					if (data._body.success) {
+						this_.blogPosts = data._body.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -195,5 +192,4 @@ export class BlogPostsService {
 				);
 		})(this);
 	}
-
 }

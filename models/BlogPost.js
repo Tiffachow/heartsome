@@ -14,7 +14,6 @@ var BlogPostsSchema = new Schema({ //new collection
 	tags:                                [String],
 	categories:                      [String],
 	views:                              { type: Number, default: 0 },
-	shares:                            { type: Number, default: 0 },
 	createdAt:                       { type: Date, default: Date.now }
 });
 

@@ -1,30 +1,35 @@
 /// <reference path="../../vendor.d.ts"/>
 
 import {Injectable} from '@angular/core';
+import {Http, Headers, RequestOptions} from '@angular/http';
+
 import {ProfileService} from './ProfileService';
 import {MessageService} from './MessageService';
 
 @Injectable()
 export class AccountService {
+	http: Http;
 	profileService: ProfileService;
 	messageService: MessageService;
 	loggedIn: Boolean;
 
-	constructor(profileService: ProfileService, messageService: MessageService) {
+	constructor(http: Http, profileService: ProfileService, messageService: MessageService) {
+		this.http = http;
 		this.profileService = profileService;
 		this.messageService = messageService;
 		this.loggedIn = false;
-		this.checkLoginStatus();
+		this.updateLoginStatus();
 	}
 
-	checkLoginStatus() {
-		console.log("CHECK LOGIN STATUS");
+	updateLoginStatus() {
+		console.log("UPDATE LOGIN STATUS");
 		var tryCount = 0;
 		(function tryRequest(this_) {
 			this_.http.get('api/login')
 				.subscribe(
 				data => {
-					this_.loggedIn = console.log(JSON.parse(data.loggedIn));
+					console.log(data._body);
+					this_.loggedIn = data._body.loggedIn;
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
@@ -43,7 +48,20 @@ export class AccountService {
 			var pw = "encrypt password";
 			var storedPW = "decrypt this.profileService.profile.password"
 			if (email == this.profileService.profile.email && pw == storedPW) {
-				this.loggedIn = true;
+				var tryCount = 0;
+				(function tryRequest(this_) {
+					this_.http.post('api/login')
+						.subscribe(
+						data => {
+							console.log(data._body);
+							this_.loggedIn = data._body.loggedIn;
+						},
+						err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
+						() => {
+							console.log("done logging in");
+						}
+						);
+				})(this);
 			}
 		}.bind(this));
 	}

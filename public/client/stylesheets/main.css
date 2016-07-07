@@ -333,6 +333,7 @@ dashboard {
   width: 100vw;
 }
 dashboard h1 {
+  color: transparent;
   font-size: 50px;
   margin-top: 50px;
   text-align: center;

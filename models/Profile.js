@@ -17,7 +17,7 @@ var ProfilesSchema = new Schema({ //new collection
 	forHire:                                  { type: Boolean, default: true },
 	skills:                                     [{
 		type:                          String, //language, tool, etc
-		name:                        { type: String, required: true }, //eg NodeJS
+		name:                        { type: String }, //eg NodeJS
 		experience:               String, //years
 		proficiency:               String, //eg Expert
 		works:                       [String], //eg Picllery,Heartsome. map to Project model title
