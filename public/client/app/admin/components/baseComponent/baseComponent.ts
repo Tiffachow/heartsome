@@ -54,6 +54,10 @@ export class DashboardComponent {
 	// Functions
 	ngOnInit() {
 		this.setActiveCtrlCenter("profile");
+		this.profileService.getProfile();
+		this.versionsService.getAll();
+		this.blogPostsService.getAll();
+		this.projectsService.getAll();
 	}
 
 	ngAfterViewInit() {

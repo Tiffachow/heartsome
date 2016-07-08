@@ -1,16 +1,22 @@
 /// <reference path="../../vendor.d.ts"/>
 
 import {Injectable} from '@angular/core';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 import {MessageService} from './MessageService';
+import {UtilsService} from './UtilsService';
 
 @Injectable()
 export class ProfileService {
+	http: Http;
 	messageService: MessageService;
+	utilsService: UtilsService;
 	profile: Object;
 
-	constructor(messageService: MessageService) {
+	constructor(http: Http, messageService: MessageService, utilsService: UtilsService) {
+		this.http = http;
 		this.messageService = messageService;
+		this.utilsService = utilsService;
 		this.profile = { //mock? retrieve from mongoDB later
 			id: 1,
 			firstName: "Tiffany",
@@ -44,9 +50,10 @@ export class ProfileService {
 			this_.http.get('api/profile')
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						this_.profile = data._body.profile;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						this_.profile = data.profile;
 					} else {
 						console.log("Error getting profile");
 					}
@@ -71,9 +78,10 @@ export class ProfileService {
 			this_.http.put('api/profile', body, options)
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						this_.profile = data._body.profile;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						this_.profile = data.profile;
 					} else {
 						console.log("Error getting profile");
 					}

@@ -5,18 +5,21 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 
 import {ProfileService} from './ProfileService';
 import {MessageService} from './MessageService';
+import {UtilsService} from './UtilsService';
 
 @Injectable()
 export class AccountService {
 	http: Http;
+	utilsService: UtilsService;
 	profileService: ProfileService;
 	messageService: MessageService;
 	loggedIn: Boolean;
 
-	constructor(http: Http, profileService: ProfileService, messageService: MessageService) {
+	constructor(http: Http, utilsService: UtilsService, profileService: ProfileService, messageService: MessageService) {
 		this.http = http;
 		this.profileService = profileService;
 		this.messageService = messageService;
+		this.utilsService = utilsService;
 		this.loggedIn = false;
 		this.updateLoginStatus();
 	}
@@ -28,12 +31,12 @@ export class AccountService {
 			this_.http.get('api/login')
 				.subscribe(
 				data => {
-					console.log(data._body);
-					this_.loggedIn = data._body.loggedIn;
+					console.log("loggedIn: "+JSON.parse(data._body).loggedIn);
+					this_.loggedIn = JSON.parse(data._body).loggedIn;
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
-					console.log("done checking login status");
+					console.log("done checking login status, loggedIn: " + this_.loggedIn);
 				}
 				);
 		})(this);

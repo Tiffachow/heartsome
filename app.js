@@ -10,14 +10,16 @@ var routes = require('./routes/index');
 
 var app = express();
 
-// var uri = 'mongodb://'+process.env.dbuser+':'+process.env.password+'@localhost:27017/heartsome';
-var uri = 'mongodb://localhost:27017/test';
+var uri = 'mongodb://'+process.env.dbuser+':'+process.env.password+'@localhost:27017/heartsome';
+// var uri = 'mongodb://localhost:27017/test';
 // 'mongodb://user:pass@host:port/database'
 // 127.0.0.1 or localhost
 mongoose.connect(uri, function(error) {
   // if error is truthy, the initial connection failed.
   if (error) {
-    console.log("ERROR CONNECTING TO MONGOOSE: "+error);
+    console.log("ERROR CONNECTING TO MONGOOSE: "+error+". user+pass: "+process.env.dbuser+" "+process.env.password);
+  } else {
+    console.log("CONNECTED TO MONGODB");
   }
 });
 

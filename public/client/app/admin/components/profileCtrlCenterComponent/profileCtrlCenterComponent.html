@@ -1,3 +1,92 @@
 <span>profile control center component</span>
+<div [ngClass]="{hideAnimated: openEditor}">
+	{{profileService.profile | json}}
+	<div class="btn" (click)="openEditor = true">edit</div>
+</div>
 
-<!-- TO DO: display data w/ functions to edit-->
+<div *ngIf="openEditor">
+	<form class="edit-form profile-edit-form" (submit)="onSubmitEdit($event)" #editForm="ngForm">
+		EDIT PROFILE
+		<div class="form-inline">
+			<div class="form-group">
+				<label for="profile-firstname">First Name</label>
+				<input type="text" class="form-control" id="profile-firstname" name="profile-firstname" [value]="profileService.profile.firstName" placeholder="First Name">
+			</div>
+			<div class="form-group">
+				<label for="profile-lastname">Last Name</label>
+				<input type="text" class="form-control" id="profile-lastname" name="profile-lastname" [value]="profileService.profile.lastName" placeholder="Last Name">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="profile-title">Title</label>
+			<input type="text" class="form-control" id="profile-title" name="profile-title" [value]="profileService.profile.title" placeholder="Title">
+		</div>
+		<div class="form-group">
+			<label for="profile-location">Location</label>
+			<input type="text" class="form-control" id="profile-location" name="profile-location" [value]="profileService.profile.location" placeholder="location">
+		</div>
+		<div class="form-group">
+			<label for="profile-email">Email</label>
+			<input type="email" required class="form-control" id="profile-email" name="profile-email" [value]="profileService.profile.email" placeholder="email@email.com">
+		</div>
+		<div class="form-group">
+			<label for="profile-websites">Website(s)</label>
+			<input type="text" class="form-control" id="profile-websites" name="profile-websites" [value]="profileService.profile.websites" placeholder="www.heartso.me">
+		</div>
+		<div class="form-group">
+			<label for="profile-about">About</label>
+			<input type="text" class="form-control" id="profile-about" name="profile-about" [value]="profileService.profile.about" placeholder="A little bit about me:...">
+		</div>
+		<span>Images:</span>
+		<p class="help-block">Preview image:</p>
+		<img id="preview-profile-image" src="http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg" alt="" width="100px">
+		<div class="form-group profile-image profile-image-{{v}}" *ngFor="let image of profileService.profile.images; let v = index">
+			<img [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+			<label>Change image</label>
+			<input type="file" id="profile-image-{{v}}" name="profile-image" (change)="readURL($event)">
+		</div>
+		<button class="btn btn-default" type="submit" (click)="profileService.profile.images.length = profileService.profile.images.length + 1">Add more images</button>
+		<div class="form-group">
+			<label for="profile-dob">DOB</label>
+			<input type="text" class="form-control" id="profile-dob" name="profile-dob" [value]="profileService.profile.dob | date:'longDate'" placeholder="July 3, 1993">
+		</div>
+		<div class="checkbox">
+			<label for="profile-forhire">
+				<input type="checkbox" [checked]="profileService.profile.forHire" id="profile-forhire" name="profile-forhire"> For Hire?
+			</label>
+		</div>
+		<span>Skills:</span>
+		<div class="form-group profile-skills profile-skills-{{i}}" *ngFor="let skill of profileService.profile.skills; let i = index">
+			<label>Skill Name</label>
+			<input type="text" class="form-control" name="profile-skill-name" id="profile-skill-name-{{i}}" [value]="skill.name" placeholder="e.g. jquery">
+
+			<label>Experience</label>
+			<input type="text" class="form-control" name="profile-skill-experience" id="profile-skill-experience-{{i}}" [value]="skill.experience" placeholder="2 years">
+
+			<label>Type</label>
+			<select class="form-control profile-skill-type" name="profile-skill-type" id="profile-skill-type-{{i}}" [value]="skill.type">
+			  <option>language</option>
+			  <option selected>tool</option>
+			</select>
+
+			<label>Proficiency</label>
+			<select class="form-control profile-skill-proficiency" name="profile-skill-proficiency" id="profile-skill-proficiency-{{i}}" [value]="skill.proficiency">
+			  <option>expert</option>
+			  <option>advanced</option>
+			  <option selected>experienced</option>
+			  <option>basic</option>
+			</select>
+
+			<label>Works</label>
+			<select multiple class="form-control profile-skill-works" name="profile-skill-works" id="profile-skill-works-{{i}}" [value]="skill.works">
+			  <option *ngFor="let work of projectsService.projects">{{work.title}}</option>
+			</select>
+		</div>
+		<button class="btn btn-default" type="submit" (click)="profileService.profile.skills.length = profileService.profile.skills.length + 1">Add more skills</button>
+		<div class="form-group">
+			<label for="profile-password">Password</label><p class="help-block">Also admin password</p>
+			<input type="password" class="form-control" id="profile-password" name="profile-password" required>
+		</div>
+		<button [disabled]="!editForm.form.valid" type="submit" class="btn btn-default">Edit Profile</button>
+	</form>
+</div>

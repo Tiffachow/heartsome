@@ -8,7 +8,7 @@
 </div>
 
 <div *ngIf="openEditor">
-	<form *ngIf="openEditor=='create'" class="post-create-form" (submit)="onSubmit($event, 'create')" #createForm="ngForm">
+	<form *ngIf="openEditor=='create'" class="create-form post-create-form" (submit)="onSubmit($event, 'create')" #createForm="ngForm">
 		CREATE NEW POST
 		<div class="form-group">
 			<label for="post-title">Title</label>
@@ -34,7 +34,7 @@
 			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
 		</div>
 		<div class="checkbox">
-			<label>
+			<label for="post-private">
 				<input type="checkbox" id="post-private" name="post-private"> Private?
 			</label>
 		</div>
@@ -48,7 +48,7 @@
 		</div>
 		<button [disabled]="!createForm.form.valid" type="submit" class="btn btn-default">Create New Post</button>
 	</form>
-	<form *ngIf="openEditor=='edit'" class="post-edit-form" (submit)="onSubmit($event, 'edit', currentlyEditing.id)" #editForm="ngForm">
+	<form *ngIf="openEditor=='edit'" class="edit-form post-edit-form" (submit)="onSubmit($event, 'edit', currentlyEditing.id)" #editForm="ngForm">
 		EDIT POST #{{currentlyEditing.id}}
 		<div class="form-group">
 			<label for="post-title">Title</label>
@@ -76,7 +76,7 @@
 			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
 		</div>
 		<div class="checkbox">
-			<label>
+			<label for="post-private">
 				<input type="checkbox" [checked]="currentlyEditing.private" id="post-private" name="post-private"> Private?
 			</label>
 		</div>

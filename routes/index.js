@@ -30,7 +30,7 @@ router.get('/api/login', function(req, res) {
     return res.json({loggedIn: false});
   }
   return;
-});s
+});
 
 /* GET logout. */
 router.get('/api/logout', function(req, res) {
@@ -45,10 +45,42 @@ router.get('/api/logout', function(req, res) {
 router.get('/api/profile', function(req, res) {
   Profile.findOne({}, function(err, profile){
     if (err) {
-      console.log("Failed to get profile. Err: " + err);
-      return res.json({success: false});
+      console.log("Failed to find profile. Err: " + err);
     } else {
-      return res.json({success: true, profile: profile});
+      if (!profile) {
+        var newProfile = new Profile({
+          firstName: "Tiffany",
+          lastName: "Chow",
+          title: "Software Engineer",
+          location: "New York City",
+          email: "tiffachow@gmail.com", //required
+          websites: ["http://heartso.me"],
+          about: "",
+          images: [],
+          dob: new Date(93, 7, 3),
+          forHire: true,
+          skills: [],
+          password: process.env.password //required
+        }); //create new instance of model, new document in collection
+        newProfile.save(function (err) {
+          if (err) {
+            console.log("Failed to add new profile. Err: " + err);
+            return res.json({success: false, loggedIn: true});
+          } else {
+            console.log("Added new profile!");
+            Profile.findOne({}, function(err, profile){
+              if (err) {
+                console.log("Failed to get profile. Err: " + err);
+                return res.json({success: false, loggedIn: true});
+              } else {
+                return res.json({success: true, profile: profile}); //return new profile
+              }
+            });
+          }
+        })
+      } else {
+        return res.json({success: true, profile: profile});
+      }
     }
   });
   return;
@@ -56,41 +88,42 @@ router.get('/api/profile', function(req, res) {
 
 /* UPDATE profile. */
 router.put('/api/profile', function(req, res) {
-  if (req.session && req.session.loggedIn) {
-    Profile.findOne({}, function(err, profile){
-      if (err) {
-        console.log("Failed to find profile. Err: " + err);
-        return res.json({success: false, loggedIn: true});
-      } else {
-        profile = {
-          firstName: req.body["profile-firstname"] || "",
-          lastName: req.body["profile-lastname"] || "",
-          title: req.body["profile-title"] || "",
-          location: req.body["profile-location"] || "",
-          email: req.body["profile-email"], //required
-          websites: req.body["profile-websites"] || [],
-          about: req.body["profile-about"] || "",
-          images: req.body["profile-images"] || [],
-          dob: req.body["profile-dob"] || "",
-          forHire: req.body["profile-hire"] || "",
-          skills: req.body["profile-skills"] || [],
-          password: req.body["profile-password"] //required
-        };
-        profile.save(function (err) {
-          if (err) {
-            console.log("Failed to update profile. Err: " + err);
-            return res.json({success: false, loggedIn: true});
-          } else {
-            console.log("Updated profile!");
-            return res.json({success: true, profile: profile});
-          }
-        });
-      }
-    });
-  } else {
-    console.log("Failed to update profile. Not admin.")
-    return res.json({success: false, loggedIn: false});
-  }
+  console.log("data is: "+req.body);
+  // if (req.session && req.session.loggedIn) {
+  //   Profile.findOne({}, function(err, profile){
+  //     if (err) {
+  //       console.log("Failed to get profile. Err: " + err);
+  //       return res.json({success: false});
+  //     } else {
+  //       profile = {
+  //         firstName: req.body["profile-firstname"] || "",
+  //         lastName: req.body["profile-lastname"] || "",
+  //         title: req.body["profile-title"] || "",
+  //         location: req.body["profile-location"] || "",
+  //         email: req.body["profile-email"], //required
+  //         websites: req.body["profile-websites"] || [],
+  //         about: req.body["profile-about"] || "",
+  //         images: req.body["profile-images"] || [],
+  //         dob: req.body["profile-dob"] || new Date(93,6,3),
+  //         forHire: req.body["profile-forhire"] || null,
+  //         skills: req.body["profile-skills"] || [],
+  //         password: req.body["profile-password"] //required
+  //       };
+  //       profile.save(function (err) {
+  //         if (err) {
+  //           console.log("Failed to update profile. Err: " + err);
+  //           return res.json({success: false, loggedIn: true});
+  //         } else {
+  //           console.log("Updated profile!");
+  //           return res.json({success: true, profile: profile});
+  //         }
+  //       });
+  //     }
+  //   });
+  // } else {
+  //   console.log("Failed to update profile. Not admin.")
+  //   return res.json({success: false, loggedIn: false});
+  // }
   return;
 });
 

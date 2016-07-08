@@ -70,9 +70,10 @@ export class BlogPostsService {
 			this_.http.post('api/blog/new', body, options)
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						this_.blogPosts = data._body.posts;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						this_.blogPosts = data.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -95,9 +96,10 @@ export class BlogPostsService {
 			this_.http.get('api/blog/all')
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						this_.blogPosts = data._body.posts;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						this_.blogPosts = data.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -120,9 +122,10 @@ export class BlogPostsService {
 			this_.http.get('api/blog/post/'+id)
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						result = data._body.post;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						result = data.post;
 					} else {
 						console.log("Error getting post");
 					}
@@ -147,9 +150,10 @@ export class BlogPostsService {
 			this_.http.put('api/blog/post/'+id, body, options)
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						this_.blogPosts = data._body.posts;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						this_.blogPosts = data.posts;
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -177,9 +181,10 @@ export class BlogPostsService {
 			this_.http.delete('api/blog/post/'+id)
 				.subscribe(
 				data => {
-					console.log(data._body);
-					if (data._body.success) {
-						this_.blogPosts = data._body.posts;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					if (data.success) {
+						this_.blogPosts = data.posts;
 					} else {
 						console.log("Error getting all posts");
 					}

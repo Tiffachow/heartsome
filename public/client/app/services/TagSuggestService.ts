@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class TagSuggestService {
+	tags: Array<Object>;
 
 	constructor() {
 		this.tags = [ //mock

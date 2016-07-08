@@ -15,6 +15,7 @@ import {ProjectsService} from './services/ProjectsService';
 import {ProfileService} from './services/ProfileService';
 import {BlogPostsService} from './services/BlogPostsService';
 import {TagSuggestService} from './services/TagSuggestService';
+import {UtilsService} from './services/UtilsService';
 
 @Component({
 	selector: 'app',
@@ -25,14 +26,17 @@ import {TagSuggestService} from './services/TagSuggestService';
 export class AppComponent {
 	router: Router;
 	versionsService: VersionsService;
+	profileService: ProfileService;
 	debug: boolean;
 
-	constructor(router: Router, versionsService: VersionsService) {
+	constructor(router: Router, versionsService: VersionsService, profileService: ProfileService) {
 		this.router = router;
 		this.versionsService = versionsService;
+		this.profileService = profileService;
 		this.debug = false;
 	}
 	ngOnInit() {
+		this.profileService.getProfile(); // here for now; ideally should do this when profile component loads
 	}
 	ngAfterViewInit() {
 	}
@@ -45,5 +49,5 @@ bootstrap(AppComponent, [
 	disableDeprecatedForms(), provideForms(),
 	VersionsService, MessageService, AccountService,
 	ProjectsService, ProfileService, BlogPostsService,
-	TagSuggestService
+	TagSuggestService, UtilsService
 ]).catch(err => console.error(err)); //services injected here are singletons available app-wide
