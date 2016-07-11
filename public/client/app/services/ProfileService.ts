@@ -68,11 +68,10 @@ export class ProfileService {
 		})(this);
 	}
 
-	edit(data, callback?) {
-		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(data));
+	edit(body, callback?) {
+		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			let body = JSON.stringify(data);
 		   	let headers = new Headers({ 'Content-Type': 'application/json' });
 		    let options = new RequestOptions({ headers: headers });
 			this_.http.put('api/profile', body, options)

@@ -88,43 +88,40 @@ router.get('/api/profile', function(req, res) {
 
 /* UPDATE profile. */
 router.put('/api/profile', function(req, res) {
-  console.log("data is: "+req.body);
-  // if (req.session && req.session.loggedIn) {
-  //   Profile.findOne({}, function(err, profile){
-  //     if (err) {
-  //       console.log("Failed to get profile. Err: " + err);
-  //       return res.json({success: false});
-  //     } else {
-  //       profile = {
-  //         firstName: req.body["profile-firstname"] || "",
-  //         lastName: req.body["profile-lastname"] || "",
-  //         title: req.body["profile-title"] || "",
-  //         location: req.body["profile-location"] || "",
-  //         email: req.body["profile-email"], //required
-  //         websites: req.body["profile-websites"] || [],
-  //         about: req.body["profile-about"] || "",
-  //         images: req.body["profile-images"] || [],
-  //         dob: req.body["profile-dob"] || new Date(93,6,3),
-  //         forHire: req.body["profile-forhire"] || null,
-  //         skills: req.body["profile-skills"] || [],
-  //         password: req.body["profile-password"] //required
-  //       };
-  //       profile.save(function (err) {
-  //         if (err) {
-  //           console.log("Failed to update profile. Err: " + err);
-  //           return res.json({success: false, loggedIn: true});
-  //         } else {
-  //           console.log("Updated profile!");
-  //           return res.json({success: true, profile: profile});
-  //         }
-  //       });
-  //     }
-  //   });
-  // } else {
-  //   console.log("Failed to update profile. Not admin.")
-  //   return res.json({success: false, loggedIn: false});
-  // }
-  return;
+  console.log("DATA IS: "+JSON.stringify(req.body));
+  if (req.session && req.session.loggedIn) {
+    Profile.findOne({}, function(err, profile){
+      if (err) {
+        console.log("Failed to get profile. Err: " + err);
+        return res.json({success: false});
+      } else {
+        profile.firstName = req.body["profile-firstname"] || "";
+        profile.lastName = req.body["profile-lastname"] || "";
+        profile.title = req.body["profile-title"] || "";
+        profile.location = req.body["profile-location"] || "";
+        profile.email = req.body["profile-email"]; //required
+        profile.websites = req.body["profile-websites"] || [];
+        profile.about = req.body["profile-about"] || "";
+        profile.images = req.body["profile-images"] || [];
+        profile.dob = new Date(req.body["profile-dob"]) || new Date(93,6,3);
+        profile.forHire = req.body["profile-forhire"] || true;
+        profile.skills = req.body["profile-skills"] || [];
+        profile.password = req.body["profile-password"]; //required
+        profile.save(function (err) {
+          if (err) {
+            console.log("Failed to update profile. Err: " + err);
+            return res.json({success: false, loggedIn: true});
+          } else {
+            console.log("Updated profile!");
+            return res.json({success: true, profile: profile});
+          }
+        });
+      }
+    });
+  } else {
+    console.log("Failed to update profile. Not admin.")
+    return res.json({success: false, loggedIn: false});
+  }
 });
 
 // ================================================================================
@@ -210,16 +207,14 @@ router.put('/api/blog/post/:id', function(req, res) {
         console.log("Failed to find post. Err: " + err);
         return res.json({success: false, loggedIn: true});
       } else {
-        post = {
-          title: req.body["post-title"],
-          description: req.body["post-description"] || null,
-          tldr: req.body["post-tldr"] || null,
-          body: req.body["post-body"],
-          image: req.body["post-image"] || null,
-          private: req.body["post-private"],
-          tags: req.body["post-tags"] || null,
-          categories: req.body["post-categories"] || null
-        };
+        post.title = req.body["post-title"];
+        post.description = req.body["post-description"] || null;
+        post.tldr = req.body["post-tldr"] || null;
+        post.body = req.body["post-body"];
+        post.image = req.body["post-image"] || null;
+        post.private = req.body["post-private"];
+        post.tags = req.body["post-tags"] || null;
+        post.categories = req.body["post-categories"] || null;
         post.save(function (err) {
           if (err) {
             console.log("Failed to update post. Err: " + err);

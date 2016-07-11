@@ -39,7 +39,8 @@ export class ProfileCtrlCenterComponent {
 	onSubmitEdit(event) {
 		event.preventDefault();
 		// if data valid:
-		var dataObject = JSON.parse(JSON.stringify($(".profile-edit-form").serializeArray()));
+		var dataObject = {};
+		$(".profile-edit-form").serializeArray().map(function(x){dataObject[x.name] = x.value;});
 		// upload each img to s3
 		// encrypt password
 

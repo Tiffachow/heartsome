@@ -79,7 +79,8 @@ export class BlogCtrlCenterComponent {
 	onSubmit(event, task, id?) {
 		event.preventDefault();
 		// if data valid:
-		var dataObject = JSON.parse(JSON.stringify($(".post-"+task+"-form").serializeArray()));
+		var dataObject = {};
+		$(".post-"+task+"-form").serializeArray().map(function(x){dataObject[x.name] = x.value;});
 		dataObject["post-tags"] = this.tagSuggestService.getInputTags("post-tags");
 		dataObject["post-categories"] = this.tagSuggestService.getInputTags("post-categories");
 		// upload img to s3 & then:

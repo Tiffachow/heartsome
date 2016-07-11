@@ -31,12 +31,31 @@ export class AccountService {
 			this_.http.get('api/login')
 				.subscribe(
 				data => {
-					console.log("loggedIn: "+JSON.parse(data._body).loggedIn);
-					this_.loggedIn = JSON.parse(data._body).loggedIn;
+					var data = JSON.parse(data._body);
+					console.log(data);
+					this_.loggedIn = data.loggedIn;
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					console.log("done checking login status, loggedIn: " + this_.loggedIn);
+				}
+				);
+		})(this);
+	}
+
+	mockLogin() {
+		var tryCount = 0;
+		(function tryRequest(this_) {
+			this_.http.post('api/login')
+				.subscribe(
+				data => {
+					var data = JSON.parse(data._body);
+					console.log(data);
+					this_.loggedIn = data.loggedIn;
+				},
+				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
+				() => {
+					console.log("done logging in");
 				}
 				);
 		})(this);
@@ -56,8 +75,9 @@ export class AccountService {
 					this_.http.post('api/login')
 						.subscribe(
 						data => {
-							console.log(data._body);
-							this_.loggedIn = data._body.loggedIn;
+							var data = JSON.parse(data._body);
+							console.log(data);
+							this_.loggedIn = data.loggedIn;
 						},
 						err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 						() => {
@@ -76,12 +96,13 @@ export class AccountService {
 			this_.http.get('api/logout')
 				.subscribe(
 				data => {
-					console.log(JSON.parse(data));
+					var data = JSON.parse(data._body);
+					console.log(data);
+					this_.loggedIn = data.loggedIn;
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					console.log("logged out");
-					this_.loggedIn = false;
 				}
 				);
 		})(this);

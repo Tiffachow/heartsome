@@ -75,4 +75,8 @@ export class DashboardComponent {
 		this.currentCtrlCenter = ctrlCenter;
 	}
 
+	mockToggleLogin() {
+		this.accountService.loggedIn ? this.accountService.logout() : this.accountService.mockLogin();
+	}
+
 }

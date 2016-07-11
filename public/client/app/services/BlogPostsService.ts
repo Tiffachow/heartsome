@@ -60,11 +60,10 @@ export class BlogPostsService {
 		];
 	}
 
-	create(data, callback?) {
-		console.log("TRYING TO CREATE NEW POST WITH DATA "+JSON.stringify(data));
+	create(body, callback?) {
+		console.log("TRYING TO CREATE NEW POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			let body = JSON.stringify(data);
 		   	let headers = new Headers({ 'Content-Type': 'application/json' });
 		    let options = new RequestOptions({ headers: headers });
 			this_.http.post('api/blog/new', body, options)
@@ -140,11 +139,10 @@ export class BlogPostsService {
 		})(this);
 	}
 
-	edit(data, id, callback?) {
-		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(data));
+	edit(body, id, callback?) {
+		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			let body = JSON.stringify(data);
 		   	let headers = new Headers({ 'Content-Type': 'application/json' });
 		    let options = new RequestOptions({ headers: headers });
 			this_.http.put('api/blog/post/'+id, body, options)
