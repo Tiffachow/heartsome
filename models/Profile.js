@@ -16,7 +16,9 @@ var ProfilesSchema = new Schema({ //new collection
 	dob:                                      Date,
 	forHire:                                  { type: Boolean, default: true },
 	skills:                                     [{
-		type:                          String, //language, tool, etc
+		type: {
+    								type: String //language, tool, etc
+      	},
 		name:                        { type: String }, //eg NodeJS
 		experience:               String, //years
 		proficiency:               String, //eg Expert

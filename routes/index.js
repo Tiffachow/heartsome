@@ -105,6 +105,7 @@ router.put('/api/profile', function(req, res) {
         profile.images = req.body["profile-images"] || [];
         profile.dob = new Date(req.body["profile-dob"]) || new Date(93,6,3);
         profile.forHire = req.body["profile-forhire"] || true;
+        console.log("SKILLS ARRAY: "+JSON.stringify(req.body["profile-skills"]));
         profile.skills = req.body["profile-skills"] || [];
         profile.password = req.body["profile-password"]; //required
         profile.save(function (err) {

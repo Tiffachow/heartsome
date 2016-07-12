@@ -45,7 +45,7 @@
 			<label>Change image</label>
 			<input type="file" id="profile-image-{{v}}" name="profile-image" (change)="readURL($event)">
 		</div>
-		<button class="btn btn-default" type="submit" (click)="profileService.profile.images.length = profileService.profile.images.length + 1">Add more images</button>
+		<button class="btn btn-default" type="button" (click)="addImage()">Add more images</button>
 		<div class="form-group">
 			<label for="profile-dob">DOB</label>
 			<input type="text" class="form-control" id="profile-dob" name="profile-dob" [value]="profileService.profile.dob | date:'longDate'" placeholder="July 3, 1993">
@@ -58,34 +58,34 @@
 		<span>Skills:</span>
 		<div class="form-group profile-skills profile-skills-{{i}}" *ngFor="let skill of profileService.profile.skills; let i = index">
 			<label>Skill Name</label>
-			<input type="text" class="form-control" name="profile-skill-name" id="profile-skill-name-{{i}}" [value]="skill.name" placeholder="e.g. jquery">
+			<input type="text" class="form-control profile-skill-name" name="profile-skill-name" id="profile-skill-name-{{i}}" [value]="skill.name || null" placeholder="e.g. jquery">
 
 			<label>Experience</label>
-			<input type="text" class="form-control" name="profile-skill-experience" id="profile-skill-experience-{{i}}" [value]="skill.experience" placeholder="2 years">
+			<input type="text" class="form-control profile-skill-experience" name="profile-skill-experience" id="profile-skill-experience-{{i}}" [value]="skill.experience || null" placeholder="2 years">
 
 			<label>Type</label>
-			<select class="form-control profile-skill-type" name="profile-skill-type" id="profile-skill-type-{{i}}" [value]="skill.type">
-			  <option>language</option>
-			  <option selected>tool</option>
+			<select class="form-control profile-skill-type" name="profile-skill-type" id="profile-skill-type-{{i}}" [value]="skill.type || null">
+			  <option value="language">language</option>
+			  <option value="tool" selected>tool</option>
 			</select>
 
 			<label>Proficiency</label>
-			<select class="form-control profile-skill-proficiency" name="profile-skill-proficiency" id="profile-skill-proficiency-{{i}}" [value]="skill.proficiency">
-			  <option>expert</option>
-			  <option>advanced</option>
-			  <option selected>experienced</option>
-			  <option>basic</option>
+			<select class="form-control profile-skill-proficiency" name="profile-skill-proficiency" id="profile-skill-proficiency-{{i}}" [value]="skill.proficiency || null">
+			  <option value="expert">expert</option>
+			  <option value="advanced">advanced</option>
+			  <option value="experienced" selected>experienced</option>
+			  <option value="basic">basic</option>
 			</select>
 
-			<label>Works</label>
-			<select multiple class="form-control profile-skill-works" name="profile-skill-works" id="profile-skill-works-{{i}}" [value]="skill.works">
+			<label>Works</label> {{skill.works}}
+			<select multiple class="form-control profile-skill-works" name="profile-skill-works" id="profile-skill-works-{{i}}" [value]="skill.works || null">
 			  <option *ngFor="let work of projectsService.projects">{{work.title}}</option>
 			</select>
 		</div>
-		<button class="btn btn-default" type="submit" (click)="profileService.profile.skills.length = profileService.profile.skills.length + 1">Add more skills</button>
+		<button class="btn btn-default" type="button" (click)="addSkill()">Add more skills</button>
 		<div class="form-group">
 			<label for="profile-password">Password</label><p class="help-block">Also admin password</p>
-			<input type="password" class="form-control" id="profile-password" name="profile-password" required>
+			<input type="password" class="form-control" id="profile-password" name="profile-password" required [value]="profileService.profile.password" placeholder="profileService.profile.password">
 		</div>
 		<button [disabled]="!editForm.form.valid" type="submit" class="btn btn-default">Edit Profile</button>
 	</form>
