@@ -100,7 +100,7 @@ export class BlogCtrlCenterComponent {
 	        var reader = new FileReader();
 
 	        reader.onload = function (e) {
-	            $('#preview-post-img').attr('src', e.target.result);
+	            $('#preview-post-img').attr('src', e.target["result"]);
 	        }
 
 	        reader.readAsDataURL(input.files[0]);

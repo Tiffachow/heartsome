@@ -37,8 +37,8 @@ export class TagSuggestService {
 	getStoredTags(type, callback?) { //types: blogTag, blogCategory, projectTech, versionTag
 		var results = [];
 		for (var x in this.tags) {
-			if (this.tags[x].type == type) {
-				results.push(this.tags[x].name);
+			if (this.tags[x]["type"] == type) {
+				results.push(this.tags[x]["name"]);
 			}
 		}
 		if (callback) callback(results);
