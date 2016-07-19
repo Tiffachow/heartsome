@@ -68,14 +68,14 @@ export class UtilsService {
 	}
 
 	retryRequest(err, tryCount, request, thisVar?, fourthTime?) {
-		console.log(err);
+		console.log("REQUEST FAILED. Error: " + err);
 		setTimeout(function(){
 			if (tryCount <= 3) {
-				console.log("REQUEST FAILED. TRYING AGAIN AFTER 1 SEC DELAY... TRY #"+tryCount);
+				console.log("TRYING AGAIN AFTER 1 SEC DELAY... TRY #"+tryCount);
 				request(thisVar);
 			} else if (fourthTime && tryCount == 4) {
 				setTimeout(function(){
-					console.log("REQUEST FAILED. TRYING AGAIN AFTER 40 SECS... TRY #"+tryCount);
+					console.log("TRYING AGAIN AFTER 40 SECS... TRY #"+tryCount);
 					request(thisVar);
 				}, 39000);
 			}

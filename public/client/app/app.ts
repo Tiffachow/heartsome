@@ -16,6 +16,7 @@ import {ProfileService} from './services/ProfileService';
 import {BlogPostsService} from './services/BlogPostsService';
 import {TagSuggestService} from './services/TagSuggestService';
 import {UtilsService} from './services/UtilsService';
+import {S3Service} from './services/S3Service';
 
 @Component({
 	selector: 'app',
@@ -49,5 +50,5 @@ bootstrap(AppComponent, [
 	disableDeprecatedForms(), provideForms(),
 	VersionsService, MessageService, AccountService,
 	ProjectsService, ProfileService, BlogPostsService,
-	TagSuggestService, UtilsService
+	TagSuggestService, UtilsService, S3Service
 ]).catch(err => console.error(err)); //services injected here are singletons available app-wide

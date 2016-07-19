@@ -38,12 +38,13 @@
 			<input type="text" class="form-control" id="profile-about" name="profile-about" [value]="profileService.profile.about" placeholder="A little bit about me:...">
 		</div>
 		<span>Images:</span>
-		<p class="help-block">Preview image:</p>
-		<img id="preview-profile-image" src="http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg" alt="" width="100px">
-		<div class="form-group profile-image profile-image-{{v}}" *ngFor="let image of profileService.profile.images; let v = index">
-			<img [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+		<div class="form-group profile-images profile-images-{{v}}" *ngFor="let image of profileService.profile.images; let v = index">
 			<label>Change image</label>
-			<input type="file" id="profile-image-{{v}}" name="profile-image" (change)="readURL($event)">
+			<input type="file" id="profile-images-{{v}}" name="profile-images" (change)="handleFile($event, v)">
+			<input type="hidden" class="profile-images-urls" id="profile-images-{{v}}-hidden" name="profile-image-s3-url" [value]="image">
+			<p class="help-block">Preview image:</p>
+			<img id="preview-profile-image-{{v}}" [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+			<div *ngIf="image" class="btn" (click)="removeImg(v)">delete</div>
 		</div>
 		<button class="btn btn-default" type="button" (click)="addImage()">Add more images</button>
 		<div class="form-group">
@@ -87,6 +88,11 @@
 			<label for="profile-password">Password</label><p class="help-block">Also admin password</p>
 			<input type="password" class="form-control" id="profile-password" name="profile-password" required [value]="profileService.profile.password" placeholder="profileService.profile.password">
 		</div>
-		<button [disabled]="!editForm.form.valid" type="submit" class="btn btn-default">Edit Profile</button>
+		<div *ngIf="s3Service.loading">
+			<p class="help-block">Uploading image(s). Please hold...</p>
+			<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+			<span class="sr-only">Uploading images...</span>
+		</div>
+		<button [disabled]="!editForm.form.valid || s3Service.loading" type="submit" class="btn btn-default">Save</button>
 	</form>
 </div>

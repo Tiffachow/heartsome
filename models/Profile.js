@@ -12,7 +12,7 @@ var ProfilesSchema = new Schema({ //new collection
 	email:                                    { type: String, required: true },
 	websites:                              [String],
 	about:                                    String,
-	images:                                 [String],
+	images:                                 [String], //s3 url
 	dob:                                      Date,
 	forHire:                                  { type: Boolean, default: true },
 	skills:                                     [{

@@ -64,8 +64,8 @@ export class BlogPostsService {
 		console.log("TRYING TO CREATE NEW POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
-		   	let headers = new Headers({ 'Content-Type': 'application/json' });
-		    let options = new RequestOptions({ headers: headers });
+			let headers = new Headers({ 'Content-Type': 'application/json' });
+			let options = new RequestOptions({ headers: headers });
 			this_.http.post('api/blog/new', body, options)
 				.subscribe(
 				data => {
@@ -143,8 +143,8 @@ export class BlogPostsService {
 		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
-		   	let headers = new Headers({ 'Content-Type': 'application/json' });
-		    let options = new RequestOptions({ headers: headers });
+			let headers = new Headers({ 'Content-Type': 'application/json' });
+			let options = new RequestOptions({ headers: headers });
 			this_.http.put('api/blog/post/'+id, body, options)
 				.subscribe(
 				data => {

@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {MessageService} from './../../../services/MessageService';
 import {BlogPostsService} from './../../../services/BlogPostsService';
 import {TagSuggestService} from './../../../services/TagSuggestService';
+import {S3Service} from './../../../services/S3Service';
 
 @Component({
 	selector: 'blog-control-center',
@@ -20,15 +21,17 @@ export class BlogCtrlCenterComponent {
 	messageService: MessageService;
 	blogPostsService: BlogPostsService;
 	tagSuggestService: TagSuggestService;
+	s3Service: S3Service;
 	openEditor: String;
 	messageSubscription: Subscription;
 	currentlyEditing: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService) {
+	constructor(messageService: MessageService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService, s3Service: S3Service) {
 		this.messageService = messageService;
 		this.blogPostsService = blogPostsService;
 		this.tagSuggestService = tagSuggestService;
+		this.s3Service = s3Service;
 		this.openEditor = null;
 		this.messageSubscription;
 		this.currentlyEditing = null;
@@ -96,15 +99,17 @@ export class BlogCtrlCenterComponent {
 	}
 
 	readURL(input) {
-	    if (input.files && input.files[0]) {
-	        var reader = new FileReader();
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
 
-	        reader.onload = function (e) {
-	            $('#preview-post-img').attr('src', e.target["result"]);
-	        }
+			reader.onload = function (e) {
+				$('#preview-post-img').attr('src', e.target["result"]);
+			}
 
-	        reader.readAsDataURL(input.files[0]);
-	    }
+			reader.readAsDataURL(input.files[0]);
+
+			this.s3Service.getS3SignedRequest(input.files[0]);
+		}
 	}
 
 }

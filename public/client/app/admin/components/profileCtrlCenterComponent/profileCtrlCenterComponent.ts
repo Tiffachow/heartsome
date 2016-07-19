@@ -6,6 +6,7 @@ import {MessageService} from './../../../services/MessageService';
 import {ProfileService} from './../../../services/ProfileService';
 import {ProjectsService} from './../../../services/ProjectsService';
 import {TagSuggestService} from './../../../services/TagSuggestService';
+import {S3Service} from './../../../services/S3Service';
 
 @Component({
 	selector: 'profile-control-center',
@@ -21,14 +22,17 @@ export class ProfileCtrlCenterComponent {
 	profileService: ProfileService;
 	projectsService: ProjectsService;
 	tagSuggestService: TagSuggestService;
+	s3Service: S3Service;
 	openEditor: boolean;
 
 	// Constructor
-	constructor(messageService: MessageService, profileService: ProfileService, projectsService: ProjectsService, tagSuggestService: TagSuggestService) {
+	constructor(messageService: MessageService, profileService: ProfileService, projectsService: ProjectsService, tagSuggestService: TagSuggestService,
+		s3Service: S3Service) {
 		this.messageService = messageService;
 		this.profileService = profileService;
 		this.projectsService = projectsService;
 		this.tagSuggestService = tagSuggestService;
+		this.s3Service = s3Service;
 		this.openEditor = false;
 	}
 
@@ -66,22 +70,33 @@ export class ProfileCtrlCenterComponent {
 		});
 		console.log("PROFILE SKILLS: "+dataObject["profile-skills"]);
 		// upload each img to s3
+		dataObject["profile-images"] = [];
+		$(".profile-images-urls").each(function(i) {
+			if ($(this).val() !== "") { //dont add empty urls
+				dataObject["profile-images"].push($(this).val());
+			}
+		});
+		console.log("PROFILE IMAGES: "+dataObject["profile-images"]);
 		// encrypt password
 
 		this.profileService.edit(dataObject, function(){this.openEditor = false}.bind(this));
 	}
 
-	readURL(event) {
+	handleFile(event, index) {
+		this.removeImg(index);
 		var input = event.target;
-	    if (input.files && input.files[0]) {
-	        var reader = new FileReader();
+		if (input.files && input.files[0]) {
+			this.s3Service.getS3SignedRequest(input.files[0], "profile-images", "#profile-images-"+index+"-hidden", "#preview-profile-image-"+index);
+		}
+	}
 
-	        reader.onload = function (e) {
-	            $('#preview-profile-image').attr('src', e.target["result"]);
-	        }
-
-	        reader.readAsDataURL(input.files[0]);
-	    }
+	removeImg(index) {
+		var filename = ($("#profile-images-" + index + "-hidden").val().split(".com/"))[1];
+		if (filename) {
+			this.s3Service.deleteObjectFromS3Bucket(filename);
+			$("#profile-images-" + index + "-hidden").val("");
+			$("#preview-profile-image-" + index).attr("src","");
+		}
 	}
 
 }
