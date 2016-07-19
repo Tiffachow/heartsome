@@ -57,7 +57,7 @@ router.get('/api/profile', function(req, res) {
           websites: ["http://heartso.me"],
           about: "",
           images: [],
-          dob: new Date(93, 7, 3),
+          dob: new Date(93, 6, 3),
           forHire: true,
           skills: [],
           password: process.env.password //required
