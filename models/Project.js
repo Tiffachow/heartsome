@@ -16,8 +16,8 @@ var ProjectsSchema = new Schema({ //new collection
 	title:                                 { type: String, required: true },
 	description:                     String,
 	tech:                                [String],
-	images:                           [String],
-	videos:                            [String],
+	images:                           [String], //s3 url
+	videos:                            [String], //s3 url
 	date:                                Date,
 	private:                           { type: Boolean, default: false },
 	timeSpent:                       String,

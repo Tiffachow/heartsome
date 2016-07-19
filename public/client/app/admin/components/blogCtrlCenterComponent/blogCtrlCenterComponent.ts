@@ -25,6 +25,8 @@ export class BlogCtrlCenterComponent {
 	openEditor: String;
 	messageSubscription: Subscription;
 	currentlyEditing: Object;
+	@ViewChild('postImg') postImgInput: ElementRef;
+	@ViewChild('previewImg') previewImgInput: ElementRef;
 
 	// Constructor
 	constructor(messageService: MessageService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService, s3Service: S3Service) {
@@ -109,6 +111,23 @@ export class BlogCtrlCenterComponent {
 			reader.readAsDataURL(input.files[0]);
 
 			this.s3Service.getS3SignedRequest(input.files[0]);
+		}
+	}
+
+	handleFile(event) {
+		this.removeImg();
+		var input = event.target;
+		if (input.files && input.files[0]) {
+			this.s3Service.getS3SignedRequest(input.files[0], "blog-images", this.postImgInput.id, this.previewImgInput.id);
+		}
+	}
+
+	removeImg() {
+		var filename = (this.postImgInput.value.split(".com/"))[1];
+		if (filename) {
+			this.s3Service.deleteObjectFromS3Bucket(filename);
+			this.postImgInput.value = "";
+			this.previewImgInput.src = "";
 		}
 	}
 

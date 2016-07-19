@@ -27,11 +27,19 @@
 			<textarea class="form-control" id="post-body" name="post-body" required placeholder="Write in markdown"></textarea>
 		</div>
 		<span>Preview Image:</span>
-		<img id="preview-post-img" src="#" alt="" width="100px">
+		<img id="preview-post-img" #previewImg src="http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg" alt="" width="100px">
 		<div class="form-group">
 			<label for="post-image">Add Image</label>
-			<input type="file" id="post-image" name="post-image" #newImg (change)="readURL(newImg)">
+			<input type="file" id="post-image" name="post-image" #postImg (change)="readURL(newImg)">
 			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
+		</div>
+		<p class="help-block">Preview image:</p>
+		<img id="preview-post-image" [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+		<div class="form-group">
+			<label>Change image</label>
+			<input type="file" id="post-image" name="post-image" (change)="handleFile($event)">
+			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image-s3-url" #postImg [value]="">
+			<div *ngIf="postImg.value" class="btn" (click)="removeImg()">delete</div>
 		</div>
 		<div class="checkbox">
 			<label for="post-private">
@@ -46,7 +54,12 @@
 			<label for="post-categories">Categories</label><p class="help-block">Separate categories with enter key or commas</p>
 			<input type="text" class="form-control" id="post-categories" name="post-categories" placeholder="Place in categories">
 		</div>
-		<button [disabled]="!createForm.form.valid" type="submit" class="btn btn-default">Create New Post</button>
+		<div *ngIf="s3Service.loading">
+			<p class="help-block">Uploading file(s). Please hold...</p>
+			<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+			<span class="sr-only">Uploading files...</span>
+		</div>
+		<button [disabled]="!createForm.form.valid || s3Service.loading" type="submit" class="btn btn-default">Create New Post</button>
 	</form>
 	<form *ngIf="openEditor=='edit'" class="edit-form post-edit-form" (submit)="onSubmit($event, 'edit', currentlyEditing.id)" #editForm="ngForm">
 		EDIT POST #{{currentlyEditing.id}}
@@ -66,14 +79,13 @@
 			<label for="post-body">Post Body</label>
 			<textarea class="form-control" id="post-body" name="post-body" required [value]="currentlyEditing.body" placeholder="Write in markdown"></textarea>
 		</div>
-		<span>Current Image:</span>
-		<img [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
-		<span>New Image:</span>
-		<img id="preview-post-img" [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+		<p class="help-block">Preview image:</p>
+		<img id="preview-post-image" #previewImg [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
 		<div class="form-group">
-			<label for="post-image">Change image</label>
-			<input type="file" id="post-image" name="post-image" #newImg (change)="readURL(newImg)">
-			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
+			<label>Change image</label>
+			<input type="file" id="post-image" name="post-image" (change)="handleFile($event)">
+			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image-s3-url" #postImg [value]="">
+			<div *ngIf="postImg.value" class="btn" (click)="removeImg()">delete</div>
 		</div>
 		<div class="checkbox">
 			<label for="post-private">
@@ -88,6 +100,11 @@
 			<label for="post-categories">Categories</label><p class="help-block">Separate categories with enter key or commas</p>
 			<input type="text" class="form-control" id="post-categories" name="post-categories" [value]="currentlyEditing.categories.toString()" placeholder="Place in categories">
 		</div>
-		<button [disabled]="!editForm.form.valid" type="submit" class="btn btn-default">Save</button>
+		<div *ngIf="s3Service.loading">
+			<p class="help-block">Uploading file(s). Please hold...</p>
+			<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+			<span class="sr-only">Uploading files...</span>
+		</div>
+		<button [disabled]="!editForm.form.valid || s3Service.loading" type="submit" class="btn btn-default">Save</button>
 	</form>
 </div>
