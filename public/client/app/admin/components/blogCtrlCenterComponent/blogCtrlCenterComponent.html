@@ -3,8 +3,8 @@
 <!-- TO DO: display data w/ functions to edit and delete-->
 <div *ngFor="let post of blogPostsService.blogPosts" [ngClass]="{hideAnimated: openEditor}">
 	{{post | json}}
-	<div class="btn" (click)="onTriggerEditModal(post.id)">edit</div>
-	<div class="btn" (click)="blogPostsService.delete(post.id)">delete</div>
+	<div class="btn" (click)="onTriggerEditModal(post._id)">edit</div>
+	<div class="btn" (click)="blogPostsService.delete(post._id)">delete</div>
 </div>
 
 <div *ngIf="openEditor">
@@ -26,19 +26,12 @@
 			<label for="post-body">Post Body</label>
 			<textarea class="form-control" id="post-body" name="post-body" required placeholder="Write in markdown"></textarea>
 		</div>
-		<span>Preview Image:</span>
-		<img id="preview-post-img" #previewImg src="http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg" alt="" width="100px">
-		<div class="form-group">
-			<label for="post-image">Add Image</label>
-			<input type="file" id="post-image" name="post-image" #postImg (change)="readURL(newImg)">
-			<p class="help-block">Add main image for post's cover art / thumbnail.</p>
-		</div>
 		<p class="help-block">Preview image:</p>
-		<img id="preview-post-image" [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
+		<img id="preview-post-image" [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px" #previewImg>
 		<div class="form-group">
 			<label>Change image</label>
-			<input type="file" id="post-image" name="post-image" (change)="handleFile($event)">
-			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image-s3-url" #postImg [value]="">
+			<input type="file" id="post-image" (change)="handleFile($event)">
+			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image" #postImg [value]="">
 			<div *ngIf="postImg.value" class="btn" (click)="removeImg()">delete</div>
 		</div>
 		<div class="checkbox">
@@ -61,8 +54,8 @@
 		</div>
 		<button [disabled]="!createForm.form.valid || s3Service.loading" type="submit" class="btn btn-default">Create New Post</button>
 	</form>
-	<form *ngIf="openEditor=='edit'" class="edit-form post-edit-form" (submit)="onSubmit($event, 'edit', currentlyEditing.id)" #editForm="ngForm">
-		EDIT POST #{{currentlyEditing.id}}
+	<form *ngIf="openEditor=='edit'" class="edit-form post-edit-form" (submit)="onSubmit($event, 'edit', currentlyEditing._id)" #editForm="ngForm">
+		EDIT POST #{{currentlyEditing._id}}
 		<div class="form-group">
 			<label for="post-title">Title</label>
 			<input type="text" class="form-control" id="post-title" name="post-title" required [value]="currentlyEditing.title" placeholder="Post Title">
@@ -83,8 +76,8 @@
 		<img id="preview-post-image" #previewImg [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
 		<div class="form-group">
 			<label>Change image</label>
-			<input type="file" id="post-image" name="post-image" (change)="handleFile($event)">
-			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image-s3-url" #postImg [value]="">
+			<input type="file" id="post-image" (change)="handleFile($event)">
+			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image" #postImg [value]="">
 			<div *ngIf="postImg.value" class="btn" (click)="removeImg()">delete</div>
 		</div>
 		<div class="checkbox">
@@ -94,11 +87,11 @@
 		</div>
 		<div class="form-group">
 			<label for="post-tags">Tags</label><p class="help-block">Separate tags with enter key or commas</p>
-			<input type="text" class="form-control" id="post-tags" name="post-tags" [value]="currentlyEditing.tags.toString()" placeholder="Add tags">
+			<input type="text" class="form-control" id="post-tags" name="post-tags" [value]="currentlyEditing.tags" placeholder="Add tags">
 		</div>
 		<div class="form-group">
 			<label for="post-categories">Categories</label><p class="help-block">Separate categories with enter key or commas</p>
-			<input type="text" class="form-control" id="post-categories" name="post-categories" [value]="currentlyEditing.categories.toString()" placeholder="Place in categories">
+			<input type="text" class="form-control" id="post-categories" name="post-categories" [value]="currentlyEditing.categories" placeholder="Place in categories">
 		</div>
 		<div *ngIf="s3Service.loading">
 			<p class="help-block">Uploading file(s). Please hold...</p>

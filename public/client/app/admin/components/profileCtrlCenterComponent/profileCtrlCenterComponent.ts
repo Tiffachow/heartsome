@@ -86,7 +86,7 @@ export class ProfileCtrlCenterComponent {
 		this.removeImg(index);
 		var input = event.target;
 		if (input.files && input.files[0]) {
-			this.s3Service.getS3SignedRequest(input.files[0], "profile-images", "#profile-images-"+index+"-hidden", "#preview-profile-image-"+index);
+			this.s3Service.getS3SignedRequest(input.files[0], "profile-images", "profile-images-"+index+"-hidden", "preview-profile-image-"+index);
 		}
 	}
 

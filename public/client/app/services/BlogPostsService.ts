@@ -80,7 +80,7 @@ export class BlogPostsService {
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					console.log("completed post");
-					var result = this.blogPosts[this.blogPosts.length - 1];
+					var result = this_.blogPosts[this_.blogPosts.length - 1];
 					if (callback) callback(result);
 					return result;
 				}
@@ -99,13 +99,14 @@ export class BlogPostsService {
 					console.log(data);
 					if (data.success) {
 						this_.blogPosts = data.posts;
+						console.log(data.posts);
 					} else {
-						console.log("Error getting all posts");
+						console.log("Error getting all blog posts");
 					}
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
-					console.log("completed get all");
+					console.log("completed get all blog posts");
 					if (callback) callback(this_.blogPosts);
 					return this_.blogPosts;
 				}

@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "gulp": "gulp",
-    "source": "source setup.env",
     "build:w": "webpack --progress --colors --watch --display-chunks --display-modules",
     "build": "webpack --progress --colors --display-chunks --display-modules",
     "typings": "typings",
     "postinstall": "typings install",
     "server": "node ./bin/www",
-    "setup": "npm install && npm run source && npm run gulp && npm run server",
+    "setup": "npm install && source setup.env && npm start",
     "start": "npm run gulp && npm run server"
   },
   "dependencies": {

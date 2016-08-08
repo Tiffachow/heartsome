@@ -53,9 +53,9 @@ export class S3Service {
 				err => { console.log("Bucket upload failed"); tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					console.log("completed upload file: URL to access is: " + s3SignedRequest.url);
-					$(inputID).val(s3SignedRequest.url);
+					$("#"+inputID).val(s3SignedRequest.url);
 					if (previewID) {
-						$(previewID).attr("src",s3SignedRequest.url);
+						$("#"+previewID).attr("src",s3SignedRequest.url);
 					}
 					this_.loading = false;
 				}

@@ -183,7 +183,7 @@ router.get('/api/blog/all', function(req, res) {
 /* GET one blog post. */
 router.get('/api/blog/post/:id', function(req, res) {
 	var id = req.params["id"];
-	BlogPost.findOne({"id":id}, function(err, post){
+	BlogPost.findOne({"_id":id}, function(err, post){
 		if (err) {
 			console.log("Failed to add new post. Err: " + err);
 			return res.json({success: false});
@@ -207,7 +207,7 @@ router.get('/api/blog/post/:id', function(req, res) {
 router.put('/api/blog/post/:id', function(req, res) {
 	if (req.session && req.session.loggedIn) {
 		var id = req.params["id"];
-		BlogPost.findOne({"id":id}, function(err, post){
+		BlogPost.findOne({"_id":id}, function(err, post){
 			if (err) {
 				console.log("Failed to find post. Err: " + err);
 				return res.json({success: false, loggedIn: true});

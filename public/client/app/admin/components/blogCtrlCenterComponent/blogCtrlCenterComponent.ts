@@ -1,5 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CORE_DIRECTIVES, NgForm} from '@angular/common';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -88,8 +88,6 @@ export class BlogCtrlCenterComponent {
 		$(".post-"+task+"-form").serializeArray().map(function(x){dataObject[x.name] = x.value;});
 		dataObject["post-tags"] = this.tagSuggestService.getInputTags("post-tags");
 		dataObject["post-categories"] = this.tagSuggestService.getInputTags("post-categories");
-		// upload img to s3 & then:
-		dataObject["post-image"] = "s3linktoimgfile";
 		// upload blog post body to s3 & then:
 		dataObject["post-body"] = "s3linktopostfile";
 
@@ -100,34 +98,22 @@ export class BlogCtrlCenterComponent {
 		}
 	}
 
-	readURL(input) {
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-
-			reader.onload = function (e) {
-				$('#preview-post-img').attr('src', e.target["result"]);
-			}
-
-			reader.readAsDataURL(input.files[0]);
-
-			this.s3Service.getS3SignedRequest(input.files[0]);
-		}
-	}
-
 	handleFile(event) {
 		this.removeImg();
 		var input = event.target;
 		if (input.files && input.files[0]) {
-			this.s3Service.getS3SignedRequest(input.files[0], "blog-images", this.postImgInput.id, this.previewImgInput.id);
+			console.log(this.postImgInput, this.postImgInput.nativeElement, this.postImgInput.nativeElement.id);
+			console.log(this.previewImgInput, this.previewImgInput.nativeElement, this.previewImgInput.nativeElement.id);
+			this.s3Service.getS3SignedRequest(input.files[0], "blog-images", this.postImgInput.nativeElement.id, this.previewImgInput.nativeElement.id);
 		}
 	}
 
 	removeImg() {
-		var filename = (this.postImgInput.value.split(".com/"))[1];
+		var filename = (this.postImgInput.nativeElement.value.split(".com/"))[1];
 		if (filename) {
 			this.s3Service.deleteObjectFromS3Bucket(filename);
-			this.postImgInput.value = "";
-			this.previewImgInput.src = "";
+			this.postImgInput.nativeElement.value = "";
+			this.previewImgInput.nativeElement.src = "";
 		}
 	}
 
