@@ -249,7 +249,7 @@ router.put('/api/blog/post/:id', function(req, res) {
 router.delete('/api/blog/post/:id', function(req, res) {
 	if (req.session && req.session.loggedIn) {
 		var id = req.params["id"];
-		BlogPost.find({"id":id}).remove(function(err){
+		BlogPost.find({"_id":id}).remove(function(err){
 			if (err) {
 				console.log("Failed to delete post. Err: " + err);
 				return res.json({success: false, loggedIn: true});

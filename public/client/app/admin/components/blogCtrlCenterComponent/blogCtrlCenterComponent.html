@@ -4,7 +4,7 @@
 <div *ngFor="let post of blogPostsService.blogPosts" [ngClass]="{hideAnimated: openEditor}">
 	{{post | json}}
 	<div class="btn" (click)="onTriggerEditModal(post._id)">edit</div>
-	<div class="btn" (click)="blogPostsService.delete(post._id)">delete</div>
+	<div class="btn" (click)="blogPostsService.delete(post._id, (openEditor = null))">delete</div>
 </div>
 
 <div *ngIf="openEditor">
@@ -24,7 +24,7 @@
 		</div>
 		<div class="form-group">
 			<label for="post-body">Post Body</label>
-			<textarea class="form-control" id="post-body" name="post-body" required placeholder="Write in markdown"></textarea>
+			<textarea class="form-control" data-provide="markdown" id="post-body" name="post-body" required placeholder="Write in markdown"></textarea>
 		</div>
 		<p class="help-block">Preview image:</p>
 		<img id="preview-post-image" [src]="image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px" #previewImg>
@@ -70,14 +70,14 @@
 		</div>
 		<div class="form-group">
 			<label for="post-body">Post Body</label>
-			<textarea class="form-control" id="post-body" name="post-body" required [value]="currentlyEditing.body" placeholder="Write in markdown"></textarea>
+			<textarea class="form-control" data-provide="markdown" id="post-body" name="post-body" required [value]="currentlyEditing.body" placeholder="Write in markdown"></textarea>
 		</div>
 		<p class="help-block">Preview image:</p>
 		<img id="preview-post-image" #previewImg [src]="currentlyEditing.image || 'http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg'" alt="" width="100px">
 		<div class="form-group">
 			<label>Change image</label>
 			<input type="file" id="post-image" (change)="handleFile($event)">
-			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image" #postImg [value]="">
+			<input type="hidden" class="post-image-url" id="post-image-hidden" name="post-image" #postImg [value]="currentlyEditing.image">
 			<div *ngIf="postImg.value" class="btn" (click)="removeImg()">delete</div>
 		</div>
 		<div class="checkbox">
@@ -98,6 +98,7 @@
 			<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
 			<span class="sr-only">Uploading files...</span>
 		</div>
-		<button [disabled]="!editForm.form.valid || s3Service.loading" type="submit" class="btn btn-default">Save</button>
+		<button [disabled]="!editForm.form.valid || s3Service.loading" type="submit" class="btn btn-default">Publish</button>
+		<div class="btn" (click)="blogPostsService.delete(currentlyEditing._id, (openEditor = null))">delete</div>
 	</form>
 </div>

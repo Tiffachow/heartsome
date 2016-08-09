@@ -8,7 +8,7 @@ var BlogPostsSchema = new Schema({ //new collection
 	title:                               { type: String, required: true },
 	description:                     String,
 	tldr:                                  String,
-	body:                               { type: String, required: true }, //link to AWS S3 markdown file
+	body:                               { type: String, required: true }, //in markdown
 	image:                             { type: String, default: "/dist/images/defaultpostimg.png" }, //link to AWS S3 file
 	private:                            { type: Boolean, default: false },
 	tags:                                [String],

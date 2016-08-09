@@ -3,6 +3,8 @@ global.$ = global.jQuery;
 global.Tether = require('tether');
 global._ = require('underscore');
 require('../../../node_modules/bootstrap/dist/js/bootstrap.min.js');
+require('../../../node_modules/bootstrap-markdown/js/bootstrap-markdown.js');
+global.markdown = require('markdown');
 
 // Polyfill(s) for older browsers
 require('../../../node_modules/core-js/client/shim.min.js');

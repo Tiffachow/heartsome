@@ -52,6 +52,17 @@ export class BlogCtrlCenterComponent {
 			this.tagSuggestService.initTagSuggestOnInput("post-tags","blogTag");
 			this.tagSuggestService.initTagSuggestOnInput("post-categories","blogCategory");
 		}
+		if (this.openEditor) {
+			$("#post-body").markdown({
+				iconlibrary: "fa",
+				onChange: function(e){
+				    // console.log("Changed!")
+			  	},
+			  	onPreview: function(e){
+			  		return markdown.parse(e.getContent());
+			  	}
+		  	});
+		}
 	}
 
 	ngOnDestroy(){
@@ -88,8 +99,6 @@ export class BlogCtrlCenterComponent {
 		$(".post-"+task+"-form").serializeArray().map(function(x){dataObject[x.name] = x.value;});
 		dataObject["post-tags"] = this.tagSuggestService.getInputTags("post-tags");
 		dataObject["post-categories"] = this.tagSuggestService.getInputTags("post-categories");
-		// upload blog post body to s3 & then:
-		dataObject["post-body"] = "s3linktopostfile";
 
 		if (id) { //edit
 			this.blogPostsService[task](dataObject, id, function(){this.openEditor = null;}.bind(this));
