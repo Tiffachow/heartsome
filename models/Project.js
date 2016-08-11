@@ -4,24 +4,24 @@ var Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
 var ProjectsSchema = new Schema({ //new collection
-	id:                                    ObjectId,
-	contributors:                   {
-		name:                 String,
-		links:                   [String]
-	},
+	// id:                                    ObjectId,
+	contributors:                   [{
+		name:                 	String,
+		link:                   String
+	}],
 	builtFor:                          [{
 		name:                  String, //eg USA Rx
-		links:                   [String] //eg USARX.com
+		link:                  String //eg USARX.com
 	}],
-	title:                                 { type: String, required: true },
-	description:                     String,
+	// title:                                 { type: String, required: true },
+	// description:                     String,
 	tech:                                [String],
 	images:                           [String], //s3 url
 	videos:                            [String], //s3 url
-	date:                                Date,
-	private:                           { type: Boolean, default: false },
-	timeSpent:                       String,
-	createdAt:                       { type: Date, default: Date.now },
+	// date:                                Date,
+	// private:                           { type: Boolean, default: false },
+	// timeSpent:                       String,
+	// createdAt:                       { type: Date, default: Date.now },
 });
 
 // a setter

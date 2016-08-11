@@ -1,6 +1,5 @@
 <span>blog control center component</span>
 
-<!-- TO DO: display data w/ functions to edit and delete-->
 <div *ngFor="let post of blogPostsService.blogPosts" [ngClass]="{hideAnimated: openEditor}">
 	{{post | json}}
 	<div class="btn" (click)="onTriggerEditModal(post._id)">edit</div>
@@ -8,6 +7,7 @@
 </div>
 
 <div *ngIf="openEditor">
+	<div class="btn" (click)="openEditor=null">Close</div>
 	<form *ngIf="openEditor=='create'" class="create-form post-create-form" (submit)="onSubmit($event, 'create')" #createForm="ngForm">
 		CREATE NEW POST
 		<div class="form-group">

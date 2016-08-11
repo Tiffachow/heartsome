@@ -185,7 +185,7 @@ router.get('/api/blog/post/:id', function(req, res) {
 	var id = req.params["id"];
 	BlogPost.findOne({"_id":id}, function(err, post){
 		if (err) {
-			console.log("Failed to add new post. Err: " + err);
+			console.log("Failed to get post. Err: " + err);
 			return res.json({success: false});
 		} else {
 			post.views++
@@ -239,7 +239,7 @@ router.put('/api/blog/post/:id', function(req, res) {
 			}
 		});
 	} else {
-		console.log("Failed to update project. Not admin.")
+		console.log("Failed to update post. Not admin.")
 		return res.json({success: false, loggedIn: false});
 	}
 	return;
@@ -275,35 +275,34 @@ router.delete('/api/blog/post/:id', function(req, res) {
 // ================================================================================
 
 /* POST new project. */
-router.post('/api/new', function(req, res) {
+router.post('/api/projects/new', function(req, res) {
 	if (req.session && req.session.loggedIn) {
-		var data = {
-			contributors: req.body["contributors"],
-			title: req.body["title"],
-			description: req.body["description"],
-			snapshots: req.body["snapshots"],
-			date: req.body["date"],
-			private: req.body["private"],
-			colors: req.body["colors"],
-			time_spent: req.body["time_spent"],
-		};
 		var newProject = new Project({
-			contributors: data.contributors,
-			title: data.title,
-			description: data.description,
-			snapshots: data.snapshots,
-			date: data.date,
-			private: data.private,
-			colors: data.colors,
-			time_spent: data.time_spent
+			contributors: req.body["project-contributors"] || null,
+			builtFor: req.body["project-customers"] || null,
+			title: req.body["project-title"],
+			description: req.body["project-description"] || null,
+			tech: req.body["project-tech"] || null,
+			images: req.body["project-images"] || null,
+			videos: req.body["project-videos"] || null,
+			date: req.body["project-date"] || new Date(),
+			private: req.body["project-privacy"] || false,
+			timeSpent: req.body["project-timespent"] || null,
 		}); //create new instance of model, new document in collection
 		newProject.save(function (err) {
 			if (err) {
 				console.log("Failed to add new project. Err: " + err);
 				return res.json({success: false, loggedIn: true});
 			} else {
-				console.log("Saved new project!");
-				return res.json({success: true});
+				console.log("Added new project!");
+				Project.find({}, function(err, projects){
+					if (err) {
+						console.log("Failed to get all projects. Err: " + err);
+						return res.json({success: false});
+					} else {
+						return res.json({success: true, projects: projects});
+					}
+				});
 			}
 		})
 	} else {
@@ -313,60 +312,67 @@ router.post('/api/new', function(req, res) {
 	return;
 });
 
-// ================================================================================
-
-/* GET project. */
-router.get('/api/project/:title', function(req, res) {
-	var title = req.params["title"];
-	Project.findOne({"title":title}, function(err, project){
+/* GET all projects. */
+router.get('/api/projects/all', function(req, res) {
+	Project.find({}, function(err, projects){
 		if (err) {
-			console.log("Failed to add new project. Err: " + err);
+			console.log("Failed to get all projects. Err: " + err);
 			return res.json({success: false});
 		} else {
-			return res.json({project: project});
+			return res.json({success: true, projects: projects});
 		}
 	});
 	return;
 });
 
-// ================================================================================
+/* GET one project. */
+router.get('/api/projects/project/:id', function(req, res) {
+	var id = req.params["id"];
+	Project.findOne({"_id":id}, function(err, project){
+		if (err) {
+			console.log("Failed to get project. Err: " + err);
+			return res.json({success: false});
+		} else {
+			console.log("Got project!");
+			return res.json({success: true, project: project});
+		}
+	});
+	return;
+});
 
 /* UPDATE project. */
-router.put('/api/project/:title', function(req, res) {
+router.put('/api/projects/project/:id', function(req, res) {
 	if (req.session && req.session.loggedIn) {
-		var title = req.params["title"];
-		var data = {
-			contributors: req.body["contributors"],
-			title: req.body["title"],
-			description: req.body["description"],
-			snapshots: req.body["snapshots"],
-			date: req.body["date"],
-			private: req.body["private"],
-			colors: req.body["colors"],
-			time_spent: req.body["time_spent"],
-		};
-		Project.findOne({"title":title}, function(err, project){
+		var id = req.params["id"];
+		Project.findOne({"_id":id}, function(err, project){
 			if (err) {
 				console.log("Failed to find project. Err: " + err);
 				return res.json({success: false, loggedIn: true});
 			} else {
-				project = {
-					contributors: data.contributors,
-					title: data.title,
-					description: data.description,
-					snapshots: data.snapshots,
-					date: data.date,
-					private: data.private,
-					colors: data.colors,
-					time_spent: data.time_spent
-				};
+				project.contributors = req.body["project-contributors"] || null;
+				project.builtFor = req.body["project-customers"] || null;
+				project.title = req.body["project-title"];
+				project.description = req.body["project-description"] || null;
+				project.tech = req.body["project-tech"] || null;
+				project.images = req.body["project-images"] || null;
+				project.videos = req.body["project-videos"] || null;
+				project.date = req.body["project-date"] || new Date();
+				project.private = req.body["project-privacy"] || false;
+				project.timeSpent = req.body["project-timespent"] || null;
 				project.save(function (err) {
 					if (err) {
 						console.log("Failed to update project. Err: " + err);
-						return res.json({success: false, admin: true});
+						return res.json({success: false, loggedIn: true});
 					} else {
 						console.log("Updated project!");
-						return res.json({success: true, project: project});
+						Project.find({}, function(err, projects){
+							if (err) {
+								console.log("Failed to get all projects. Err: " + err);
+								return res.json({success: false});
+							} else {
+								return res.json({success: true, projects: projects});
+							}
+						});
 					}
 				});
 			}
@@ -378,19 +384,24 @@ router.put('/api/project/:title', function(req, res) {
 	return;
 });
 
-// ================================================================================
-
-/* DELETE project. */
-router.delete('/api/project/:title', function(req, res) {
+/* DELETE a project. */
+router.delete('/api/projects/project/:id', function(req, res) {
 	if (req.session && req.session.loggedIn) {
-		var title = req.params["title"];
-		Project.find({"title":title}).remove(function(err){
+		var id = req.params["id"];
+		Project.find({"_id":id}).remove(function(err){
 			if (err) {
 				console.log("Failed to delete project. Err: " + err);
 				return res.json({success: false, loggedIn: true});
 			} else {
 				console.log("Deleted project");
-				return res.json({success: true});
+				Project.find({}, function(err, projects){
+					if (err) {
+						console.log("Failed to get all projects. Err: " + err);
+						return res.json({success: false});
+					} else {
+						return res.json({success: true, projects: projects});
+					}
+				});
 			}
 		});
 	} else {

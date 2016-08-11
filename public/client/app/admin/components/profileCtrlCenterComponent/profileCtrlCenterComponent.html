@@ -5,6 +5,7 @@
 </div>
 
 <div *ngIf="openEditor">
+	<div class="btn" (click)="openEditor=null">Close</div>
 	<form class="edit-form profile-edit-form" (submit)="onSubmitEdit($event)" #editForm="ngForm">
 		EDIT PROFILE
 		<div class="form-inline">
