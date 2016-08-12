@@ -78,6 +78,11 @@
 		<button class="btn btn-default" type="button" (click)="addCustomer()">Add more customers</button>
 
 		<!-- to do: tech, images, videos -->
+		<div class="form-group">
+			<label for="project-tech">Tags</label><p class="help-block">Separate tech with enter key or commas</p>
+			<input type="text" class="form-control" id="project-tech" name="project-tech" placeholder="Add tech">
+		</div>
+
 		<div *ngIf="s3Service.loading">
 			<p class="help-block">Uploading file(s). Please hold...</p>
 			<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
