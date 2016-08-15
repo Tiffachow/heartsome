@@ -17,8 +17,12 @@ var BlogPostsSchema = new Schema({ //new collection
 	createdAt:                       { type: Date, default: Date.now }
 });
 
+// Add commenting
 // https://developers.facebook.com/docs/plugins/comments/
 // https://heartsome.disqus.com/admin/settings/universalcode/
+
+// display markdown in view
+// https://github.com/evilstreak/markdown-js 
 
 module.exports = mongoose.model('BlogPostModel', BlogPostsSchema); //retrieve model
 

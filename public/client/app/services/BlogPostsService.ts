@@ -14,50 +14,7 @@ export class BlogPostsService {
 	constructor(http: Http, utilsService: UtilsService) {
 		this.http = http;
 		this.utilsService = utilsService;
-		this.blogPosts = [ //mock? retrieve from mongoDB later
-			{
-				id: 1,
-				title: "Revamping Heartsome 1",
-				description: "the process",
-				tldr: null,
-				body: "baisubc;asuc;uai iabsi; asbdi",
-				image: null,
-				private: false,
-				tags: [],
-				categories: [],
-				views: 0,
-				shares: 0,
-				createdAt: new Date()
-			},
-			{
-				id: 2,
-				title: "Revamping Heartsome 2",
-				description: "the process",
-				tldr: null,
-				body: "baisubc;asuc;uai iabsi; asbdi",
-				image: null,
-				private: false,
-				tags: [],
-				categories: [],
-				views: 0,
-				shares: 0,
-				createdAt: new Date()
-			},
-			{
-				id: 3,
-				title: "Revamping Heartsome 3",
-				description: "the process",
-				tldr: null,
-				body: "baisubc;asuc;uai iabsi; asbdi",
-				image: null,
-				private: false,
-				tags: [],
-				categories: [],
-				views: 0,
-				shares: 0,
-				createdAt: new Date()
-			}
-		];
+		this.blogPosts = [];
 	}
 
 	create(body, callback?) {

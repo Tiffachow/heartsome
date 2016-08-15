@@ -280,13 +280,13 @@ router.post('/api/projects/new', function(req, res) {
 		var newProject = new Project({
 			contributors: req.body["project-contributors"] || null,
 			builtFor: req.body["project-customers"] || null,
-			title: req.body["project-title"],
+			title: (req.body["project-title"]).toString(),
 			description: req.body["project-description"] || null,
 			tech: req.body["project-tech"] || null,
 			images: req.body["project-images"] || null,
 			videos: req.body["project-videos"] || null,
-			date: req.body["project-date"] || new Date(),
-			private: req.body["project-privacy"] || false,
+			date: req.body["project-date"],
+			private: req.body["project-privacy"],
 			timeSpent: req.body["project-timespent"] || null,
 		}); //create new instance of model, new document in collection
 		newProject.save(function (err) {
@@ -356,8 +356,8 @@ router.put('/api/projects/project/:id', function(req, res) {
 				project.tech = req.body["project-tech"] || null;
 				project.images = req.body["project-images"] || null;
 				project.videos = req.body["project-videos"] || null;
-				project.date = req.body["project-date"] || new Date();
-				project.private = req.body["project-privacy"] || false;
+				project.date = req.body["project-date"];
+				project.private = req.body["project-privacy"];
 				project.timeSpent = req.body["project-timespent"] || null;
 				project.save(function (err) {
 					if (err) {

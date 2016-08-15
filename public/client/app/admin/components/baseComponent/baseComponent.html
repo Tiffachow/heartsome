@@ -47,7 +47,7 @@
 
 	<div class="dashboard-content-container">
 		<div class="side-rail-menu" *ngIf="!activeCtrlCenter.profile && !activeCtrlCenter.account">
-			<i (click)="messageService.broadcast('create', [{ctrlCenter: currentCtrlCenter}])" class="material-icons orchid md-48 create-new">add_circle</i>
+			<i (click)="openCreateForm()" class="material-icons orchid md-48 create-new">add_circle</i>
 		</div>
 		<div class="dashboard-content">
 			<profile-control-center *ngIf="activeCtrlCenter.profile"></profile-control-center>

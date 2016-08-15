@@ -327,6 +327,9 @@ a {
 .fixed {
   position: fixed;
 }
+.display-block {
+  display: block;
+}
 base-component,
 dashboard {
   position: absolute;

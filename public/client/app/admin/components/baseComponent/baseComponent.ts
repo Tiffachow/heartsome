@@ -75,6 +75,10 @@ export class DashboardComponent {
 		this.currentCtrlCenter = ctrlCenter;
 	}
 
+	openCreateForm() {
+		this.messageService.broadcast('create', [{ctrlCenter: this.currentCtrlCenter}]);
+	}
+
 	mockToggleLogin() {
 		this.accountService.loggedIn ? this.accountService.logout() : this.accountService.mockLogin();
 	}

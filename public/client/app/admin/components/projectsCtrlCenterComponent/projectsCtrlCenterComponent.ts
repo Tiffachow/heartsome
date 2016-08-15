@@ -1,10 +1,12 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {CORE_DIRECTIVES, NgForm} from '@angular/common';
+import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
 import {ProjectsService} from './../../../services/ProjectsService';
 import {TagSuggestService} from './../../../services/TagSuggestService';
+import {S3Service} from './../../../services/S3Service';
 
 @Component({
 	selector: 'projects-control-center',
@@ -19,16 +21,25 @@ export class ProjectsCtrlCenterComponent {
 	messageService: MessageService;
 	projectsService: ProjectsService;
 	tagSuggestService: TagSuggestService;
+	s3Service: S3Service;
+	openEditor: String;
+	messageSubscription: Subscription;
+	currentlyEditing: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, projectsService: ProjectsService, tagSuggestService: TagSuggestService) {
+	constructor(messageService: MessageService, projectsService: ProjectsService, tagSuggestService: TagSuggestService,
+		s3Service: S3Service) {
 		this.messageService = messageService;
 		this.projectsService = projectsService;
 		this.tagSuggestService = tagSuggestService;
+		this.s3Service = s3Service;
+		this.openEditor = null;
+		this.currentlyEditing = null;
 	}
 
 	// Functions
 	ngOnInit() {
+		this.subscribeToMessageService();
 	}
 
 	ngAfterViewInit() {
@@ -40,38 +51,141 @@ export class ProjectsCtrlCenterComponent {
 		}
 	}
 
+	ngOnDestroy(){
+		this.messageSubscription.unsubscribe();
+	}
+
+	subscribeToMessageService() {
+		this.messageSubscription = this.messageService.message$.subscribe(message =>
+			{
+				switch (message["name"]) {
+					case "create":
+						if (message["data"][0]["ctrlCenter"] == "projects") {
+							this.currentlyEditing = {
+								contributors: [{}],
+								builtFor: [{}],
+								tech: [],
+								images: [""],
+								videos: [""]
+							};
+							this.openEditor = "create";
+						}
+						break;
+				}
+			}
+		);
+	}
+
+	onTriggerEditModal(id) {
+		console.log("trigger modal for "+id);
+		this.projectsService.getOne(id, function(post){
+			console.log("callback, post = "+JSON.stringify(post));
+			this.currentlyEditing = post;
+			this.openEditor = "edit";
+		}.bind(this));
+	}
+
 	onSubmit(event, task, id?) {
 		event.preventDefault();
 		// if data valid:
 		var dataObject = {};
-		$(".post-"+task+"-form").serializeArray().map(function(x){dataObject[x.name] = x.value;});
+		$(".project-"+task+"-form").serializeArray().map(function(x){dataObject[x.name] = x.value;});
 		dataObject["project-tech"] = this.tagSuggestService.getInputTags("project-tech");
 
-		// $(".profile-skills").each(function(i) {
-		// 	var skill = {};
-		// 	skill["name"] = $(this).children(".profile-skill-name").val();
-		// 	skill["experience"] = $(this).children(".profile-skill-experience").val();
-		// 	skill["type"] = $(this).children(".profile-skill-type").val();
-		// 	skill["proficiency"] = $(this).children(".profile-skill-proficiency").val();
-		// 	skill["works"] = $(this).children(".profile-skill-works").val();
-		// 	if (skill["name"] !== "") { //dont add empty skills
-		// 		dataObject["profile-skills"].push(skill);
-		// 	}
-		// });
-		// console.log("PROFILE SKILLS: "+dataObject["profile-skills"]);
-		// // upload each img to s3
-		// dataObject["profile-images"] = [];
-		// $(".profile-images-urls").each(function(i) {
-		// 	if ($(this).val() !== "") { //dont add empty urls
-		// 		dataObject["profile-images"].push($(this).val());
-		// 	}
-		// });
+		$(".project-contributors").each(function(i) {
+			var contributor = {};
+			contributor["name"] = $(this).children(".project-contributor-name").val();
+			contributor["link"] = $(this).children(".project-contributor-link").val();
+			if (contributor["name"] !== "") { //dont add empty contributors
+				dataObject["project-contributors"].push(contributor);
+			}
+		});
+		console.log("PROJECT CONTRIBUTORS: "+dataObject["project-contributors"]);
+
+		$(".project-builtFor").each(function(i) {
+			var builtFor = {};
+			builtFor["name"] = $(this).children(".project-customer-name").val();
+			builtFor["link"] = $(this).children(".project-customer-link").val();
+			if (builtFor["name"] !== "") { //dont add empty customers
+				dataObject["project-customers"].push(builtFor);
+			}
+		});
+		console.log("PROJECT CUSTOMERS: "+dataObject["project-customers"]);
+		
+		// upload each img & video to s3
+		dataObject["project-images"] = [];
+		$(".project-images-urls").each(function(i) {
+			if ($(this).val() !== "") { //dont add empty urls
+				dataObject["project-images"].push($(this).val());
+			}
+		});
+		dataObject["project-videos"] = [];
+		$(".project-videos-urls").each(function(i) {
+			if ($(this).val() !== "") { //dont add empty urls
+				dataObject["project-videos"].push($(this).val());
+			}
+		});
 
 		if (id) { //edit
 			this.projectsService[task](dataObject, id, function(){this.openEditor = null;}.bind(this));
 		} else { //create
 			this.projectsService[task](dataObject, function(){this.openEditor = null;}.bind(this));
 		}
+	}
+
+	handleFile(event, index, type) {
+		var input = event.target;
+		if (input.files && input.files[0]) {
+			if (type == "img") {
+				this.removeImg(index);
+				this.s3Service.getS3SignedRequest(input.files[0], "projects/"+this.currentlyEditing["title"]+"/images", "project-images-"+index+"-hidden", "preview-project-image-"+index);
+			} else {
+				this.removeVideo(index);
+				this.s3Service.getS3SignedRequest(input.files[0], "projects/"+this.currentlyEditing["title"]+"/videos", "project-videos-"+index+"-hidden", "preview-project-video-"+index);
+			}
+		}
+	}
+
+	removeContributor(i) {
+		this.currentlyEditing["contributors"][i] = {};
+	}
+
+	removeCustomer(i) {
+		this.currentlyEditing["builtFor"][i] = {};
+	}
+
+	removeImg(i) {
+		var filename = ($("#project-images-" + i + "-hidden").val().split(".com/"))[1];
+		if (filename !== "") {
+			this.s3Service.deleteObjectFromS3Bucket(filename);
+		}
+		$("#project-images-" + i + " #project-images-" + i + "-hidden").val("");
+		$("#preview-project-image-" + i).attr("src","");
+	}
+
+	removeVideo(i) {
+		var filename = ($("#project-videos-" + i + "-hidden").val().split(".com/"))[1];
+		if (filename !== "") {
+			this.s3Service.deleteObjectFromS3Bucket(filename);
+		}
+		$("#project-videos-" + i + " #project-videos-" + i + "-hidden").val("");
+		$("#preview-project-video-" + i).attr("src","");
+	}
+
+	addContributor() {
+		this.currentlyEditing["contributors"].push({});
+	}
+
+	addCustomer() {
+		this.currentlyEditing["builtFor"].push({});
+	}
+
+	addImage() {
+		this.currentlyEditing["images"].push("");
+	}
+
+	addVideo() {
+		this.currentlyEditing["videos"].push("");
 	}
 
 }

@@ -113,7 +113,7 @@ export class BlogCtrlCenterComponent {
 		if (input.files && input.files[0]) {
 			console.log(this.postImgInput, this.postImgInput.nativeElement, this.postImgInput.nativeElement.id);
 			console.log(this.previewImgInput, this.previewImgInput.nativeElement, this.previewImgInput.nativeElement.id);
-			this.s3Service.getS3SignedRequest(input.files[0], "blog-images", this.postImgInput.nativeElement.id, this.previewImgInput.nativeElement.id);
+			this.s3Service.getS3SignedRequest(input.files[0], "blog/"+this.currentlyEditing["title"]+"/images", this.postImgInput.nativeElement.id, this.previewImgInput.nativeElement.id);
 		}
 	}
 
