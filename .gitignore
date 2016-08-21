@@ -34,5 +34,6 @@ npm-debug.log
 # Build
 public/dist
 public/client/scripts/bundle.js
+*gulp-tsc-tmp*
 
 setup.env
