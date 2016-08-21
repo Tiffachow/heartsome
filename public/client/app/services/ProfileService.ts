@@ -47,7 +47,7 @@ export class ProfileService {
 		console.log("TRYING TO GET PROFILE");
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.get('api/profile')
+			this_.http.get(global.basePath + '/api/profile')
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -74,7 +74,7 @@ export class ProfileService {
 		(function tryRequest(this_) {
 			let headers = new Headers({ 'Content-Type': 'application/json' });
 			let options = new RequestOptions({ headers: headers });
-			this_.http.put('api/profile', body, options)
+			this_.http.put(global.basePath + '/api/profile', body, options)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);

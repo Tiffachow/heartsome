@@ -18,6 +18,9 @@ import {TagSuggestService} from './services/TagSuggestService';
 import {UtilsService} from './services/UtilsService';
 import {S3Service} from './services/S3Service';
 
+import {BaseComponent} from './components/baseComponent/baseComponent';
+import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
+
 @Component({
 	selector: 'app',
 	templateUrl: '/client/app/app.html',
@@ -26,19 +29,33 @@ import {S3Service} from './services/S3Service';
 
 export class AppComponent {
 	router: Router;
+	messageService: MessageService;
 	versionsService: VersionsService;
+	projectsService: ProjectsService;
 	profileService: ProfileService;
+	blogPostsService: BlogPostsService;
+	tagSuggestService: TagSuggestService;
 	debug: boolean;
 
-	constructor(router: Router, versionsService: VersionsService, profileService: ProfileService) {
+	constructor(router: Router, messageService: MessageService, versionsService: VersionsService, profileService: ProfileService,
+		projectsService: ProjectsService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService) {
 		this.router = router;
+		this.messageService = messageService;
 		this.versionsService = versionsService;
+		this.projectsService = projectsService;
 		this.profileService = profileService;
+		this.blogPostsService = blogPostsService;
+		this.tagSuggestService = tagSuggestService;
 		this.debug = false;
 	}
 	ngOnInit() {
-		this.profileService.getProfile(); // here for now; ideally should do this when profile component loads
+		this.profileService.getProfile();
+		this.versionsService.getAll();
+		this.blogPostsService.getAll();
+		this.projectsService.getAll();
+		this.tagSuggestService.getAll();
 	}
+
 	ngAfterViewInit() {
 	}
 }
@@ -50,5 +67,6 @@ bootstrap(AppComponent, [
 	disableDeprecatedForms(), provideForms(),
 	VersionsService, MessageService, AccountService,
 	ProjectsService, ProfileService, BlogPostsService,
-	TagSuggestService, UtilsService, S3Service
+	TagSuggestService, UtilsService, S3Service,
+	BaseComponent, RouletteComponent
 ]).catch(err => console.error(err)); //services injected here are singletons available app-wide

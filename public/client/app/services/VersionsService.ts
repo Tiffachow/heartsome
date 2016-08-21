@@ -41,22 +41,19 @@ export class VersionsService {
 		];
 	}
 
-	playRoulette() {
-		return this.versions[ Math.floor( Math.random() * this.versions.length ) ];
-	}
-
 	create(data, callback?) {
 		var result = {};
 		return result;
 	}
 
-	getAll(playRoulette?, sortDate?, filterTag?, callback?) {
+	getAll(sortDate?, filterTag?, callback?) {
 		// in callback to API request on complete:
-		if (playRoulette) {
-			return this.playRoulette();
-		}
 		var result = [];
 		return result;
+	}
+
+	playRoulette() {
+		return this.versions[ Math.floor( Math.random() * this.versions.length ) ];
 	}
 
 	getOne(id, callback?) {

@@ -1,4 +1,13 @@
 <span>ROULETTE app working</span>
-<version-cubic *ngIf="version.name == 'cubic'"></version-cubic>
-<version-material *ngIf="version.name == 'material'"></version-material>
-<version-typography *ngIf="version.name == 'typography'"></version-typography>
+
+<div *ngIf="type == 'versions'">
+	<version-cubic *ngIf="version.name == 'cubic'"></version-cubic>
+	<version-material *ngIf="version.name == 'material'"></version-material>
+	<version-typography *ngIf="version.name == 'typography'"></version-typography>
+</div>
+
+<div *ngIf="type == 'projects'">
+	here is a random project component:
+	<span *ngIf="project">{{project.title}}</span>
+	<span *ngIf="!project">No projects currently</span>
+</div>

@@ -16,6 +16,6 @@ personal portfolio web app
 
 to begin:
 
-`npm run setup` to set up dependencies & env, run the build & start the server
+`npm run setup` to set up dependencies & env vars, run the build, set env vars & start the server
 
-`npm start` for just the build & starting the server
+`npm start` for running the build, setting env vars & starting the server

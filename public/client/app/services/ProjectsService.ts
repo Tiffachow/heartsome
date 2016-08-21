@@ -23,7 +23,7 @@ export class ProjectsService {
 		(function tryRequest(this_) {
 			let headers = new Headers({ 'Content-Type': 'application/json' });
 			let options = new RequestOptions({ headers: headers });
-			this_.http.post('api/projects/new', body, options)
+			this_.http.post(global.basePath + '/api/projects/new', body, options)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -49,7 +49,7 @@ export class ProjectsService {
 		console.log("TRYING TO GET ALL PROJECTS");
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.get('api/projects/all')
+			this_.http.get(global.basePath + '/api/projects/all')
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -71,12 +71,16 @@ export class ProjectsService {
 		})(this);
 	}
 
+	playRoulette() {
+		return this.projects[ Math.floor( Math.random() * this.projects.length ) ];
+	}
+
 	getOne(id, callback?) {
 		console.log("TRYING TO GET PROJECT WITH ID "+id);
 		var tryCount = 0;
 		var result;
 		(function tryRequest(this_) {
-			this_.http.get('api/projects/project/'+id)
+			this_.http.get(global.basePath + '/api/projects/project/'+id)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -103,7 +107,7 @@ export class ProjectsService {
 		(function tryRequest(this_) {
 			let headers = new Headers({ 'Content-Type': 'application/json' });
 			let options = new RequestOptions({ headers: headers });
-			this_.http.put('api/projects/project/'+id, body, options)
+			this_.http.put(global.basePath + '/api/projects/project/'+id, body, options)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -134,7 +138,7 @@ export class ProjectsService {
 		console.log("TRYING TO DELETE PROJECT WITH ID "+id);
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.delete('api/projects/project/'+id)
+			this_.http.delete(global.basePath + '/api/projects/project/'+id)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);

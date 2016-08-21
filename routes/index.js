@@ -281,6 +281,9 @@ router.post('/api/projects/new', function(req, res) {
 			contributors: req.body["project-contributors"] || null,
 			builtFor: req.body["project-customers"] || null,
 			title: (req.body["project-title"]).toString(),
+			link: req.body["project-link"] || null,
+			github: req.body["project-github"] || null,
+			componentName: req.body["project-componentname"] || null,
 			description: req.body["project-description"] || null,
 			tech: req.body["project-tech"] || null,
 			images: req.body["project-images"] || null,
@@ -352,6 +355,9 @@ router.put('/api/projects/project/:id', function(req, res) {
 				project.contributors = req.body["project-contributors"] || null;
 				project.builtFor = req.body["project-customers"] || null;
 				project.title = req.body["project-title"];
+				project.link = req.body["project-link"] || null;
+				project.github = req.body["project-github"] || null;
+				project.componentName = req.body["project-componentname"] || null;
 				project.description = req.body["project-description"] || null;
 				project.tech = req.body["project-tech"] || null;
 				project.images = req.body["project-images"] || null;
@@ -465,9 +471,9 @@ router.delete('/api/s3-delete', function(req, res) {
 // ================================================================================
 
 /* GET home page. */
-// for: '/', '/v/**', '/roulette', '/admin' routes
-router.get(/\/|\/v\/\p{L}*|\/roulette|\/admin/, function(req, res) {
-	return res.render('index', {base: req.baseUrl});
+// for: '/', '/v/**', '/roulette', '/admin', '/project/**' routes
+router.get(/\/|\/v\/\p{L}*|\/roulette|\/admin|\/project\/\p{L}*/, function(req, res) {
+	return res.render('index', {base: req.baseUrl, host: req.get('Host')});
 });
 
 // ================================================================================

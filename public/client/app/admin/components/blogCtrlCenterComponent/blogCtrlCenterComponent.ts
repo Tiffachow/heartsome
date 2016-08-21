@@ -19,11 +19,11 @@ import {S3Service} from './../../../services/S3Service';
 
 export class BlogCtrlCenterComponent {
 	messageService: MessageService;
+	messageSubscription: Subscription;
 	blogPostsService: BlogPostsService;
 	tagSuggestService: TagSuggestService;
 	s3Service: S3Service;
 	openEditor: String;
-	messageSubscription: Subscription;
 	currentlyEditing: Object;
 	@ViewChild('postImg') postImgInput: ElementRef;
 	@ViewChild('previewImg') previewImgInput: ElementRef;

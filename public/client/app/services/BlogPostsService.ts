@@ -23,7 +23,7 @@ export class BlogPostsService {
 		(function tryRequest(this_) {
 			let headers = new Headers({ 'Content-Type': 'application/json' });
 			let options = new RequestOptions({ headers: headers });
-			this_.http.post('api/blog/new', body, options)
+			this_.http.post(global.basePath + '/api/blog/new', body, options)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -49,7 +49,7 @@ export class BlogPostsService {
 		console.log("TRYING TO GET ALL POSTS");
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.get('api/blog/all')
+			this_.http.get(global.basePath + '/api/blog/all')
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -76,7 +76,7 @@ export class BlogPostsService {
 		var tryCount = 0;
 		var result;
 		(function tryRequest(this_) {
-			this_.http.get('api/blog/post/'+id)
+			this_.http.get(global.basePath + '/api/blog/post/'+id)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -103,7 +103,7 @@ export class BlogPostsService {
 		(function tryRequest(this_) {
 			let headers = new Headers({ 'Content-Type': 'application/json' });
 			let options = new RequestOptions({ headers: headers });
-			this_.http.put('api/blog/post/'+id, body, options)
+			this_.http.put(global.basePath + '/api/blog/post/'+id, body, options)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -134,7 +134,7 @@ export class BlogPostsService {
 		console.log("TRYING TO DELETE POST WITH ID "+id);
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.delete('api/blog/post/'+id)
+			this_.http.delete(global.basePath + '/api/blog/post/'+id)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);

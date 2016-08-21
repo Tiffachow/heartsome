@@ -20,7 +20,7 @@ export class S3Service {
 		s3SignedRequest = {};
 		(function tryRequest(this_) {
 			var date = Number(new Date());
-			this_.http.get("/api/sign-s3?file-name=" + bucketFolder + "/" + file.name + " - " + date +"&file-type=" + file.type)
+			this_.http.get(global.basePath + "/api/sign-s3?file-name=" + bucketFolder + "/" + file.name + " - " + date +"&file-type=" + file.type)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -68,7 +68,7 @@ export class S3Service {
 		this.loading = true;
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.delete("/api/s3-delete?file-name=" + filename)
+			this_.http.delete(global.basePath + "/api/s3-delete?file-name=" + filename)
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);

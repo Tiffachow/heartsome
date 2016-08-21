@@ -28,7 +28,7 @@ export class AccountService {
 		console.log("UPDATE LOGIN STATUS");
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.get('api/login')
+			this_.http.get(global.basePath + '/api/login')
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -46,7 +46,7 @@ export class AccountService {
 	mockLogin() {
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.post('api/login')
+			this_.http.post(global.basePath + '/api/login')
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);
@@ -72,7 +72,7 @@ export class AccountService {
 			if (email == this.profileService.profile.email && pw == storedPW) {
 				var tryCount = 0;
 				(function tryRequest(this_) {
-					this_.http.post('api/login')
+					this_.http.post(global.basePath + '/api/login')
 						.subscribe(
 						data => {
 							var data = JSON.parse(data._body);
@@ -93,7 +93,7 @@ export class AccountService {
 		console.log("TRYING TO LOGOUT");
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.get('api/logout')
+			this_.http.get(global.basePath + '/api/logout')
 				.subscribe(
 				data => {
 					var data = JSON.parse(data._body);

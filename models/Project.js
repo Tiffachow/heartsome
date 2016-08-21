@@ -4,24 +4,27 @@ var Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
 var ProjectsSchema = new Schema({ //new collection
-	id:                                    ObjectId,
-	contributors:                   [{
-		name:                 	{ type: String, default: "Tiffany Chow" },
-		link:                   { type: String, default: "heartso.me" }
+	id:                             ObjectId,
+	contributors:                  [{
+		name:                 		{ type: String, default: "Tiffany Chow" },
+		link:                   	{ type: String, default: "heartso.me" }
 	}],
-	builtFor:                          [{
-		name:                  { type: String, default: "Tiffany Chow" }, //eg USA Rx
-		link:                  { type: String, default: "heartso.me" }, //eg USARX.com
+	builtFor:                      [{
+		name:                  		{ type: String, default: "Tiffany Chow" }, //eg USA Rx
+		link:                  		{ type: String, default: "heartso.me" }, //eg USARX.com
 	}],
-	title:                                 { type: String, required: true },
-	description:                     String,
-	tech:                                [String],
-	images:                           [String], //s3 url
-	videos:                            [String], //s3 url
-	date:                                { type: Date, default: Date.now },
-	private:                           { type: Boolean, default: false },
-	timeSpent:                       String,
-	createdAt:                       { type: Date, default: Date.now },
+	title:                          { type: String, required: true },
+	link: 							String,
+	github: 						String,
+	componentName: 					String,
+	description:                    String,
+	tech:                           [String],
+	images:                         [String], //s3 url
+	videos:                         [String], //s3 url
+	date:                           { type: Date, default: Date.now },
+	private:                        { type: Boolean, default: false },
+	timeSpent:                      String,
+	createdAt:                      { type: Date, default: Date.now },
 });
 
 // a setter

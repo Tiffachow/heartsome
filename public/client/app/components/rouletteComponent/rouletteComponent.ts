@@ -1,34 +1,95 @@
 /// <reference path="../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit, OnDestroy, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewChecked} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
+import {MessageService} from './../../services/MessageService';
 import {VersionsService} from './../../services/VersionsService';
+import {ProjectsService} from './../../services/ProjectsService';
 
+// Import all versions components here
 import {VersionCubicComponent} from './../../version-cubic/components/baseComponent/baseComponent';
 import {VersionMaterialComponent} from './../../version-material/components/baseComponent/baseComponent';
 import {VersionTypographyComponent} from './../../version-typography/components/baseComponent/baseComponent';
 
+// Import all projects components here
+
 @Component({
 	selector: 'roulette',
 	styles: [],
-	directives: [CORE_DIRECTIVES, VersionCubicComponent, VersionMaterialComponent, VersionTypographyComponent],
+	directives: [CORE_DIRECTIVES,
+		// add all project components & version components here
+		VersionCubicComponent, VersionMaterialComponent, VersionTypographyComponent
+	],
 	templateUrl: '/client/app/components/rouletteComponent/rouletteComponent.html'
 })
 
 export class RouletteComponent {
+	messageService: MessageService;
+	messageSubscription: Subscription;
+	projectsService: ProjectsService;
+	project: Object;
 	versionsService: VersionsService;
 	version: Object;
+	router: Router;
+	route: ActivatedRoute;
+	sub: any;
+	type: string;
+	alreadyInit: boolean;
 
 	// Constructor
-	constructor(versionsService:VersionsService) {
+	constructor(messageService: MessageService, versionsService:VersionsService, projectsService: ProjectsService, router: Router, route: ActivatedRoute) {
+		this.messageService = messageService;
+		this.messageSubscription;
 		this.versionsService = versionsService;
+		this.projectsService = projectsService;
+		this.router = router;
+		this.route = route;
+		this.type = this.route.params["type"] || "versions";
+		this.alreadyInit = false;
 	}
 
 	// Functions
 
+	subscribeToMessageService() {
+		this.messageSubscription = this.messageService.message$.subscribe(message =>
+			{
+				switch (message["name"]) {
+					case "activateRoulette":
+						if (this.alreadyInit) {
+							this.playRoulette();
+						}
+						break;
+				}
+			}
+		);
+	}
+
 	ngOnInit(){
-		this.version = this.versionsService.getAll(true);
-		console.log("Roulette version: " + this.version["name"]);
+		this.subscribeToMessageService();
+		this.playRoulette();
+	}
+
+	playRoulette() {
+		this.sub = this.route
+			.params
+			.subscribe(params => {
+				this.type = params['type'] || "versions";
+			});
+		console.log("Roulette type: "+this.type);
+		if (this.type == "versions") {
+			this.version = this.versionsService.playRoulette();
+			console.log("Roulette version: " + this.version["name"]);
+		} else if (this.type == "projects") {
+			this.project = this.projectsService.playRoulette();
+			if (this.project) {
+				console.log("Roulette project: " + this.project["title"]);
+			} else {
+				console.log("No projects");
+			}
+		}
+		this.alreadyInit = true;
 	}
 
 	ngOnChanges() {
@@ -37,8 +98,6 @@ export class RouletteComponent {
 
 	ngDoCheck() {
 		// console.log("do check");
-		this.version = this.versionsService.getAll(true);
-		console.log("Roulette version: " + this.version["name"]);
 	}
 
 	ngAfterContentInit() {
@@ -58,7 +117,10 @@ export class RouletteComponent {
 	}
 
 	ngOnDestroy() {
-		// console.log("OnDestroy");
+		this.messageSubscription.unsubscribe();
+		if (this.sub) {
+			this.sub.unsubscribe();
+		}
 	}
 
 }
