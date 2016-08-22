@@ -4,12 +4,26 @@ import {CORE_DIRECTIVES} from '@angular/common';
 
 import {MessageService} from './../../../services/MessageService';
 import {AccountService} from './../../../services/AccountService';
+import {VersionsService} from './../../../services/VersionsService';
+import {ProjectsService} from './../../../services/ProjectsService';
+import {ProfileService} from './../../../services/ProfileService';
+import {BlogPostsService} from './../../../services/BlogPostsService';
+
+
+import {ProjectsCtrlCenterComponent} from './../ProjectsCtrlCenterComponent/ProjectsCtrlCenterComponent';
+import {ProfileCtrlCenterComponent} from './../ProfileCtrlCenterComponent/ProfileCtrlCenterComponent';
+import {BlogCtrlCenterComponent} from './../BlogCtrlCenterComponent/BlogCtrlCenterComponent';
+import {VersionsCtrlCenterComponent} from './../VersionsCtrlCenterComponent/VersionsCtrlCenterComponent';
+import {AccountSettingsComponent} from './../AccountSettingsComponent/AccountSettingsComponent';
+
 
 @Component({
 	selector: 'dashboard',
 	styles: [],
 	directives: [
 		CORE_DIRECTIVES,
+		ProjectsCtrlCenterComponent, ProfileCtrlCenterComponent, BlogCtrlCenterComponent,
+		VersionsCtrlCenterComponent, AccountSettingsComponent
 	],
 	templateUrl: '/client/app/admin/components/baseComponent/baseComponent.html',
 })
@@ -19,11 +33,20 @@ export class DashboardComponent {
 	currentCtrlCenter: String;
 	messageService: MessageService;
 	accountService: AccountService;
+	versionsService: VersionsService;
+	projectsService: ProjectsService;
+	profileService: ProfileService;
+	blogPostsService: BlogPostsService;
 
 	// Constructor
-	constructor(messageService: MessageService, accountService: AccountService) {
+	constructor(messageService: MessageService, accountService: AccountService, versionsService: VersionsService,
+		profileService: ProfileService, projectsService: ProjectsService, blogPostsService: BlogPostsService) {
 		this.messageService = messageService;
 		this.accountService = accountService;
+		this.versionsService = versionsService;
+		this.projectsService = projectsService;
+		this.profileService = profileService;
+		this.blogPostsService = blogPostsService;
 		this.activeCtrlCenter;
 		this.currentCtrlCenter;
 	}
