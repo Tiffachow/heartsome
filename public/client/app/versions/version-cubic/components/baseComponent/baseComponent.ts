@@ -1,15 +1,15 @@
-/// <reference path="../../../../vendor.d.ts"/>
+/// <reference path="../../../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 
 @Component({
-	selector: 'version-material',
+	selector: 'version-cubic',
 	styles: [],
 	directives: [CORE_DIRECTIVES],
-	templateUrl: '/client/app/version-material/components/baseComponent/baseComponent.html',
+	templateUrl: '/client/app/versions/version-cubic/components/baseComponent/baseComponent.html',
 })
 
-export class VersionMaterialComponent {
+export class VersionCubicComponent {
 
 
 	// Constructor

@@ -8,20 +8,13 @@ import {MessageService} from './../../services/MessageService';
 import {VersionsService} from './../../services/VersionsService';
 import {ProjectsService} from './../../services/ProjectsService';
 
-// Import all versions components here
-import {VersionCubicComponent} from './../../version-cubic/components/baseComponent/baseComponent';
-import {VersionMaterialComponent} from './../../version-material/components/baseComponent/baseComponent';
-import {VersionTypographyComponent} from './../../version-typography/components/baseComponent/baseComponent';
-
-// Import all projects components here
+import {ProjectComponent} from './../../projects/components/baseComponent/baseComponent';
+import {VersionComponent} from './../../versions/components/baseComponent/baseComponent';
 
 @Component({
 	selector: 'roulette',
 	styles: [],
-	directives: [CORE_DIRECTIVES,
-		// add all project components & version components here
-		VersionCubicComponent, VersionMaterialComponent, VersionTypographyComponent
-	],
+	directives: [CORE_DIRECTIVES, ProjectComponent, VersionComponent],
 	templateUrl: '/client/app/components/rouletteComponent/rouletteComponent.html'
 })
 
@@ -77,7 +70,6 @@ export class RouletteComponent {
 			.subscribe(params => {
 				this.type = params['type'] || "versions";
 			});
-		console.log("Roulette type: "+this.type);
 		if (this.type == "versions") {
 			this.version = this.versionsService.playRoulette();
 			console.log("Roulette version: " + this.version["name"]);

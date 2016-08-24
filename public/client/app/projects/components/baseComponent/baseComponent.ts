@@ -1,37 +1,40 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnInit, OnDestroy} from '@angular/core';
+import {AfterViewInit, AfterContentChecked, Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import {MessageService} from './../../../services/MessageService';
-import {ProjectsService} from './../../../services/ProjectsService';
 
-// import all projects components here
+// Import all project components here
+import {DownloadWishlistEbooksComponent} from './../../../projects/download-wishlist-ebooks/components/baseComponent/baseComponent';
 
 @Component({
-	selector: 'dashboard',
+	selector: 'project-container',
 	styles: [],
 	directives: [
 		CORE_DIRECTIVES,
+		// add all project components here
+		DownloadWishlistEbooksComponent
 	],
 	templateUrl: '/client/app/projects/components/baseComponent/baseComponent.html',
 })
 
 export class ProjectComponent {
+	@Input() projectName: string;
+	messageService: MessageService;
 	router: Router;
 	route: ActivatedRoute;
-	projectName: string;
 	sub: any;
-	messageService: MessageService;
-	projectsService: ProjectsService;
+	project: string;
+	routeParams: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, projectsService: ProjectsService, router: Router, route: ActivatedRoute) {
+	constructor(messageService: MessageService, router: Router, route: ActivatedRoute) {
+		this.messageService = messageService;
 		this.router = router;
 		this.route = route;
-		this.projectName = this.route.params["name"];
-		this.messageService = messageService;
-		this.projectsService = projectsService;
+		this.routeParams;
+		this.project;
 	}
 
 	// Functions
@@ -39,15 +42,19 @@ export class ProjectComponent {
 		this.sub = this.route
 			.params
 			.subscribe(params => {
-				this.projectName = params['name'];
+				this.routeParams = params;
 			});
-		console.log("Selected project: "+this.projectName);
+		this.project = this.routeParams['name'] ? this.routeParams['name'].toSlug() : this.projectName.toSlug();
 	}
 
 	ngOnDestroy() {
 		if (this.sub) {
 			this.sub.unsubscribe();
 		}
+	}
+
+	ngAfterContentChecked() {
+		this.project = this.routeParams['name'] ? this.routeParams['name'].toSlug() : this.projectName.toSlug();
 	}
 
 	ngAfterViewInit() {

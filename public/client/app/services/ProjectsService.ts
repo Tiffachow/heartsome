@@ -14,7 +14,31 @@ export class ProjectsService {
 	constructor(http: Http, utilsService: UtilsService) {
 		this.http = http;
 		this.utilsService = utilsService;
-		this.projects = [];
+		this.projects = [
+			{
+				id:                            1,
+				contributors:                  [{
+					name:                 		"Tiffany Chow",
+					link:                   	"heartso.me",
+				}],
+				builtFor:                      [{
+					name:                  		"Tiffany Chow",
+					link:                  		"heartso.me",
+				}],
+				title:                          "download wishlist ebooks",
+				link: 							"//heartso.me/project/download wishlist ebooks",
+				github: 						"",
+				componentName: 					"download-wishlist-ebooks",
+				description:                    "",
+				tech:                           [],
+				images:                         [],
+				videos:                         [],
+				date:                           new Date("August 24, 2016"),
+				private:                        false,
+				timeSpent:                      "3 hours",
+				createdAt:                      new Date(),
+			}
+		];
 	}
 
 	create(body, callback?) {
@@ -55,8 +79,8 @@ export class ProjectsService {
 					var data = JSON.parse(data._body);
 					console.log(data);
 					if (data.success) {
-						this_.projects = data.projects;
-						console.log(data.projects);
+						this_.projects = data.projects.length > 0 ? data.projects : this_.projects;
+						console.log(this_.projects);
 					} else {
 						console.log("Error getting all projects");
 					}

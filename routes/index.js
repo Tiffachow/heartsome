@@ -470,6 +470,19 @@ router.delete('/api/s3-delete', function(req, res) {
 
 // ================================================================================
 
+/* GET GOODREADS OAUTH CALLBACK. */
+router.get('/api/goodreads_oauth_callback', function(req, res) {
+	var oauth_token = req.query['oauth_token'];
+	var authorized = req.query['authorize'] == 1 ? true : false;
+	if (authorized) {
+		return res.json({success: true, oauth_token: oauth_token});
+	} else {
+		return res.json({success: false});
+	}
+});
+
+// ================================================================================
+
 /* GET home page. */
 // for: '/', '/v/**', '/roulette', '/admin', '/project/**' routes
 router.get(/\/|\/v\/\p{L}*|\/roulette|\/admin|\/project\/\p{L}*/, function(req, res) {

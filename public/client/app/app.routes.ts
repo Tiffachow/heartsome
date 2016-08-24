@@ -3,14 +3,10 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
 import {BaseComponent} from './components/baseComponent/baseComponent';
-import {VersionsContainerComponent} from './components/versionsContainerComponent/versionsContainerComponent';
 import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
 import {DashboardComponent} from './admin/components/baseComponent/baseComponent';
 import {ProjectComponent} from './projects/components/baseComponent/baseComponent';
-
-import {VersionCubicComponent} from './version-cubic/components/baseComponent/baseComponent';
-import {VersionMaterialComponent} from './version-material/components/baseComponent/baseComponent';
-import {VersionTypographyComponent} from './version-typography/components/baseComponent/baseComponent';
+import {VersionComponent} from './versions/components/baseComponent/baseComponent';
 
 export const routes: RouterConfig = [
 	{
@@ -19,22 +15,22 @@ export const routes: RouterConfig = [
 		children: [
 			{
 				path: 'v/:version',
-				component: VersionsContainerComponent //holder
+				component: VersionComponent //holder of all versions
 			},
 			{
 				path: 'roulette/:type',
-				component: RouletteComponent //random
+				component: RouletteComponent //random version or project
 			},
 			{
 				path: '',
-				component: RouletteComponent //random version
+				component: RouletteComponent //random version or project
 				// redirectTo: 'roulette',
 				// terminal: true
 			}
 		]
 	},
 	{path: 'admin', component: DashboardComponent},
-	{path: 'project/:name', component: ProjectComponent}
+	{path: 'project/:name', component: ProjectComponent} //holder of all projects
 ];
 
 export const APP_ROUTER_PROVIDERS = [
