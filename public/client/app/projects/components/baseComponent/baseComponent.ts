@@ -20,12 +20,12 @@ import {DownloadWishlistEbooksComponent} from './../../../projects/download-wish
 })
 
 export class ProjectComponent {
-	@Input() projectName: string;
+	@Input() projectName: any;
 	messageService: MessageService;
 	router: Router;
 	route: ActivatedRoute;
 	sub: any;
-	project: string;
+	project: String;
 	routeParams: Object;
 
 	// Constructor

@@ -111,7 +111,7 @@ gulp.task('copy:fonts', function() {
 gulp.task('compile:tsc', function(){
 	gulp.src(paths.client.angular)
 		.pipe(typescript({
-			"target": "ES5",
+			"target": "ES6",
 			"module": "commonjs",
 			"moduleResolution": "node",
 			"sourceMap": true,

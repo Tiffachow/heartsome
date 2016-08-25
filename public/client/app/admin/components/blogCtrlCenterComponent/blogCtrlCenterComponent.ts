@@ -1,5 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CORE_DIRECTIVES, NgForm} from '@angular/common';
 import {Subscription} from 'rxjs/Subscription';
 

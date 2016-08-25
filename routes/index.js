@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var multer = require('multer');
-
 var aws = require('aws-sdk');
+var OAuth = require('oauth');
+// var OAuth2 = OAuth.OAuth2;    
 
 var Project = require('../models/Project');
 var AppVersion = require('../models/AppVersion');
@@ -469,16 +470,68 @@ router.delete('/api/s3-delete', function(req, res) {
 });
 
 // ================================================================================
+/* GET GOODREADS OAUTH */
+router.get('/api/goodreads_oauth', function(req, res) {
+	var goodreadsApiKey = 'EBNfVNgRsXmkppm3wLg';
+	var goodreadsApiSecret = '1hNRau632xxAuG3j9lfpDUXCmeqgDVMGnLYAZo8';
+	var oauth = new OAuth.OAuth(
+		'https://www.goodreads.com/oauth/request_token',
+		'https://www.goodreads.com/oauth/access_token',
+		goodreadsApiKey,
+		goodreadsApiSecret,
+		'1.0A',
+		null,
+		'HMAC-SHA1'
+		);
+	oauth.get(
+		'https://www.goodreads.com/oauth/authorize?oauth_callback=https://74184def.ngrok.io/api/goodreads_oauth_callback',
+		null, //test user token
+		null, //test user secret            
+		function (e, data, results){
+			if (e) console.error(e);        
+			// console.log("data: "+data);
+			// console.log("results: "+JSON.parse(results));
+			// return res.json({data: data, results: results});
+			return res.send(results);
+		}
+	);   
+	// var oauth = new OAuth.OAuth(
+	// 		goodreadsApiKey,
+ //       		goodreadsApiSecret, 
+	//     	'https://www.goodreads.com/', 
+	//     	null,
+	//     	'oauth/authorize?oauth_callback=https://74184def.ngrok.io/api/goodreads_oauth_callback', 
+	//     	null
+ //    	);
+	// oauth2.getOAuthAccessToken(
+	// 	'',
+	// 	{'grant_type':'client_credentials'},
+	// 	function (e, access_token, refresh_token, results){
+	// 		if (e) {
+	// 			console.log(e);
+	// 			return res.json({success: false, results: results});
+	// 		} else {
+	// 			console.log('Success. Will redirect. Results: ' + JSON.stringify(results));
+	// 			return res.send(results);
+	// 		}
+	// 	}
+	// );
+	return
+});
 
 /* GET GOODREADS OAUTH CALLBACK. */
 router.get('/api/goodreads_oauth_callback', function(req, res) {
-	var oauth_token = req.query['oauth_token'];
-	var authorized = req.query['authorize'] == 1 ? true : false;
-	if (authorized) {
-		return res.json({success: true, oauth_token: oauth_token});
-	} else {
-		return res.json({success: false});
-	}
+	// var oauth_token = req.query['oauth_token'];
+	// var authorized = req.query['authorize'] == 1 ? true : false;
+	// if (authorized) {
+	// 	console.log("Authorized! Oauth Token: " + oauth_token);
+	// 	return res.json({success: true, oauth_token: oauth_token});
+	// } else {
+	// 	console.log("Not authorized");
+	// 	return res.json({success: false});
+	// }
+	console.log("callback activated");
+	return res.send("blah");
 });
 
 // ================================================================================

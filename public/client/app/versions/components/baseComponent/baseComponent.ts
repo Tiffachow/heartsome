@@ -23,12 +23,12 @@ import {VersionTypographyComponent} from './../../version-typography/components/
 })
 
 export class VersionComponent {
-	@Input() versionName: string;
+	@Input() versionName: any;
 	messageService: MessageService;
 	router: Router;
 	route: ActivatedRoute;
 	sub: any;
-	version: string;
+	version: String;
 	routeParams: Object;
 
 	// Constructor
