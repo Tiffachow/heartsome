@@ -10,7 +10,13 @@
 
         <link rel="stylesheet" href="<%= base %>/dist/stylesheets/all.min.css">
         <script src="<%= base %>/dist/scripts/all.min.js"></script>
-        <script type="text/javascript">var basePath = "//<%= host %>";</script>
+        <script type="text/javascript">
+            var basePath = "//<%= host %>";
+            var params = "<%= params %>";
+            <%if (params.goodreads_user_id) { %>
+                var goodreads_user_id = "<%= params.goodreads_user_id %>";
+            <% } %>
+        </script>
     </head>
     <body>
         <app>
