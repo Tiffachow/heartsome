@@ -12,9 +12,13 @@
         <script src="<%= base %>/dist/scripts/all.min.js"></script>
         <script type="text/javascript">
             var basePath = "//<%= host %>";
-            var params = "<%= params %>";
-            <%if (params.goodreads_user_id) { %>
-                var goodreads_user_id = "<%= params.goodreads_user_id %>";
+            <%if (params.goodreads) { %>
+                var goodreads = {
+                    apiKey: "<%= params.api_key %>",
+                    userId: "<%= params.user_id %>",
+                    userName: "<%= params.user_name %>",
+                    userLink: decodeURIComponent("<%= params.user_link %>")
+                };
             <% } %>
         </script>
     </head>

@@ -1,26 +1,39 @@
-var express = require('express');
-var router = express.Router();
-
-var multer = require('multer');
-var aws = require('aws-sdk');
-var OAuth = require('oauth');
-// var OAuth2 = OAuth.OAuth2;    
-
 var Project = require('../models/Project');
 var AppVersion = require('../models/AppVersion');
 var BlogPost = require('../models/BlogPost');
 var Profile = require('../models/Profile');
 
+var express = require('express');
+var router = express.Router();
 var router = express.Router();
 // router.use(multer()); // for parsing multipart/form-data
 // process.env.adminpassword
 
+var multer = require('multer');
+
+var aws = require('aws-sdk');
+var S3_BUCKET = process.env.S3_BUCKET;
+
+var OAuth = require('oauth');
 var goodreadsApiKey = 'EBNfVNgRsXmkppm3wLg';
 var goodreadsApiSecret = '1hNRau632xxAuG3j9lfpDUXCmeqgDVMGnLYAZo8';
 var goodreadsOauthToken;
 var goodreadsOauthTokenSecret;
+var goodreadsOauthAccessToken;
+var goodreadsOauthAccessTokenSecret;
+var goodreadsOauth = new OAuth.OAuth(
+	'https://www.goodreads.com/oauth/request_token',
+	'https://www.goodreads.com/oauth/access_token',
+	goodreadsApiKey,
+	goodreadsApiSecret,
+	'1.0A',
+	'https://74184def.ngrok.io/api/goodreads_oauth_callback',
+	'HMAC-SHA1'
+	);
+var goodreadsUserId;
 
-var S3_BUCKET = process.env.S3_BUCKET;
+var parseString = require('xml2js').parseString;
+
 // ================================================================================
 
 /* POST to login. */
@@ -477,21 +490,12 @@ router.delete('/api/s3-delete', function(req, res) {
 // ================================================================================
 /* GET GOODREADS OAUTH */
 router.get('/api/goodreads_oauth', function(req, res) {
-	var goodreadsOauth = new OAuth.OAuth(
-		'https://www.goodreads.com/oauth/request_token',
-		'https://www.goodreads.com/oauth/access_token',
-		goodreadsApiKey,
-		goodreadsApiSecret,
-		'1.0A',
-		'https://74184def.ngrok.io/api/goodreads_oauth_callback',
-		'HMAC-SHA1'
-		);
 	goodreadsOauth.getOAuthRequestToken(function (e, oauth_token, oauth_token_secret, results){
 		if (e) {
 			console.log(e);
 			return res.end();
 		} else {
-			console.log('Success. Will redirect. Results: ', oauth_token, "\n", oauth_token_secret, "\n", results);
+			console.log('Success. Will redirect. Oauth Token: ', oauth_token, "\n Oauth Token Secret: ", oauth_token_secret);
 			goodreadsOauthToken = oauth_token;
 			goodreadsOauthTokenSecret = oauth_token_secret;
 			return res.send(oauth_token);
@@ -505,30 +509,91 @@ router.get('/api/goodreads_oauth_callback', function(req, res) {
 	var oauth_token = req.query['oauth_token'];
 	var authorized = req.query['authorize'] == 1 ? true : false;
 	if (authorized) {
-		console.log("Authorized! Oauth Token: " + oauth_token + "\n" + goodreadsOauthToken  + "\n" + goodreadsOauthTokenSecret);
-		// var goodreadsOauth = new OAuth.OAuth(
-		// 	'https://www.goodreads.com/oauth/request_token',
-		// 	'https://www.goodreads.com/oauth/access_token',
-		// 	goodreadsApiKey,
-		// 	goodreadsApiSecret,
-		// 	'1.0A',
-		// 	'https://74184def.ngrok.io/api/goodreads_oauth_callback',
-		// 	'HMAC-SHA1'
-		// 	);
-		// goodreadsOauth.get(
-		// 	'https://www.goodreads.com/api/auth_user',
-		// 	goodreadsOauthToken.toString(),
-		// 	goodreadsOauthTokenSecret.toString(),
-		// 	function (e, data, results){
-		// 		if (e) console.error(e);        
-		// 		console.log("GET USER ID: "+data);
-		// 		var user_id = "";
-		// 		res.redirect('/project/download-wishlist-ebooks?goodreads_user_id='+user_id);
-		// 	});
+		console.log("Authorized! Oauth Token: " + oauth_token + "\n Oauth Token Secret: " + goodreadsOauthTokenSecret);
+		goodreadsOauth.getOAuthAccessToken(
+			goodreadsOauthToken, 
+			goodreadsOauthTokenSecret, 
+			null,  
+			function (e, oauth_access_token, oauth_access_token_secret, results){
+				if (e) console.error(e);        
+				console.log("ACCESS TOKEN: " + oauth_access_token + "\n ACCESS TOKEN SECRET: " + oauth_access_token_secret);
+				goodreadsOauthAccessToken = oauth_access_token;
+				goodreadsOauthAccessTokenSecret = oauth_access_token_secret;
+				goodreadsOauth.get(
+					'https://www.goodreads.com/api/auth_user',
+					goodreadsOauthAccessToken,
+					goodreadsOauthAccessTokenSecret,
+					function (e, data, response){
+						if (e) console.error(e);
+						// parse xml to json
+						parseString(data, function (err, result) {
+						    // console.dir(result.GoodreadsResponse.user);
+						    var user = {
+						    	id: result.GoodreadsResponse.user[0].$.id,
+						    	name: result.GoodreadsResponse.user[0].name[0],
+						    	link: result.GoodreadsResponse.user[0].link[0]
+						    };
+						    goodreadsUserId = result.GoodreadsResponse.user[0].$.id;
+						    console.log("GET USER ID: "+ user.id);
+						    console.log("GET USER NAME: "+ user.name);
+						    console.log("GET USER LINK: "+ user.link);
+						    res.redirect('/project/download-wishlist-ebooks?goodreads=true&api_key='+goodreadsApiKey+'&user_id='+user.id+'&user_name='+user.name+'&user_link='+encodeURIComponent(user.link));
+						});
+					}
+				);
+			}
+		);
 	} else {
-		console.log("Not authorized");
+		console.log("Not authorized!");
 		res.redirect('/project/download-wishlist-ebooks');
 	}
+	return;
+});
+
+/* GET GOODREADS USER SHELVES. */
+router.get('/api/goodreads_user_shelves', function(req, res) {
+	goodreadsOauth.get(
+		'https://www.goodreads.com/shelf/list.xml?key='+goodreadsApiKey+'&user_id='+goodreadsUserId,
+		goodreadsOauthAccessToken,
+		goodreadsOauthAccessTokenSecret,
+		function (e, data, response){
+			if (e) console.error(e);
+			// parse xml to json
+			parseString(data, function (err, result) {
+				if (err) console.error(err);
+				console.log("GET SHELVES: ");
+			    console.dir(result.GoodreadsResponse);
+			    var shelves = result.GoodreadsResponse.shelves[0].user_shelf; // array of objs
+			    console.log("GET USER SHELVES: "+ JSON.stringify(shelves));
+			    res.send(shelves);
+			});
+		}
+	);
+	return;
+});
+
+/* GET GOODREADS BOOKS FROM SHELF. */
+router.get('/api/goodreads_shelf_books', function(req, res) {
+	console.log("URL: "+'https://www.goodreads.com/reviews/list?v=2&id='+goodreadsUserId+'&key='+goodreadsApiKey+'&shelf='+req.query.shelf);
+	goodreadsOauth.get(
+		'https://www.goodreads.com/review/list.xml?v=2&id='+goodreadsUserId+'&key='+goodreadsApiKey+'&shelf='+req.query.shelf_name,
+		goodreadsOauthAccessToken,
+		goodreadsOauthAccessTokenSecret,
+		function (e, data, response){
+			if (e) console.error(e);
+			console.log("BOOKS DATA: \n"+data);
+			// parse xml to json
+			parseString(data, function (err, result) {
+				if (err) console.error(err);
+				console.log("GET BOOKS: ");
+			    console.dir(result.GoodreadsResponse);
+			    var books = result.GoodreadsResponse.reviews[0].review; // array of objs
+			    console.log("GET USER BOOKS: "+ JSON.stringify(books));
+			    res.send(books);
+			});
+			res.se
+		}
+	);
 	return;
 });
 

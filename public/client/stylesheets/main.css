@@ -330,6 +330,12 @@ a {
 .display-block {
   display: block;
 }
+.inline-block {
+  display: inline-block;
+}
+.bold {
+  font-weight: 800;
+}
 base-component,
 dashboard {
   position: absolute;
