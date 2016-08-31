@@ -96,4 +96,8 @@ export class DownloadWishlistEbooksComponent {
 				);
 		})(this);
 	}
+
+	searchForLinks(title, author) {
+		
+	}
 }

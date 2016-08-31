@@ -1,25 +1,25 @@
 <span>Download Wishlist Ebooks Project Working</span>
-<button class="btn goodreads-auth" (click)="triggerGoodreadsOAuth()">Authorize Access to Goodreads</button>
+<button class="btn goodreads-auth display-block" (click)="triggerGoodreadsOAuth()">Authorize Access to Goodreads</button>
 
-<h1>GOODREADS</h1>
-<!-- <div>{{userShelves | json}}</div> -->
-<ul *ngIf="userShelves.length > 0">
-	<h2>your shelves:</h2>
-	<a *ngFor="let shelf of userShelves; let i = index" (click)="getBooksFromShelf(i,shelf.id[0]._,shelf.name[0])">
-		<li [ngClass]="{bold: (shelf.name[0] == 'to-read')}">{{shelf.id[0]._}} || {{shelf.name[0]}}
-			<ul *ngIf="shelf.books">
-				<li *ngFor="let book of shelf.books">
-					<img src="{{book.book[0].small_image_url[0]}}">
-					<span class="inline-block">{{book.book[0].title[0]}} by {{book.book[0].authors[0].author[0].name[0]}}</span>
-					<span class="inline-block">{{book.book[0].average_rating[0]}} Avg Rating || {{book.book[0].ratings_count[0]}} Ratings</span>
-					<span class="inline-block">Description: {{book.book[0].description[0]}}</span>
-					<span class="inline-block">{{book.book[0].link[0]}}</span>
-				</li>
-			</ul>
+<div *ngIf="goodreads" class="authorized">
+	<h1>Your <img class="goodreads-logo" src="//s.gr-assets.com/assets/layout/header/goodreads_logo.svg"> Data</h1>
+	<ul *ngIf="userShelves.length > 0">
+		<h2>your shelves:</h2>
+		<li *ngFor="let shelf of userShelves; let i = index">
+			<div [ngClass]="{bold: (shelf.name[0] == 'to-read')}">
+				<a (click)="getBooksFromShelf(i,shelf.id[0]._,shelf.name[0])">{{shelf.id[0]._}} || {{shelf.name[0]}}</a>
+				<ul *ngIf="shelf.books">
+					<li *ngFor="let book of shelf.books">
+						<img src="{{book.book[0].small_image_url[0]}}"> <span class="inline-block">{{book.book[0].title[0]}} by {{book.book[0].authors[0].author[0].name[0]}} || {{book.book[0].average_rating[0]}} Avg Rating || {{book.book[0].ratings_count[0]}} Ratings</span>
+						<button class="btn display-block" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0])">Search for DL links</button>
+						<span class="display-block">Description: {{book.book[0].description[0]}}</span>
+						<span class="display-block">{{book.book[0].link[0]}}</span>
+					</li>
+				</ul>
+			</div>
 		</li>
-	</a>
-</ul>
-
+	</ul>
+</div>
 <!-- {
 	"book":[
 		{

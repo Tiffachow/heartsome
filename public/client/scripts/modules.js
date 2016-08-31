@@ -13,6 +13,9 @@ require('../../../node_modules/reflect-metadata/Reflect.js');
 
 require('../../../node_modules/systemjs/dist/system.src.js');
 
+// Semantic UI
+require('../../semantic/dist/semantic.min.js');
+
 // map tells the System loader where to look for things
 var map = {
     'app':                        '../../dist/app',

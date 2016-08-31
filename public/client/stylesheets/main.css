@@ -1,3 +1,7 @@
+@import "vendors/bootstrap-markdown.min.css";
+@import "vendors/bootstrap.min.css";
+@import "vendors/font-awesome.min.css";
+@import "../../semantic/dist/semantic.min.css";
 .debug * {
   outline: 2px dotted red;
 }
@@ -424,4 +428,12 @@ dashboard .dashboard-content > * > *:hover:hover:hover {
 }
 dashboard .dashboard-content > * > *:hover:hover:hover:hover {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+ebooks-download h1 {
+  font-size: 30px;
+  line-height: 1em;
+}
+ebooks-download h1 .goodreads-logo {
+  height: 30px;
+  width: auto;
 }
