@@ -1,23 +1,21 @@
 {
- // install will now automatically build your project files without user interaction
- "autoInstall": true,
-  // these settings may be different
- "base": "",
- "paths": {
-   "source": {
-     "config": "src/theme.config",
-     "definitions": "src/definitions/",
-     "site": "src/site/",
-     "themes": "src/themes/"
-   },
-   "output": {
-     "packaged": "dist/",
-     "uncompressed": "dist/components/",
-     "compressed": "dist/components/",
-     "themes": "dist/themes/"
-   },
-   "clean": "dist/"
- },
- "permission": false,
- "rtl": false,
+	"autoInstall": true,
+	"base": "",
+	"paths": {
+		"source": {
+			"config": "src/theme.config",
+			"definitions": "src/definitions/",
+			"site": "src/site/",
+			"themes": "src/themes/"
+		},
+		"output": {
+			"packaged": "dist/",
+			"uncompressed": "dist/components/",
+			"compressed": "dist/components/",
+			"themes": "dist/themes/"
+		},
+		"clean": "dist/"
+	},
+	"permission": false,
+	"rtl": false
 }

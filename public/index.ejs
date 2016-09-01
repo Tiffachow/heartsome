@@ -14,10 +14,13 @@
             var basePath = "//<%= host %>";
             <%if (params.goodreads) { %>
                 var goodreads = {
-                    apiKey: "<%= params.api_key %>",
-                    userId: "<%= params.user_id %>",
-                    userName: "<%= params.user_name %>",
-                    userLink: decodeURIComponent("<%= params.user_link %>")
+                    userName: "<%= params.goodreads_user_name %>",
+                    userLink: decodeURIComponent("<%= params.goodreads_user_link %>")
+                };
+            <% } %>
+            <%if (params.google_app_browser_api_key) { %>
+                var googleApp = {
+                    browserApiKey: "<%= params.google_app_browser_api_key %>"
                 };
             <% } %>
         </script>

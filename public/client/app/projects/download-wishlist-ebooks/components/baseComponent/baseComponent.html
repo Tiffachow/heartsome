@@ -1,25 +1,91 @@
-<span>Download Wishlist Ebooks Project Working</span>
 <button class="btn goodreads-auth display-block" (click)="triggerGoodreadsOAuth()">Authorize Access to Goodreads</button>
 
-<div *ngIf="goodreads" class="authorized">
-	<h1>Your <img class="goodreads-logo" src="//s.gr-assets.com/assets/layout/header/goodreads_logo.svg"> Data</h1>
-	<ul *ngIf="userShelves.length > 0">
-		<h2>your shelves:</h2>
-		<li *ngFor="let shelf of userShelves; let i = index">
-			<div [ngClass]="{bold: (shelf.name[0] == 'to-read')}">
-				<a (click)="getBooksFromShelf(i,shelf.id[0]._,shelf.name[0])">{{shelf.id[0]._}} || {{shelf.name[0]}}</a>
-				<ul *ngIf="shelf.books">
-					<li *ngFor="let book of shelf.books">
-						<img src="{{book.book[0].small_image_url[0]}}"> <span class="inline-block">{{book.book[0].title[0]}} by {{book.book[0].authors[0].author[0].name[0]}} || {{book.book[0].average_rating[0]}} Avg Rating || {{book.book[0].ratings_count[0]}} Ratings</span>
-						<button class="btn display-block" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0])">Search for DL links</button>
-						<span class="display-block">Description: {{book.book[0].description[0]}}</span>
-						<span class="display-block">{{book.book[0].link[0]}}</span>
-					</li>
-				</ul>
+<div *ngIf="goodreads.userName" class="authorized">
+	<h1 class="ui center aligned icon header">
+	  <a class="goodreads-user-name" href="{{goodreads.userLink}}" target="_blank">{{goodreads.userName}}</a>'s
+	  <img class="ui image" id="goodreads-logo" src="//s.gr-assets.com/assets/layout/header/goodreads_logo.svg">
+	  Data
+	</h1>
+	<h2 class="ui header">
+		<i class="book icon"></i>
+		<div class="content">
+			Your Shelves
+		</div>
+	</h2>
+	<div class="ui styled fluid accordion" *ngIf="userShelves.length > 0">
+		<span *ngFor="let shelf of userShelves; let i = index">
+			<div class="title" [ngClass]="{bold: (shelf.name[0] == 'to-read')}" (click)="getBooksFromShelf(i,shelf.id[0]._,shelf.name[0])">
+				<i class="dropdown icon"></i> <i class="book icon"></i>
+				<a class="header">{{shelf.name[0]}}</a> <!-- {{shelf.id[0]._}} -->
+				<div class="description">{{shelf.book_count[0]._}} Books</div>
 			</div>
-		</li>
-	</ul>
+			<div class="content">
+				<div class="ui special ten doubling cards" *ngIf="shelf.books">
+					<div class="card" *ngFor="let book of shelf.books">
+						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0])">
+							<div class="ui dimmer">
+								<div class="content">
+									<div class="center">
+										<div class="ui inverted button">Get Download Links</div>
+									</div>
+								</div>
+							</div>
+							<img src="{{book.book[0].image_url[0]}}">
+				    	</div>
+						<div class="content">
+							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0])">{{book.book[0].title[0]}}</a>
+							<div class="meta"><span class="author">{{book.book[0].authors[0].author[0].name[0]}}</span></div>
+							<div class="description">
+								<p>{{book.book[0].description[0]}}</p>
+							</div>
+						</div>
+						<div class="extra content">
+							<a class="ui label" target="_blank" href="{{book.book[0].link[0]}}">
+							  <i class="linkify icon"></i>
+							  Goodreads Link
+							</a>
+							<div class="ui two statistics">
+								<div class="mini statistic">
+									<div class="value">
+										{{book.book[0].average_rating[0]}}
+									</div>
+									<div class="label">
+										Avg Rating
+									</div>
+								</div>
+								<div class="mini statistic">
+									<div class="value">
+										{{book.book[0].ratings_count[0]}}
+									</div>
+									<div class="label">
+										Total Ratings
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</span>
+
+	</div>
 </div>
+
+<!-- {
+	"id":[{"_":"90304624","$":{"type":"integer"}}],
+	"name":["on-hold-paused"],
+	"book_count":[{"_":"9","$":{"type":"integer"}}],
+	"exclusive_flag":[{"_":"false","$":{"type":"boolean"}}],
+	"description":[{"$":{"nil":"true"}}],
+	"sort":[{"$":{"nil":"true"}}],
+	"order":[{"$":{"nil":"true"}}],
+	"per_page":[{"$":{"type":"integer","nil":"true"}}],
+	"display_fields":[""],
+	"featured":[{"_":"false","$":{"type":"boolean"}}],
+	"recommend_for":[{"_":"true","$":{"type":"boolean"}}],
+	"sticky":[{"$":{"type":"boolean","nil":"true"}}]
+} -->
+
 <!-- {
 	"book":[
 		{

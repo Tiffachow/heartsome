@@ -1,5 +1,5 @@
 /// <reference path="../../../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, AfterViewChecked, Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {Http, Jsonp, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -37,11 +37,17 @@ export class DownloadWishlistEbooksComponent {
 	ngAfterViewInit() {
 		if (global.goodreads) {
 			this.goodreads = global.goodreads;
-			console.log("goodreads user_id: "+this.goodreads["userId"]);
 			console.log("goodreads name: "+this.goodreads["userName"]);
 			console.log("goodreads link: "+this.goodreads["userLink"]);
 			this.getUserShelves();
 		}
+	}
+
+	initSemanticMethods() {
+		$('.ui.accordion').accordion();
+		$('.special.cards .image').dimmer({
+		  on: 'hover'
+		});
 	}
 
 	triggerGoodreadsOAuth() {
@@ -59,13 +65,13 @@ export class DownloadWishlistEbooksComponent {
 		})(this);
 	}
 
-	pullGoodreadsData() {
-		try{
-			localStorage.setItem('GoodreadsData', JSON.stringify(this.goodreads));
-		} catch (e) {
-			console.log("Error setting localStorage for Goodreads data: " + e);
-		}
-	}
+	// pullGoodreadsData() {
+	// 	try{
+	// 		localStorage.setItem('GoodreadsData', JSON.stringify(this.goodreads));
+	// 	} catch (e) {
+	// 		console.log("Error setting localStorage for Goodreads data: " + e);
+	// 	}
+	// }
 
 	getUserShelves() {
 		var tryCount = 0;
@@ -77,6 +83,7 @@ export class DownloadWishlistEbooksComponent {
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					this_.userShelves = JSON.parse(shelves);
+					setTimeout(function(){this_.initSemanticMethods()}, 1000);
 				}
 				);
 		})(this);
@@ -92,12 +99,25 @@ export class DownloadWishlistEbooksComponent {
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					this_.userShelves[shelfIndex].books = JSON.parse(books);
+					setTimeout(function(){this_.initSemanticMethods()}, 1000);
 				}
 				);
 		})(this);
 	}
 
 	searchForLinks(title, author) {
-		
+		var tryCount = 0;
+		var searchResults;
+		(function tryRequest(this_) {
+			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y='+encodeURIComponent(title + ' ' + author))
+				.subscribe(
+				data => { searchResults = data._body },
+				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
+				() => {
+					JSON.parse(searchResults);
+					console.log("SEARCH RESULTS: "+JSON.stringify(searchResults));
+				}
+				);
+		})(this);
 	}
 }

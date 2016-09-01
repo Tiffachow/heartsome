@@ -25,8 +25,8 @@ var paths = {
   	images: './public/client/images/**/*',
   	fonts: './public/client/fonts/**/*',
   	stylesheets: {
-  		less: './public/client/stylesheets/main.less',
-  		css: './public/client/stylesheets/main.css',
+  		less: './public/client/stylesheets/**/*.less',
+  		css: './public/client/stylesheets/**/*.css',
   	},
   	angular: ['./public/client/app/**/*.ts', './public/client/app/components/**/*.ts', './public/client/app/services/*.ts']
   },
@@ -94,11 +94,11 @@ gulp.task('images', function() {
 gulp.task('compile:less', function () {
 	return gulp.src(paths.client.stylesheets.less)
 		.pipe(less())
-		.pipe(gulp.dest('./public/client/stylesheets'));
+		.pipe(gulp.dest('./public/client/stylesheets/css'));
 });
 
 gulp.task('styles', ['compile:less'], function () {
-	return gulp.src(paths.client.stylesheets.css)
+	return gulp.src(['./public/semantic/dist/semantic.min.css', paths.client.stylesheets.css, './public/client/stylesheets/main.css'])
 		.pipe(uglifycss({
 			"maxLineLen": 80,
 			"uglyComments": true
@@ -110,6 +110,11 @@ gulp.task('styles', ['compile:less'], function () {
 gulp.task('copy:fonts', function() {
 	return gulp.src(paths.client.fonts)
 		.pipe(gulp.dest(paths.dist + 'fonts'));
+});
+
+gulp.task('copy:semantic-assets', function() {
+	return gulp.src('./public/semantic/dist/themes/default/assets/**/*')
+		.pipe(gulp.dest(paths.dist + 'stylesheets/themes/default/assets'));
 });
 
 gulp.task('compile:tsc', function(){
@@ -136,10 +141,10 @@ gulp.task('watch', function() {
 	gulp.watch(paths.client.angular, ['compile:tsc']);
 });
 
-gulp.task('watch semantic ui', watch);
-gulp.task('build semantic ui', build);
+gulp.task('watch semantic', watch);
+gulp.task('build semantic', build);
 
 // The default task (called when you run `gulp` from cli)
 //  clean && watch
-gulp.task('default', ['scripts', 'images', 'styles', 'copy:fonts', 'compile:tsc']);
+gulp.task('default', ['scripts', 'images', 'styles', 'copy:fonts', 'copy:semantic-assets', 'compile:tsc']);
 
