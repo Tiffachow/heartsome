@@ -20,9 +20,9 @@
 				<div class="description">{{shelf.book_count[0]._}} Books</div>
 			</div>
 			<div class="content">
-				<div class="ui special ten doubling cards" *ngIf="shelf.books">
+				<div class="ui special eight doubling cards" *ngIf="shelf.books">
 					<div class="card" *ngFor="let book of shelf.books">
-						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0])">
+						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], 1)">
 							<div class="ui dimmer">
 								<div class="content">
 									<div class="center">
@@ -33,7 +33,7 @@
 							<img src="{{book.book[0].image_url[0]}}">
 				    	</div>
 						<div class="content">
-							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0])">{{book.book[0].title[0]}}</a>
+							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], 1)">{{book.book[0].title[0]}}</a>
 							<div class="meta"><span class="author">{{book.book[0].authors[0].author[0].name[0]}}</span></div>
 							<div class="description">
 								<p>{{book.book[0].description[0]}}</p>
@@ -67,7 +67,18 @@
 				</div>
 			</div>
 		</span>
-
+	</div>
+	<div class="ui modal fullscreen google-results">
+		<i class="close icon" (click)="toggleModal()"></i>
+		<div class="header">Custom Google Search Results for {{book.book[0].title[0]}} by {{book.book[0].authors[0].author[0].name[0]}}</div>
+		<div class="image content">
+			<img class="image" src="{{book.book[0].image_url[0]}}">
+			<div class="description">
+				<p>
+					<!-- USE TAB MODULE HERE FOR PAGINATION -->
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 

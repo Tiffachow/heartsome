@@ -105,19 +105,32 @@ export class DownloadWishlistEbooksComponent {
 		})(this);
 	}
 
-	searchForLinks(title, author) {
+	searchForLinks(title, author, page) {
 		var tryCount = 0;
 		var searchResults;
+		var startIndex = (page - 1) * 10 + 1;
+		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=100&q='+encodeURIComponent(title + ' ' + author));
 		(function tryRequest(this_) {
-			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y='+encodeURIComponent(title + ' ' + author))
+			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(title + ' ' + author))
 				.subscribe(
 				data => { searchResults = data._body },
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					JSON.parse(searchResults);
 					console.log("SEARCH RESULTS: "+JSON.stringify(searchResults));
+					$('.ui.fullscreen.modal')
+						.modal('show')
+						.transition('fly up')
+					;
 				}
 				);
 		})(this);
+	}
+
+	toggleModal() {
+		$('.ui.modal')
+			.modal('toggle')
+			.transition('drop')
+		;
 	}
 }

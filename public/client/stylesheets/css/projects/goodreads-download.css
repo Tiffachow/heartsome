@@ -16,7 +16,7 @@ ebooks-download .ui.cards > .card > .content > .header:not(.ui) {
   font-size: 12px;
 }
 ebooks-download .ui.cards > .card > .content > .meta + .description {
-  max-height: 100px;
+  max-height: 150px;
   overflow: scroll;
 }
 ebooks-download .ui.card > .content p:last-child,
@@ -31,9 +31,9 @@ ebooks-download .ui.two.statistics {
 }
 ebooks-download .ui.statistic > .value,
 ebooks-download .ui.statistics .statistic > .value {
-  font-size: 1rem !important;
+  font-size: 1.5rem !important;
 }
 ebooks-download .ui.statistic > .label,
 ebooks-download .ui.statistics .statistic > .label {
-  font-size: 0.4em;
+  font-size: 0.5em;
 }
