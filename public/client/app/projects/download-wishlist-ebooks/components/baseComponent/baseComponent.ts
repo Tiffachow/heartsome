@@ -19,6 +19,9 @@ export class DownloadWishlistEbooksComponent {
 	utilsService: UtilsService;
 	goodreads: Object;
 	userShelves: Object;
+	bookCurrentlySearching: Object;
+	searchResults: Object;
+	authorizationLoaded: Boolean;
 
 	// Constructor
 	constructor(http: Http, jsonp: Jsonp, utilsService: UtilsService) {
@@ -27,6 +30,9 @@ export class DownloadWishlistEbooksComponent {
 		this.utilsService = utilsService;
 		this.goodreads = {};
 		this.userShelves = {};
+		this.bookCurrentlySearching = {};
+		this.searchResults = {};
+		this.authorizationLoaded = true;
 	}
 
 	// Functions
@@ -51,6 +57,7 @@ export class DownloadWishlistEbooksComponent {
 	}
 
 	triggerGoodreadsOAuth() {
+		this.authorizationLoaded = false;
 		var tryCount = 0;
 		var oauth_token;
 		(function tryRequest(this_) {
@@ -74,6 +81,7 @@ export class DownloadWishlistEbooksComponent {
 	// }
 
 	getUserShelves() {
+		this.authorizationLoaded = false;
 		var tryCount = 0;
 		var shelves;
 		(function tryRequest(this_) {
@@ -82,6 +90,7 @@ export class DownloadWishlistEbooksComponent {
 				data => { shelves = data._body },
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
+					this_.authorizationLoaded = true;
 					this_.userShelves = JSON.parse(shelves);
 					setTimeout(function(){this_.initSemanticMethods()}, 1000);
 				}
@@ -105,23 +114,36 @@ export class DownloadWishlistEbooksComponent {
 		})(this);
 	}
 
-	searchForLinks(title, author, page) {
+	searchForLinks(title, author, image, page) {
+		if (page == 1) {
+			$('.ui.fullscreen.modal.google-results')
+				.modal('setting', 'transition', 'horizontal flip')
+				.modal('show')
+			;
+		}
+		this.searchResults = null;
 		var tryCount = 0;
-		var searchResults;
 		var startIndex = (page - 1) * 10 + 1;
 		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=100&q='+encodeURIComponent(title + ' ' + author));
 		(function tryRequest(this_) {
 			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(title + ' ' + author))
 				.subscribe(
-				data => { searchResults = data._body },
+				data => { this_.searchResults = data._body },
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
-					JSON.parse(searchResults);
-					console.log("SEARCH RESULTS: "+JSON.stringify(searchResults));
-					$('.ui.fullscreen.modal')
-						.modal('show')
-						.transition('fly up')
+					$('.tabular.menu .item')
+						.transition('browse')
+						.tab()
 					;
+					this_.bookCurrentlySearching = {
+						title: title,
+						author: author,
+						image: image
+					};
+					JSON.parse(this_.searchResults);
+					console.log("SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
+					this_.searchResults.pages = this_.searchResults.searchInformation.totalResults / 10;
+					// populate tab content
 				}
 				);
 		})(this);

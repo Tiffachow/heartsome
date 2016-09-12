@@ -1,10 +1,15 @@
 <button class="btn goodreads-auth display-block" (click)="triggerGoodreadsOAuth()">Authorize Access to Goodreads</button>
 
-<div *ngIf="goodreads.userName" class="authorized">
+<div *ngIf="!authorizationLoaded" class="ui segment">
+	<div class="ui active inverted dimmer">
+		<div class="ui text loader">Loading</div>
+	</div>
+</div>
+<div *ngIf="goodreads.userName && authorizationLoaded" class="authorized">
 	<h1 class="ui center aligned icon header">
-	  <a class="goodreads-user-name" href="{{goodreads.userLink}}" target="_blank">{{goodreads.userName}}</a>'s
-	  <img class="ui image" id="goodreads-logo" src="//s.gr-assets.com/assets/layout/header/goodreads_logo.svg">
-	  Data
+		<a class="goodreads-user-name" href="{{goodreads.userLink}}" target="_blank">{{goodreads.userName}}</a>'s
+		<img class="ui image" id="goodreads-logo" src="//s.gr-assets.com/assets/layout/header/goodreads_logo.svg">
+		Data
 	</h1>
 	<h2 class="ui header">
 		<i class="book icon"></i>
@@ -16,13 +21,18 @@
 		<span *ngFor="let shelf of userShelves; let i = index">
 			<div class="title" [ngClass]="{bold: (shelf.name[0] == 'to-read')}" (click)="getBooksFromShelf(i,shelf.id[0]._,shelf.name[0])">
 				<i class="dropdown icon"></i> <i class="book icon"></i>
-				<a class="header">{{shelf.name[0]}}</a> <!-- {{shelf.id[0]._}} -->
+				<a class="header">{{shelf.name[0]}}</a>
 				<div class="description">{{shelf.book_count[0]._}} Books</div>
 			</div>
 			<div class="content">
+				<div *ngIf="!shelf.books" class="ui segment">
+					<div class="ui active inverted dimmer">
+						<div class="ui text loader">Loading</div>
+					</div>
+				</div>
 				<div class="ui special eight doubling cards" *ngIf="shelf.books">
 					<div class="card" *ngFor="let book of shelf.books">
-						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], 1)">
+						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], book.book[0].image_url[0], 1)">
 							<div class="ui dimmer">
 								<div class="content">
 									<div class="center">
@@ -33,7 +43,7 @@
 							<img src="{{book.book[0].image_url[0]}}">
 				    	</div>
 						<div class="content">
-							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], 1)">{{book.book[0].title[0]}}</a>
+							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], book.book[0].image_url[0], 1)">{{book.book[0].title[0]}}</a>
 							<div class="meta"><span class="author">{{book.book[0].authors[0].author[0].name[0]}}</span></div>
 							<div class="description">
 								<p>{{book.book[0].description[0]}}</p>
@@ -70,12 +80,37 @@
 	</div>
 	<div class="ui modal fullscreen google-results">
 		<i class="close icon" (click)="toggleModal()"></i>
-		<div class="header">Custom Google Search Results for {{book.book[0].title[0]}} by {{book.book[0].authors[0].author[0].name[0]}}</div>
+		<div class="header">Custom Google Search Results for {{bookCurrentlySearching.title}} by {{bookCurrentlySearching.author}}</div>
 		<div class="image content">
-			<img class="image" src="{{book.book[0].image_url[0]}}">
+			<img class="image" src="{{bookCurrentlySearching.image}}">
 			<div class="description">
-				<p>
-					<!-- USE TAB MODULE HERE FOR PAGINATION -->
+				<div *ngIf="!searchResults" class="ui segment">
+					<div class="ui active inverted dimmer">
+						<div class="ui text loader">Loading</div>
+					</div>
+				</div>
+				<p *ngIf="searchResults">
+					<div class="ui top attached tabular menu">
+			  			<a class="item" (click)="searchForLinks(bookCurrentlySearching.title, bookCurrentlySearching.author, bookCurrentlySearching.image, page)" [ngClass]="{active: (page == 1)}" *ngFor="let page of searchResults.pages" data-tab="{{page}}">{{page}}</a>
+					</div>
+					<div class="ui bottom attached tab segment" [ngClass]="{active: (page == 1)}" *ngFor="" data-tab="{{page}}">
+						<div class="ui items">
+							<a href="{{result.link}}" target="_blank" class="item" *ngFor="let result of searchResults.items">
+								<div class="content">
+									<a class="header" href="{{result.link}}" target="_blank">{{result.htmlTitle}} ({{result.displayLink}})</a>
+									<div class="meta">
+								  		<span>{{result.htmlFormattedUrl}}</span>
+									</div>
+									<div class="description">
+								  		<p>{{result.htmlSnippet}}</p>
+									</div>
+									<div class="extra">
+								  		{{result.link}}
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
 				</p>
 			</div>
 		</div>
