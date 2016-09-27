@@ -11,6 +11,10 @@ ebooks-download h1 img#goodreads-logo {
   height: 1.2em;
   width: auto;
 }
+ebooks-download .ui.segment,
+ebooks-download .ui.segments .segment {
+  padding: 5em;
+}
 ebooks-download .ui.card > .content > .header:not(.ui),
 ebooks-download .ui.cards > .card > .content > .header:not(.ui) {
   font-size: 12px;

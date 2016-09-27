@@ -1,6 +1,5 @@
 /// <reference path="../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit, OnDestroy, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewChecked} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -8,13 +7,9 @@ import {MessageService} from './../../services/MessageService';
 import {VersionsService} from './../../services/VersionsService';
 import {ProjectsService} from './../../services/ProjectsService';
 
-import {ProjectComponent} from './../../projects/components/baseComponent/baseComponent';
-import {VersionComponent} from './../../versions/components/baseComponent/baseComponent';
-
 @Component({
 	selector: 'roulette',
 	styles: [],
-	directives: [CORE_DIRECTIVES, ProjectComponent, VersionComponent],
 	templateUrl: '/client/app/components/rouletteComponent/rouletteComponent.html'
 })
 

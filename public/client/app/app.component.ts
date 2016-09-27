@@ -1,12 +1,7 @@
 /// <reference path="../vendor.d.ts"/>
-import {AfterViewInit, OnInit, enableProdMode} from '@angular/core';
-import {APP_BASE_HREF} from '@angular/common';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-import {Component, provide} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import { APP_ROUTER_PROVIDERS } from './app.routes';
-import {JSONP_PROVIDERS, Jsonp, Http, HTTP_PROVIDERS} from '@angular/http';
-import {disableDeprecatedForms, provideForms} from '@angular/forms';
+
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
 
 import {VersionsService} from './services/VersionsService';
 import {MessageService} from './services/MessageService';
@@ -18,17 +13,12 @@ import {TagSuggestService} from './services/TagSuggestService';
 import {UtilsService} from './services/UtilsService';
 import {S3Service} from './services/S3Service';
 
-import {BaseComponent} from './components/baseComponent/baseComponent';
-import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
-
 @Component({
 	selector: 'app',
 	templateUrl: '/client/app/app.html',
-	directives: [ROUTER_DIRECTIVES]
 })
 
 export class AppComponent {
-	router: Router;
 	messageService: MessageService;
 	versionsService: VersionsService;
 	projectsService: ProjectsService;
@@ -37,9 +27,8 @@ export class AppComponent {
 	tagSuggestService: TagSuggestService;
 	debug: boolean;
 
-	constructor(router: Router, messageService: MessageService, versionsService: VersionsService, profileService: ProfileService,
+	constructor(messageService: MessageService, versionsService: VersionsService, profileService: ProfileService,
 		projectsService: ProjectsService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService) {
-		this.router = router;
 		this.messageService = messageService;
 		this.versionsService = versionsService;
 		this.projectsService = projectsService;
@@ -59,14 +48,3 @@ export class AppComponent {
 	ngAfterViewInit() {
 	}
 }
-
-enableProdMode();
-bootstrap(AppComponent, [
-	JSONP_PROVIDERS, HTTP_PROVIDERS,
-	APP_ROUTER_PROVIDERS, provide(APP_BASE_HREF, {useValue : "/" }),
-	disableDeprecatedForms(), provideForms(),
-	VersionsService, MessageService, AccountService,
-	ProjectsService, ProfileService, BlogPostsService,
-	TagSuggestService, UtilsService, S3Service,
-	BaseComponent, RouletteComponent
-]).catch(err => console.error(err)); //services injected here are singletons available app-wide

@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 
 import {MessageService} from './../../../services/MessageService';
 import {AccountService} from './../../../services/AccountService';
@@ -9,22 +8,9 @@ import {ProjectsService} from './../../../services/ProjectsService';
 import {ProfileService} from './../../../services/ProfileService';
 import {BlogPostsService} from './../../../services/BlogPostsService';
 
-
-import {ProjectsCtrlCenterComponent} from './../ProjectsCtrlCenterComponent/ProjectsCtrlCenterComponent';
-import {ProfileCtrlCenterComponent} from './../ProfileCtrlCenterComponent/ProfileCtrlCenterComponent';
-import {BlogCtrlCenterComponent} from './../BlogCtrlCenterComponent/BlogCtrlCenterComponent';
-import {VersionsCtrlCenterComponent} from './../VersionsCtrlCenterComponent/VersionsCtrlCenterComponent';
-import {AccountSettingsComponent} from './../AccountSettingsComponent/AccountSettingsComponent';
-
-
 @Component({
 	selector: 'dashboard',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES,
-		ProjectsCtrlCenterComponent, ProfileCtrlCenterComponent, BlogCtrlCenterComponent,
-		VersionsCtrlCenterComponent, AccountSettingsComponent
-	],
 	templateUrl: '/client/app/admin/components/baseComponent/baseComponent.html',
 })
 

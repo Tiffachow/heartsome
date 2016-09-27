@@ -1,21 +1,12 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewInit, AfterContentChecked, Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import {MessageService} from './../../../services/MessageService';
 
-// Import all project components here
-import {DownloadWishlistEbooksComponent} from './../../../projects/download-wishlist-ebooks/components/baseComponent/baseComponent';
-
 @Component({
 	selector: 'project-container',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES,
-		// add all project components here
-		DownloadWishlistEbooksComponent
-	],
 	templateUrl: '/client/app/projects/components/baseComponent/baseComponent.html',
 })
 

@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES, NgForm} from '@angular/common';
 
 import {MessageService} from './../../../services/MessageService';
 import {ProfileService} from './../../../services/ProfileService';
@@ -11,9 +10,6 @@ import {S3Service} from './../../../services/S3Service';
 @Component({
 	selector: 'profile-control-center',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/profileCtrlCenterComponent/profileCtrlCenterComponent.html',
 })
 

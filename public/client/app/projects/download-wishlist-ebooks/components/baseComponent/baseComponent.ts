@@ -1,6 +1,5 @@
 /// <reference path="../../../../../vendor.d.ts"/>
 import {AfterViewInit, AfterViewChecked, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 import {Http, Jsonp, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -9,7 +8,6 @@ import {UtilsService} from './../../../../services/UtilsService';
 @Component({
 	selector: 'ebooks-download',
 	styles: [],
-	directives: [CORE_DIRECTIVES],
 	templateUrl: '/client/app/projects/download-wishlist-ebooks/components/baseComponent/baseComponent.html',
 })
 
@@ -31,7 +29,7 @@ export class DownloadWishlistEbooksComponent {
 		this.goodreads = {};
 		this.userShelves = {};
 		this.bookCurrentlySearching = {};
-		this.searchResults = {};
+		this.searchResults = null;
 		this.authorizationLoaded = true;
 	}
 
@@ -140,9 +138,12 @@ export class DownloadWishlistEbooksComponent {
 						author: author,
 						image: image
 					};
-					JSON.parse(this_.searchResults);
+					this_.searchResults = JSON.parse(this_.searchResults);
 					console.log("SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
+					console.log("SEACH INFO: "+JSON.stringify(this_.searchResults.searchInformation));
+					console.log("TOTAL RESULTS: "+JSON.stringify(this_.searchResults.searchInformation.totalResults));
 					this_.searchResults.pages = this_.searchResults.searchInformation.totalResults / 10;
+					console.log("PAGES: "+this_.searchResults.pages);
 					// populate tab content
 				}
 				);

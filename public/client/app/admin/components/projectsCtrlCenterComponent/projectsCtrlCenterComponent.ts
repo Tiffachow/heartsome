@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES, NgForm} from '@angular/common';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
@@ -11,9 +10,6 @@ import {S3Service} from './../../../services/S3Service';
 @Component({
 	selector: 'projects-control-center',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/projectsCtrlCenterComponent/projectsCtrlCenterComponent.html',
 })
 

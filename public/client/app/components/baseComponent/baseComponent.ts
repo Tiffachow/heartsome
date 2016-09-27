@@ -1,12 +1,10 @@
 /// <reference path="../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 
 @Component({
 	selector: 'base-component',
 	styles: [],
-	directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
 	templateUrl: '/client/app/components/baseComponent/baseComponent.html'
 })
 

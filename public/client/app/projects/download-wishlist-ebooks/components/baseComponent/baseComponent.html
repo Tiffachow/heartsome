@@ -89,11 +89,11 @@
 						<div class="ui text loader">Loading</div>
 					</div>
 				</div>
-				<p *ngIf="searchResults">
+				<div *ngIf="searchResults">
 					<div class="ui top attached tabular menu">
-			  			<a class="item" (click)="searchForLinks(bookCurrentlySearching.title, bookCurrentlySearching.author, bookCurrentlySearching.image, page)" [ngClass]="{active: (page == 1)}" *ngFor="let page of searchResults.pages" data-tab="{{page}}">{{page}}</a>
+			  			<a class="item" (click)="searchForLinks(bookCurrentlySearching.title, bookCurrentlySearching.author, bookCurrentlySearching.image, page)" [ngClass]="{active: (page == 1)}" *ngFor="let page of searchResults.pages" [attr.data-tab]="page">{{page}}</a>
 					</div>
-					<div class="ui bottom attached tab segment" [ngClass]="{active: (page == 1)}" *ngFor="" data-tab="{{page}}">
+					<div class="ui bottom attached tab segment" [ngClass]="{active: (page == 1)}" *ngFor="" [attr.data-tab]="page">
 						<div class="ui items">
 							<a href="{{result.link}}" target="_blank" class="item" *ngFor="let result of searchResults.items">
 								<div class="content">
@@ -111,7 +111,7 @@
 							</a>
 						</div>
 					</div>
-				</p>
+				</div>
 			</div>
 		</div>
 	</div>

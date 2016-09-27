@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 
 import {MessageService} from './../../../services/MessageService';
 import {AccountService} from './../../../services/AccountService';
@@ -9,9 +8,6 @@ import {ProfileService} from './../../../services/ProfileService';
 @Component({
 	selector: 'account-settings',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/accountSettingsComponent/accountSettingsComponent.html',
 })
 

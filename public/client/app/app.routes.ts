@@ -1,6 +1,5 @@
-// https://angular.io/resources/live-examples/router/ts/plnkr.html
-
-import { provideRouter, RouterConfig } from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
 import {BaseComponent} from './components/baseComponent/baseComponent';
 import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
@@ -8,7 +7,7 @@ import {DashboardComponent} from './admin/components/baseComponent/baseComponent
 import {ProjectComponent} from './projects/components/baseComponent/baseComponent';
 import {VersionComponent} from './versions/components/baseComponent/baseComponent';
 
-export const routes: RouterConfig = [
+export const appRoutes: Routes = [
 	{
 		path: '',
 		component: BaseComponent,
@@ -33,6 +32,8 @@ export const routes: RouterConfig = [
 	{path: 'project/:name', component: ProjectComponent} //holder of all projects
 ];
 
-export const APP_ROUTER_PROVIDERS = [
-	provideRouter(routes)
+export const appRoutingProviders: any[] = [
+
 ];
+
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
