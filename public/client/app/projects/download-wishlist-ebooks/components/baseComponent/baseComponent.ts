@@ -28,14 +28,19 @@ export class DownloadWishlistEbooksComponent {
 		this.utilsService = utilsService;
 		this.goodreads = {};
 		this.userShelves = {};
-		this.bookCurrentlySearching = {};
+		this.bookCurrentlySearching = {
+			title: "",
+			author: "",
+			image: "",
+			currentPage: 0,
+			resultPages: []
+		};
 		this.searchResults = null;
 		this.authorizationLoaded = true;
 	}
 
 	// Functions
 	ngOnInit() {
-
 	}
 
 	ngAfterViewInit() {
@@ -112,19 +117,15 @@ export class DownloadWishlistEbooksComponent {
 		})(this);
 	}
 
-	searchForLinks(title, author, image, page) {
-		if (page == 1) {
-			$('.ui.fullscreen.modal.google-results')
-				.modal('setting', 'transition', 'horizontal flip')
-				.modal('show')
-			;
-		}
+	searchForLinks(title, author, image) {
+		$('.ui.fullscreen.modal.google-results')
+			.modal('setting', 'transition', 'horizontal flip')
+			.modal('show');
 		this.searchResults = null;
 		var tryCount = 0;
-		var startIndex = (page - 1) * 10 + 1;
-		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=100&q='+encodeURIComponent(title + ' ' + author));
+		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start=1&q='+encodeURIComponent(title + ' ' + author));
 		(function tryRequest(this_) {
-			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(title + ' ' + author))
+			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start=1&q='+encodeURIComponent(title + ' ' + author))
 				.subscribe(
 				data => { this_.searchResults = data._body },
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
@@ -133,18 +134,49 @@ export class DownloadWishlistEbooksComponent {
 						.transition('browse')
 						.tab()
 					;
+					this_.searchResults = JSON.parse(this_.searchResults);
 					this_.bookCurrentlySearching = {
 						title: title,
 						author: author,
-						image: image
+						image: image,
+						currentPage: 1,
+						resultPages: []
 					};
-					this_.searchResults = JSON.parse(this_.searchResults);
+					for (var i=0; i<this_.searchResults.searchInformation.totalResults / 10; i++) {
+						this_.bookCurrentlySearching.resultPages.push(i);
+					}
+
 					console.log("SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
 					console.log("SEACH INFO: "+JSON.stringify(this_.searchResults.searchInformation));
 					console.log("TOTAL RESULTS: "+JSON.stringify(this_.searchResults.searchInformation.totalResults));
-					this_.searchResults.pages = this_.searchResults.searchInformation.totalResults / 10;
-					console.log("PAGES: "+this_.searchResults.pages);
-					// populate tab content
+					console.log("PAGES: "+this_.bookCurrentlySearching.resultPages.length);
+				}
+				);
+		})(this);
+	}
+
+	changePage(page) {
+		this.searchResults = null;
+		var tryCount = 0;
+		var startIndex = (page - 1) * 10 + 1;
+		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(this.bookCurrentlySearching["title"] + ' ' + this.bookCurrentlySearching["author"]));
+		(function tryRequest(this_) {
+			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(this_.bookCurrentlySearching.title + ' ' + this_.bookCurrentlySearching.author))
+				.subscribe(
+				data => { this_.searchResults = data._body },
+				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
+				() => {
+					$('.tabular.menu .item')
+						.transition('browse')
+						.tab()
+					;
+					this_.searchResults = JSON.parse(this_.searchResults);
+					this_.bookCurrentlySearching.currentPage = page;
+
+					console.log("PAGE SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
+					console.log("SEACH INFO: "+JSON.stringify(this_.searchResults.searchInformation));
+					console.log("TOTAL RESULTS: "+JSON.stringify(this_.searchResults.searchInformation.totalResults));
+					console.log("PAGES: "+this_.bookCurrentlySearching.resultPages.length);
 				}
 				);
 		})(this);

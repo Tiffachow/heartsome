@@ -32,7 +32,7 @@
 				</div>
 				<div class="ui special eight doubling cards" *ngIf="shelf.books">
 					<div class="card" *ngFor="let book of shelf.books">
-						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], book.book[0].image_url[0], 1)">
+						<div class="blurring dimmable image" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], book.book[0].image_url[0], 0)">
 							<div class="ui dimmer">
 								<div class="content">
 									<div class="center">
@@ -43,7 +43,7 @@
 							<img src="{{book.book[0].image_url[0]}}">
 				    	</div>
 						<div class="content">
-							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], book.book[0].image_url[0], 1)">{{book.book[0].title[0]}}</a>
+							<a class="header" (click)="searchForLinks(book.book[0].title[0], book.book[0].authors[0].author[0].name[0], book.book[0].image_url[0], 0)">{{book.book[0].title[0]}}</a>
 							<div class="meta"><span class="author">{{book.book[0].authors[0].author[0].name[0]}}</span></div>
 							<div class="description">
 								<p>{{book.book[0].description[0]}}</p>
@@ -84,32 +84,35 @@
 		<div class="image content">
 			<img class="image" src="{{bookCurrentlySearching.image}}">
 			<div class="description">
-				<div *ngIf="!searchResults" class="ui segment">
-					<div class="ui active inverted dimmer">
-						<div class="ui text loader">Loading</div>
-					</div>
+				<div class="ui top attached tabular menu">
+		  			<a class="item" (click)="changePage(page + 1)" [ngClass]="{active: (page + 1 == bookCurrentlySearching.currentPage)}" *ngFor="let page of bookCurrentlySearching.resultPages" [attr.data-tab]="page + 1">{{page + 1}}</a>
+		  			
+		  			<i (click)="changePage(1)" class="angle-double-left icon" [ngClass]="{disabled: (page == 0)}"></i>
+		  			<i (click)="changePage(page)" class="angle-left icon" [ngClass]="{disabled: (page == 0)}"></i>
+		  			<i (click)="changePage(page + 2)" class="angle-right icon" [ngClass]="{disabled: (page + 1 == bookCurrentlySearching.resultPages.length)}"></i>
+		  			<i (click)="changePage(bookCurrentlySearching.resultPages.length - 1)" class="angle-double-right icon" [ngClass]="{disabled: (page + 1 == bookCurrentlySearching.resultPages.length)}"></i>
 				</div>
-				<div *ngIf="searchResults">
-					<div class="ui top attached tabular menu">
-			  			<a class="item" (click)="searchForLinks(bookCurrentlySearching.title, bookCurrentlySearching.author, bookCurrentlySearching.image, page)" [ngClass]="{active: (page == 1)}" *ngFor="let page of searchResults.pages" [attr.data-tab]="page">{{page}}</a>
-					</div>
-					<div class="ui bottom attached tab segment" [ngClass]="{active: (page == 1)}" *ngFor="" [attr.data-tab]="page">
-						<div class="ui items">
-							<a href="{{result.link}}" target="_blank" class="item" *ngFor="let result of searchResults.items">
-								<div class="content">
-									<a class="header" href="{{result.link}}" target="_blank">{{result.htmlTitle}} ({{result.displayLink}})</a>
-									<div class="meta">
-								  		<span>{{result.htmlFormattedUrl}}</span>
-									</div>
-									<div class="description">
-								  		<p>{{result.htmlSnippet}}</p>
-									</div>
-									<div class="extra">
-								  		{{result.link}}
-									</div>
-								</div>
-							</a>
+				<div class="ui bottom attached tab segment active" [attr.data-tab]="page">
+					<div *ngIf="!searchResults" class="ui segment">
+						<div class="ui active inverted dimmer">
+							<div class="ui text loader">Loading</div>
 						</div>
+					</div>
+					<div *ngIf="searchResults" class="ui items">
+						<a href="{{result.link}}" target="_blank" class="item" *ngFor="let result of searchResults.items">
+							<div class="content">
+								<a class="header" href="{{result.link}}" target="_blank">{{result.title}} ({{result.displayLink}})</a>
+								<div class="meta">
+							  		<span>{{result.formattedUrl}}</span>
+								</div>
+								<div class="description">
+							  		<p>{{result.snippet}}</p>
+								</div>
+								<div class="extra">
+							  		{{result.link}}
+								</div>
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>
