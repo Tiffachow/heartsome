@@ -130,10 +130,6 @@ export class DownloadWishlistEbooksComponent {
 				data => { this_.searchResults = data._body },
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
-					$('.tabular.menu .item')
-						.transition('browse')
-						.tab()
-					;
 					this_.searchResults = JSON.parse(this_.searchResults);
 					this_.bookCurrentlySearching = {
 						title: title,
@@ -142,10 +138,16 @@ export class DownloadWishlistEbooksComponent {
 						currentPage: 1,
 						resultPages: []
 					};
-					for (var i=0; i<this_.searchResults.searchInformation.totalResults / 10; i++) {
+
+					var p;
+					if (this_.searchResults.searchInformation.totalResults / 10 > 20) {
+						p = 20;
+					} else {
+						p = this_.searchResults.searchInformation.totalResults / 10;
+					}
+					for (var i = 0; i < p; i++) {
 						this_.bookCurrentlySearching.resultPages.push(i);
 					}
-
 					console.log("SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
 					console.log("SEACH INFO: "+JSON.stringify(this_.searchResults.searchInformation));
 					console.log("TOTAL RESULTS: "+JSON.stringify(this_.searchResults.searchInformation.totalResults));
@@ -156,6 +158,9 @@ export class DownloadWishlistEbooksComponent {
 	}
 
 	changePage(page) {
+		$('.tab.segment .items')
+			.transition('browse')
+		;
 		this.searchResults = null;
 		var tryCount = 0;
 		var startIndex = (page - 1) * 10 + 1;
@@ -166,10 +171,6 @@ export class DownloadWishlistEbooksComponent {
 				data => { this_.searchResults = data._body },
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
-					$('.tabular.menu .item')
-						.transition('browse')
-						.tab()
-					;
 					this_.searchResults = JSON.parse(this_.searchResults);
 					this_.bookCurrentlySearching.currentPage = page;
 
