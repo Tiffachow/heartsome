@@ -78,12 +78,12 @@
 			</div>
 		</span>
 	</div>
-	<div class="ui modal fullscreen google-results">
+	<div class="ui modal fullscreen google-results scrolling">
 		<i class="close icon" (click)="toggleModal()"></i>
 		<div class="header">Custom Google Search Results for {{bookCurrentlySearching.title}} by {{bookCurrentlySearching.author}}</div>
 		<div class="image content">
-			<img class="image" src="{{bookCurrentlySearching.image}}">
-			<div class="description">
+			<img class="image" src="{{bookCurrentlySearching.image}}" style="height: 150px">
+			<div class="description" style="width: 100%; min-height: 50px">
 				<div class="ui top attached tabular menu">
 		  			<a class="item" (click)="changePage(page + 1)" [ngClass]="{active: (page + 1 == bookCurrentlySearching.currentPage)}" *ngFor="let page of bookCurrentlySearching.resultPages" [attr.data-tab]="page + 1">{{page + 1}}</a>
 		  			
@@ -92,7 +92,7 @@
 		  			<i (click)="changePage(page + 2)" class="angle-right icon" [ngClass]="{disabled: (page + 1 == bookCurrentlySearching.resultPages.length)}"></i>
 		  			<i (click)="changePage(bookCurrentlySearching.resultPages.length - 1)" class="angle-double-right icon" [ngClass]="{disabled: (page + 1 == bookCurrentlySearching.resultPages.length)}"></i>
 				</div>
-				<div class="ui bottom attached tab segment active" [attr.data-tab]="page">
+				<div class="ui bottom attached tab segment active" [attr.data-tab]="page" style="max-height: 70vh; overflow: scroll">
 					<div *ngIf="!searchResults" class="ui segment">
 						<div class="ui active inverted dimmer">
 							<div class="ui text loader">Loading</div>

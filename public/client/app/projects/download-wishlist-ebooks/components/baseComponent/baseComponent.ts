@@ -46,8 +46,6 @@ export class DownloadWishlistEbooksComponent {
 	ngAfterViewInit() {
 		if (global.goodreads) {
 			this.goodreads = global.goodreads;
-			console.log("goodreads name: "+this.goodreads["userName"]);
-			console.log("goodreads link: "+this.goodreads["userLink"]);
 			this.getUserShelves();
 		}
 	}
@@ -74,14 +72,6 @@ export class DownloadWishlistEbooksComponent {
 				);
 		})(this);
 	}
-
-	// pullGoodreadsData() {
-	// 	try{
-	// 		localStorage.setItem('GoodreadsData', JSON.stringify(this.goodreads));
-	// 	} catch (e) {
-	// 		console.log("Error setting localStorage for Goodreads data: " + e);
-	// 	}
-	// }
 
 	getUserShelves() {
 		this.authorizationLoaded = false;
@@ -122,8 +112,8 @@ export class DownloadWishlistEbooksComponent {
 			.modal('setting', 'transition', 'horizontal flip')
 			.modal('show');
 		this.searchResults = null;
+		title = title.split("(")[0];
 		var tryCount = 0;
-		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start=1&q='+encodeURIComponent(title + ' ' + author));
 		(function tryRequest(this_) {
 			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start=1&q='+encodeURIComponent(title + ' ' + author))
 				.subscribe(
@@ -140,18 +130,15 @@ export class DownloadWishlistEbooksComponent {
 					};
 
 					var p;
-					if (this_.searchResults.searchInformation.totalResults / 10 > 20) {
-						p = 20;
+					if (this_.searchResults.searchInformation.totalResults / 10 > 10) {
+						p = 10;
 					} else {
 						p = this_.searchResults.searchInformation.totalResults / 10;
 					}
 					for (var i = 0; i < p; i++) {
 						this_.bookCurrentlySearching.resultPages.push(i);
 					}
-					console.log("SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
-					console.log("SEACH INFO: "+JSON.stringify(this_.searchResults.searchInformation));
-					console.log("TOTAL RESULTS: "+JSON.stringify(this_.searchResults.searchInformation.totalResults));
-					console.log("PAGES: "+this_.bookCurrentlySearching.resultPages.length);
+					$('.ui.fullscreen.modal.google-results').modal('refresh').modal('setting', 'transition', 'drop');
 				}
 				);
 		})(this);
@@ -164,7 +151,6 @@ export class DownloadWishlistEbooksComponent {
 		this.searchResults = null;
 		var tryCount = 0;
 		var startIndex = (page - 1) * 10 + 1;
-		console.log('api request: ' + 'https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(this.bookCurrentlySearching["title"] + ' ' + this.bookCurrentlySearching["author"]));
 		(function tryRequest(this_) {
 			this_.http.get('https://www.googleapis.com/customsearch/v1?key='+global.googleApp.browserApiKey+'&cx=003921693789393635481:flf1z5myj8y&prettyPrint=true&num=10&start='+startIndex+'&q='+encodeURIComponent(this_.bookCurrentlySearching.title + ' ' + this_.bookCurrentlySearching.author))
 				.subscribe(
@@ -173,20 +159,13 @@ export class DownloadWishlistEbooksComponent {
 				() => {
 					this_.searchResults = JSON.parse(this_.searchResults);
 					this_.bookCurrentlySearching.currentPage = page;
-
-					console.log("PAGE SEARCH RESULTS: "+JSON.stringify(this_.searchResults));
-					console.log("SEACH INFO: "+JSON.stringify(this_.searchResults.searchInformation));
-					console.log("TOTAL RESULTS: "+JSON.stringify(this_.searchResults.searchInformation.totalResults));
-					console.log("PAGES: "+this_.bookCurrentlySearching.resultPages.length);
+					$('.ui.fullscreen.modal.google-results').modal('refresh').modal('setting', 'transition', 'drop');
 				}
 				);
 		})(this);
 	}
 
 	toggleModal() {
-		$('.ui.modal')
-			.modal('toggle')
-			.transition('drop')
-		;
+		$('.ui.fullscreen.modal.google-results').modal('toggle');
 	}
 }

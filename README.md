@@ -8,7 +8,7 @@ personal portfolio web app
 *	MEAN stack
 	*	Mongoose
 	*	Express
-	*	Angular2 Release Candidate 3
+	*	Angular 2 Final Release
 	*	NodeJS
 *	Documentation: Typedoc
 *	Testing: Jasmine
