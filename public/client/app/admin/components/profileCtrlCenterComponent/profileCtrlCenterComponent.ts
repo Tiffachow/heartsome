@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES, NgForm} from '@angular/common';
+import {AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 
 import {MessageService} from './../../../services/MessageService';
 import {ProfileService} from './../../../services/ProfileService';
@@ -9,32 +8,17 @@ import {TagSuggestService} from './../../../services/TagSuggestService';
 import {S3Service} from './../../../services/S3Service';
 
 @Component({
+	moduleId: module.id + '',
 	selector: 'profile-control-center',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/profileCtrlCenterComponent/profileCtrlCenterComponent.html',
 })
 
 export class ProfileCtrlCenterComponent {
-	messageService: MessageService;
-	profileService: ProfileService;
-	projectsService: ProjectsService;
-	tagSuggestService: TagSuggestService;
-	s3Service: S3Service;
-	openEditor: boolean;
+	openEditor: boolean = false;
 
 	// Constructor
-	constructor(messageService: MessageService, profileService: ProfileService, projectsService: ProjectsService, tagSuggestService: TagSuggestService,
-		s3Service: S3Service) {
-		this.messageService = messageService;
-		this.profileService = profileService;
-		this.projectsService = projectsService;
-		this.tagSuggestService = tagSuggestService;
-		this.s3Service = s3Service;
-		this.openEditor = false;
-	}
+	constructor(public messageService: MessageService, public profileService: ProfileService, public projectsService: ProjectsService, public tagSuggestService: TagSuggestService, public s3Service: S3Service) {}
 
 	// Functions
 	ngOnInit() {

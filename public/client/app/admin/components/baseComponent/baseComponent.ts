@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 
 import {MessageService} from './../../../services/MessageService';
 import {AccountService} from './../../../services/AccountService';
@@ -10,46 +9,20 @@ import {ProfileService} from './../../../services/ProfileService';
 import {BlogPostsService} from './../../../services/BlogPostsService';
 
 
-import {ProjectsCtrlCenterComponent} from './../ProjectsCtrlCenterComponent/ProjectsCtrlCenterComponent';
-import {ProfileCtrlCenterComponent} from './../ProfileCtrlCenterComponent/ProfileCtrlCenterComponent';
-import {BlogCtrlCenterComponent} from './../BlogCtrlCenterComponent/BlogCtrlCenterComponent';
-import {VersionsCtrlCenterComponent} from './../VersionsCtrlCenterComponent/VersionsCtrlCenterComponent';
-import {AccountSettingsComponent} from './../AccountSettingsComponent/AccountSettingsComponent';
-
-
 @Component({
+	moduleId: module.id + '',
 	selector: 'dashboard',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES,
-		ProjectsCtrlCenterComponent, ProfileCtrlCenterComponent, BlogCtrlCenterComponent,
-		VersionsCtrlCenterComponent, AccountSettingsComponent
-	],
 	templateUrl: '/client/app/admin/components/baseComponent/baseComponent.html',
 })
 
 export class DashboardComponent {
 	activeCtrlCenter: Object;
 	currentCtrlCenter: String;
-	messageService: MessageService;
-	accountService: AccountService;
-	versionsService: VersionsService;
-	projectsService: ProjectsService;
-	profileService: ProfileService;
-	blogPostsService: BlogPostsService;
 
 	// Constructor
-	constructor(messageService: MessageService, accountService: AccountService, versionsService: VersionsService,
-		profileService: ProfileService, projectsService: ProjectsService, blogPostsService: BlogPostsService) {
-		this.messageService = messageService;
-		this.accountService = accountService;
-		this.versionsService = versionsService;
-		this.projectsService = projectsService;
-		this.profileService = profileService;
-		this.blogPostsService = blogPostsService;
-		this.activeCtrlCenter;
-		this.currentCtrlCenter;
-	}
+	constructor(public messageService: MessageService, public accountService: AccountService, public versionsService: VersionsService,
+		public profileService: ProfileService, public projectsService: ProjectsService, public blogPostsService: BlogPostsService) {}
 
 	// Functions
 	ngOnInit() {

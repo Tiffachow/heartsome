@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES, NgForm} from '@angular/common';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
@@ -9,33 +8,20 @@ import {TagSuggestService} from './../../../services/TagSuggestService';
 import {S3Service} from './../../../services/S3Service';
 
 @Component({
+	moduleId: module.id + '',
 	selector: 'projects-control-center',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/projectsCtrlCenterComponent/projectsCtrlCenterComponent.html',
 })
 
 export class ProjectsCtrlCenterComponent {
-	messageService: MessageService;
-	projectsService: ProjectsService;
-	tagSuggestService: TagSuggestService;
-	s3Service: S3Service;
 	openEditor: String;
 	messageSubscription: Subscription;
 	currentlyEditing: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, projectsService: ProjectsService, tagSuggestService: TagSuggestService,
-		s3Service: S3Service) {
-		this.messageService = messageService;
-		this.projectsService = projectsService;
-		this.tagSuggestService = tagSuggestService;
-		this.s3Service = s3Service;
-		this.openEditor = null;
-		this.currentlyEditing = null;
-	}
+	constructor(public messageService: MessageService, public projectsService: ProjectsService, public tagSuggestService: TagSuggestService,
+		public s3Service: S3Service) {}
 
 	// Functions
 	ngOnInit() {
@@ -111,7 +97,7 @@ export class ProjectsCtrlCenterComponent {
 			}
 		});
 		console.log("PROJECT CUSTOMERS: "+dataObject["project-customers"]);
-		
+
 		// upload each img & video to s3
 		dataObject["project-images"] = [];
 		$(".project-images-urls").each(function(i) {

@@ -1,6 +1,5 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CORE_DIRECTIVES, NgForm} from '@angular/common';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
@@ -9,35 +8,21 @@ import {TagSuggestService} from './../../../services/TagSuggestService';
 import {S3Service} from './../../../services/S3Service';
 
 @Component({
+	moduleId: module.id + '',
 	selector: 'blog-control-center',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/blogCtrlCenterComponent/blogCtrlCenterComponent.html',
 })
 
 export class BlogCtrlCenterComponent {
-	messageService: MessageService;
-	messageSubscription: Subscription;
-	blogPostsService: BlogPostsService;
-	tagSuggestService: TagSuggestService;
-	s3Service: S3Service;
 	openEditor: String;
 	currentlyEditing: Object;
+	messageSubscription: Subscription;
 	@ViewChild('postImg') postImgInput: ElementRef;
 	@ViewChild('previewImg') previewImgInput: ElementRef;
 
 	// Constructor
-	constructor(messageService: MessageService, blogPostsService: BlogPostsService, tagSuggestService: TagSuggestService, s3Service: S3Service) {
-		this.messageService = messageService;
-		this.blogPostsService = blogPostsService;
-		this.tagSuggestService = tagSuggestService;
-		this.s3Service = s3Service;
-		this.openEditor = null;
-		this.messageSubscription;
-		this.currentlyEditing = null;
-	}
+	constructor(public messageService: MessageService, public blogPostsService: BlogPostsService, public tagSuggestService: TagSuggestService, public s3Service: S3Service){}
 
 	// Functions
 	ngOnInit() {

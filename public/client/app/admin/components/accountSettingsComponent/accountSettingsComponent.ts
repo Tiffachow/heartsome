@@ -1,31 +1,21 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 
 import {MessageService} from './../../../services/MessageService';
 import {AccountService} from './../../../services/AccountService';
 import {ProfileService} from './../../../services/ProfileService';
 
 @Component({
+	moduleId: module.id + '',
 	selector: 'account-settings',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES
-	],
 	templateUrl: '/client/app/admin/components/accountSettingsComponent/accountSettingsComponent.html',
 })
 
 export class AccountSettingsComponent {
-	messageService: MessageService;
-	accountService: AccountService;
-	profileService: ProfileService;
 
 	// Constructor
-	constructor(messageService: MessageService, accountService: AccountService, profileService: ProfileService) {
-		this.messageService = messageService;
-		this.accountService = accountService;
-		this.profileService = profileService;
-	}
+	constructor(public messageService: MessageService, public accountService: AccountService, public profileService: ProfileService) {}
 
 	// Functions
 	ngOnInit() {

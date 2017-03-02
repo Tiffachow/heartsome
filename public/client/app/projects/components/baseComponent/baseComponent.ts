@@ -1,62 +1,36 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewInit, AfterContentChecked, Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {Router, RouterLink, RouterOutlet, ActivatedRoute, Params} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
 
-// Import all project components here
-import {DownloadWishlistEbooksComponent} from './../../../projects/download-wishlist-ebooks/components/baseComponent/baseComponent';
-
 @Component({
+	moduleId: module.id + '',
 	selector: 'project-container',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES,
-		// add all project components here
-		DownloadWishlistEbooksComponent
-	],
 	templateUrl: '/client/app/projects/components/baseComponent/baseComponent.html',
 })
 
 export class ProjectComponent {
 	@Input() projectName: string;
-	messageService: MessageService;
-	router: Router;
-	route: ActivatedRoute;
-	sub: any;
+	routeSubscription: Subscription;
 	project: string;
 	routeParams: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, router: Router, route: ActivatedRoute) {
-		this.messageService = messageService;
-		this.router = router;
-		this.route = route;
-		this.routeParams;
-		this.project;
-	}
+	constructor(public messageService: MessageService, private router: Router, private route: ActivatedRoute) {}
 
 	// Functions
 	ngOnInit() {
-		this.sub = this.route
-			.params
-			.subscribe(params => {
-				this.routeParams = params;
-			});
-		this.project = this.routeParams['name'] ? this.routeParams['name'].toSlug() : this.projectName.toSlug();
-	}
-
-	ngOnDestroy() {
-		if (this.sub) {
-			this.sub.unsubscribe();
-		}
-	}
-
-	ngAfterContentChecked() {
-		this.project = this.routeParams['name'] ? this.routeParams['name'].toSlug() : this.projectName.toSlug();
+		this.routeSubscription = this.route.params.subscribe((params: Params) => {
+			console.log("PARAMS CHANGED", params);
+			this.routeParams = params;
+			this.ngAfterViewInit();
+		});
 	}
 
 	ngAfterViewInit() {
+		this.project = this.routeParams['name'] ? this.routeParams['name'].toSlug() : this.projectName.toSlug();
 	}
 }
