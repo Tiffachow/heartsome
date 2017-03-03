@@ -16,6 +16,8 @@ personal portfolio web app
 
 to begin:
 
-`npm run setup` to set up dependencies & env vars, run the build, set env vars & start the server
+First time setting up: `npm run setup`
 
-`npm start` for running the build, setting env vars & starting the server
+Updating packages only: `npm install && npm start`
+
+Updating code only: `npm run gulp` or `npm start` to also run the server
