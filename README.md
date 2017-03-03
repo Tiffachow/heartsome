@@ -3,7 +3,7 @@ personal portfolio web app
 
 *	Gulp
 *	Typescript
-*	Rollup / Browserify, Uglify
+*	Browserify, Uglify
 *	Less
 *	MEAN stack
 	*	Mongoose
@@ -16,6 +16,8 @@ personal portfolio web app
 
 to begin:
 
-`npm run setup` to set up dependencies & env, run the build & start the server
+First time setting up: `npm run setup`
 
-`npm start` for just the build & starting the server
+Updating packages only: `npm install && npm start`
+
+Updating code only: `npm run gulp` or `npm start` to also run the server

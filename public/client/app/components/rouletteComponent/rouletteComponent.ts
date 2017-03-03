@@ -1,38 +1,77 @@
 /// <reference path="../../../vendor.d.ts"/>
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Router, RouterLink, RouterOutlet, ActivatedRoute, Params} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+
+import {MessageService} from './../../services/MessageService';
 import {VersionsService} from './../../services/VersionsService';
-
-import {VersionCubicComponent} from './../../version-cubic/components/baseComponent/baseComponent';
-import {VersionMaterialComponent} from './../../version-material/components/baseComponent/baseComponent';
-import {VersionTypographyComponent} from './../../version-typography/components/baseComponent/baseComponent';
+import {ProjectsService} from './../../services/ProjectsService';
 
 @Component({
+	moduleId: module.id + '',
 	selector: 'roulette',
 	styles: [],
-	directives: [CORE_DIRECTIVES, VersionCubicComponent, VersionMaterialComponent, VersionTypographyComponent],
 	templateUrl: '/client/app/components/rouletteComponent/rouletteComponent.html'
 })
 
 export class RouletteComponent {
-	versionsService: VersionsService;
-	version: string;
+	messageSubscription: Subscription;
+	routeSubscription: Subscription;
+	project: Object;
+	version: Object;
+	type: string = this.route.params["type"] || "versions";
+	alreadyInit: boolean = false;
 
 	// Constructor
-	constructor(versionsService:VersionsService) {
-		this.versionsService = versionsService;
-	}
+	constructor(public messageService: MessageService, public versionsService:VersionsService, public projectsService: ProjectsService, private router: Router, private route: ActivatedRoute) {}
 
 	// Functions
 
-	ngOnInit(){
-		this.version = this.versionsService.playRoulette();
-		console.log("Roulette version: " + this.version);
+	subscribeToMessageService() {
+		this.messageSubscription = this.messageService.message$.subscribe(message =>
+			{
+				switch (message["name"]) {
+					case "activateRoulette":
+						if (this.alreadyInit) {
+							this.playRoulette();
+						}
+						break;
+				}
+			}
+		);
 	}
 
-	ngAfterViewInit(){
+	ngOnInit(){
+		this.subscribeToMessageService();
+		this.playRoulette();
+	}
 
+	playRoulette() {
+		this.routeSubscription = this.route.params.subscribe((params: Params) => {
+			console.log("PARAMS CHANGED", params);
+			this.type = params['type'] || "versions";
+			this.ngAfterViewInit();
+		});
+	}
+
+	ngAfterViewInit() {
+		if (this.type == "versions") {
+			this.version = this.versionsService.playRoulette();
+			console.log("Roulette version: " + this.version["name"]);
+		} else if (this.type == "projects") {
+			this.project = this.projectsService.playRoulette();
+			if (this.project) {
+				console.log("Roulette project: " + this.project["title"]);
+			} else {
+				console.log("No projects");
+			}
+		}
+		this.alreadyInit = true;
+	}
+
+	ngOnDestroy() {
+		this.messageSubscription.unsubscribe();
 	}
 
 }

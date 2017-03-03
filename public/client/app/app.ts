@@ -1,39 +1,9 @@
-/// <reference path="../vendor.d.ts"/>
-import {AfterViewInit, OnInit, enableProdMode} from '@angular/core';
-import {APP_BASE_HREF} from '@angular/common';
-import {bootstrap} from '@angular/platform-browser-dynamic';
-import {Component, provide} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import { APP_ROUTER_PROVIDERS } from './app.routes';
-import {JSONP_PROVIDERS, Jsonp, Http, HTTP_PROVIDERS} from '@angular/http';
+import {enableProdMode}      	  from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import {VersionsService} from './services/VersionsService';
+import { AppModule } from './app.module';
 
-@Component({
-	selector: 'app',
-	templateUrl: '/client/app/app.html',
-	directives: [ROUTER_DIRECTIVES]
-})
-
-export class AppComponent {
-	router: Router;
-	versionsService: VersionsService;
-	debug: boolean;
-
-	constructor(router: Router, versionsService: VersionsService) {
-		this.router = router;
-		this.versionsService = versionsService;
-		this.debug = true;
-	}
-	ngOnInit() {
-	}
-	ngAfterViewInit() {
-	}
-}
+const platform = platformBrowserDynamic();
 
 enableProdMode();
-bootstrap(AppComponent, [
-	JSONP_PROVIDERS, HTTP_PROVIDERS, APP_ROUTER_PROVIDERS,
-	provide(APP_BASE_HREF, {useValue : "/" }),
-	VersionsService
-]).catch(err => console.error(err)); //services injected here are singletons available app-wide
+platform.bootstrapModule(AppModule);

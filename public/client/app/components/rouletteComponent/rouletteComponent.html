@@ -1,4 +1,11 @@
 <span>ROULETTE app working</span>
-<version-cubic *ngIf="version == 'cubic'"></version-cubic>
-<version-material *ngIf="version == 'material'"></version-material>
-<version-typography *ngIf="version == 'typography'"></version-typography>
+
+<div *ngIf="type == 'versions'">
+	<version-container *ngIf="version" versionName="{{version.name}}"></version-container>
+	<span *ngIf="!version">No versions currently</span>
+</div>
+
+<div *ngIf="type == 'projects'">
+	<project-container *ngIf="project" projectName="{{project.title}}"></project-container>
+	<span *ngIf="!project">No projects currently</span>
+</div>

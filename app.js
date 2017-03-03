@@ -11,10 +11,16 @@ var routes = require('./routes/index');
 var app = express();
 
 var uri = 'mongodb://'+process.env.dbuser+':'+process.env.password+'@localhost:27017/heartsome';
+// var uri = 'mongodb://localhost:27017/test';
 // 'mongodb://user:pass@host:port/database'
 // 127.0.0.1 or localhost
 mongoose.connect(uri, function(error) {
   // if error is truthy, the initial connection failed.
+  if (error) {
+    console.log("ERROR CONNECTING TO MONGOOSE: "+error+". user+pass: "+process.env.dbuser+" "+process.env.password);
+  } else {
+    console.log("CONNECTED TO MONGODB");
+  }
 });
 
 // view engine setup
@@ -35,6 +41,12 @@ app.use(session({
   // encrypted session for an hour
   duration: 60 * 60 * 1000,
   activeDuration: 15 * 60 * 1000,
+  cookie: {
+    path: '/api', // cookie will only be sent to requests under '/api'
+    ephemeral: false, // when true, cookie expires when the browser closes
+    httpOnly: true, // when true, cookie is not accessible from javascript
+    // secure: false // when true, cookie will only be sent over SSL. use key 'secureProxy' instead if you handle SSL not in your node process
+  }
 }));
 
 app.use('/', routes);
