@@ -1,62 +1,37 @@
 /// <reference path="../../../../vendor.d.ts"/>
-import {AfterViewInit, AfterContentChecked, Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
 import {VersionsService} from './../../../services/VersionsService';
 
-// Import all versions components here
-import {VersionCubicComponent} from './../../version-cubic/components/baseComponent/baseComponent';
-import {VersionMaterialComponent} from './../../version-material/components/baseComponent/baseComponent';
-import {VersionTypographyComponent} from './../../version-typography/components/baseComponent/baseComponent';
-
 @Component({
+	moduleId: module.id + '',
 	selector: 'version-container',
 	styles: [],
-	directives: [
-		CORE_DIRECTIVES,
-		// add all version components here
-		VersionCubicComponent, VersionMaterialComponent, VersionTypographyComponent
-	],
 	templateUrl: '/client/app/versions/components/baseComponent/baseComponent.html',
 })
 
 export class VersionComponent {
 	@Input() versionName: string;
-	messageService: MessageService;
-	router: Router;
-	route: ActivatedRoute;
-	sub: any;
+	routeSubscription: Subscription;
 	version: string;
 	routeParams: Object;
 
 	// Constructor
-	constructor(messageService: MessageService, router: Router, route: ActivatedRoute) {
-		this.messageService = messageService;
-		this.router = router;
-		this.route = route;
-		this.version;
-		this.routeParams;
-	}
+	constructor(public messageService: MessageService, private router: Router, private route: ActivatedRoute) {}
 
 	// Functions
 	ngOnInit() {
-		this.sub = this.route
-			.params
-			.subscribe(params => {
-				this.routeParams = params;
-			});
-		this.version = this.routeParams['version'] ? this.routeParams['version'].toSlug() : this.versionName.toSlug();
+		this.routeSubscription = this.route.params.subscribe((params: Params) => {
+			console.log("PARAMS CHANGED", params);
+			this.routeParams = params;
+			this.ngAfterViewInit();
+		});
 	}
 
-	ngOnDestroy() {
-		if (this.sub) {
-			this.sub.unsubscribe();
-		}
-	}
-
-	ngAfterContentChecked() {
+	ngAfterViewInit() {
 		this.version = this.routeParams['version'] ? this.routeParams['version'].toSlug() : this.versionName.toSlug();
 	}
 }

@@ -1,11 +1,10 @@
 /// <reference path="../../../../../vendor.d.ts"/>
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
 
 @Component({
+	moduleId: module.id + '',
 	selector: 'ebooks-download',
 	styles: [],
-	directives: [CORE_DIRECTIVES],
 	templateUrl: '/client/app/projects/download-wishlist-ebooks/components/baseComponent/baseComponent.html',
 })
 

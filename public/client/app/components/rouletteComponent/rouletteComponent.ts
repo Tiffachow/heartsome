@@ -1,6 +1,6 @@
 /// <reference path="../../../vendor.d.ts"/>
 
-import {AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewChecked} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterOutlet, ActivatedRoute, Params} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
