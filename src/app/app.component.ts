@@ -1,6 +1,5 @@
 /// <reference path="../vendor.d.ts"/>
 
-require('../stylesheets/main.css');
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Routes, RouterModule, RouterLink, RouterOutlet} from '@angular/router';
 

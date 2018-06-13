@@ -9,9 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="Keywords" content="web development portfolio tiffany chow app developer full stack frontend design angular angular2 react">
 
-        <!-- <link rel="stylesheet" href="<%= base %>/dist/stylesheets/all.min.css"> -->
-        <!-- <script src="<%= base %>/dist/scripts/all.min.js"></script> -->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="./../node_modules/font-awesome/css/font-awesome.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
         <script type="text/javascript" src="./scripts/common-build.min.js"></script>
         <script>
             var webpackManifestBuild = (function() {
@@ -33,8 +33,8 @@
             window.onload = function() {
                 document.getElementsByTagName('body')[0].appendChild(element);
             }
+            var basePath = "//<%= host %>";
         </script>
-        <script type="text/javascript">var basePath = "//<%= host %>";</script>
     </head>
     <body>
         <app>

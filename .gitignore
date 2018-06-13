@@ -32,8 +32,7 @@ npm-debug.log
 .DS_Store
 
 # Build
-public/dist
-public/client/scripts/bundle.js
+public
 *gulp-tsc-tmp*
 
 setup.env
