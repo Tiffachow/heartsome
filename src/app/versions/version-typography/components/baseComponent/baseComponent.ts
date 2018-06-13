@@ -5,9 +5,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 	moduleId: module.id + '',
 	selector: 'version-typography',
 	styles: [],
-	template: `
-		<span>TYPOGRAPHY app working</span>
-	`
+	templateUrl: '/client/app/versions/version-typography/components/baseComponent/baseComponent.html',
 })
 
 export class VersionTypographyComponent {

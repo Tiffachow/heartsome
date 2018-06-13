@@ -8,12 +8,7 @@ import {VersionsService} from './../../../services/VersionsService';
 	moduleId: module.id + '',
 	selector: 'app-vers-ctrl-center',
 	styles: [],
-	template: `
-		<span>app versions control center component</span>
-
-		<!-- TO DO: display data w/ functions to edit and delete-->
-		<!-- TO DO: create form modals for add & edit -->
-	`
+	templateUrl: '/client/app/admin/components/versionsCtrlCenterComponent/versionsCtrlCenterComponent.html',
 })
 
 export class VersionsCtrlCenterComponent {

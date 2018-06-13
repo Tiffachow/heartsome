@@ -5,9 +5,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 	moduleId: module.id + '',
 	selector: 'version-material',
 	styles: [],
-	template: `
-		<span>MATERIAL app working</span>
-	`
+	templateUrl: '/client/app/versions/version-material/components/baseComponent/baseComponent.html',
 })
 
 export class VersionMaterialComponent {

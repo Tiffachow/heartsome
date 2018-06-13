@@ -7,7 +7,7 @@ import {DashboardComponent} from './admin/components/baseComponent/baseComponent
 import {ProjectComponent} from './projects/components/baseComponent/baseComponent';
 import {VersionComponent} from './versions/components/baseComponent/baseComponent';
 
-const appRoutes: Routes = [
+export const appRoutes: Routes = [
 	{
 		path: '',
 		component: BaseComponent,
@@ -32,6 +32,8 @@ const appRoutes: Routes = [
 	{path: 'project/:name', component: ProjectComponent} //holder of all projects
 ];
 
-export const appRoutingProviders: any[] = [];
+export const appRoutingProviders: any[] = [
+
+];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

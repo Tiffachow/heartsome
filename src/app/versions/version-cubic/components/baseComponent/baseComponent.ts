@@ -5,9 +5,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 	moduleId: module.id + '',
 	selector: 'version-cubic',
 	styles: [],
-	template: `
-		<span>CUBIC app working</span>
-	`
+	templateUrl: '/client/app/versions/version-cubic/components/baseComponent/baseComponent.html',
 })
 
 export class VersionCubicComponent {
