@@ -1,24 +1,22 @@
 var path = require('path');
 var webpack = require('webpack');
-var ManifestPlugin = require('webpack-manifest-plugin');
-var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = [
   {
     entry: "./src/app/app.ts",
     output: {
       path: path.join(__dirname, "public", "scripts"),
-      // filename: "build.js"
-      filename: 'build.[chunkhash].js',
-      chunkFilename: 'build.[chunkhash].js'
+      filename: 'bundle.[hash].js',
+      chunkFilename: 'bundle.[hash].js'
     },
+    mode: process.env.ENV,
     resolve: {
       extensions: [".ts", ".tsx", ".js"]
     },
     module: {
-      loaders: [
-        // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-        { test: /\.tsx?$/, loader: "ts-loader" },
+      rules: [
+        { test: /\.ts$/, use: "ts-loader" },
         { test: /\.css$/,
           use: [
             { loader: "style-loader" },
@@ -33,20 +31,33 @@ module.exports = [
         }
       ]
     },
+    optimization: {
+      splitChunks: {
+        chunks: 'async',
+        minSize: 30000,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        name: true,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
+          }
+        }
+      },
+      minimize: true
+    },
     plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-          name: 'common-build',
-          filename: 'common-build.min.js',
-          minChunks: Infinity
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        mangle: false,
-        sourceMap: false
-      }),
-      new ManifestPlugin(),
-      new ChunkManifestPlugin({
-        filename: "chunk-manifest-build.json",
-        manifestVariable: "webpackManifestBuild"
+      new HtmlWebpackPlugin({
+        filename: './../views/index.ejs',
+        // Load a custom template (lodash by default see the FAQ for details)
+        template: "./src/views/index-template.html"
       })
     ]
   }

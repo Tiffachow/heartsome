@@ -33,6 +33,5 @@ npm-debug.log
 
 # Build
 public
-*gulp-tsc-tmp*
 
 setup.env
