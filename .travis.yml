@@ -3,20 +3,6 @@ node_js:
     - "7"
     - "6"
     - "node"
-env:
-    - dbuser=tiffachow
-    - password=julian8rome
-    - adminpassword=julian8rome
-    - S3_BUCKET=heartsome
-    - AWS_ACCESS_KEY_ID=AKIAJPHGUZZPP3I36BAA
-    - AWS_SECRET_ACCESS_KEY=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
-    - GOODREADS_API_KEY=EBNfVNgRsXmkppm3wLg
-    - GOODREADS_API_SECRET=1hNRau632xxAuG3j9lfpDUXCmeqgDVMGnLYAZo8
-    - GOOGLE_APP_BROWSER_API_KEY=AIzaSyAjYui1ojE9shvrENWVCOaMIfgXzKSJHjM
-    - GOOGLE_APP_SERVER_API_KEY=AIzaSyCRZt5iq1kqxdhbPcb25yKByPNJfeiNEgE
-    - GOOGLE_OAUTH_CLIENT_ID=58055027159-jsb46hm1jeqf43a6dga0picssqdudvbf.apps.googleusercontent.com
-    - ENV=development
-    - env=development
 install: npm install
 before_script: npm run build
 script: npm run app
