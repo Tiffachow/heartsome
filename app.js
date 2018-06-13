@@ -14,17 +14,20 @@ var uri = 'mongodb://'+process.env.dbuser+':'+process.env.password+'@localhost:2
 // var uri = 'mongodb://localhost:27017/test';
 // 'mongodb://user:pass@host:port/database'
 // 127.0.0.1 or localhost
-mongoose.connect(uri, function(error) {
-  // if error is truthy, the initial connection failed.
-  if (error) {
-    console.log("ERROR CONNECTING TO MONGOOSE: "+error+". user+pass: "+process.env.dbuser+" "+process.env.password);
-  } else {
-    console.log("CONNECTED TO MONGODB");
+mongoose.connect(uri,
+  { useMongoClient: true },
+  function(error) {
+    // if error is truthy, the initial connection failed.
+    if (error) {
+      console.log("ERROR CONNECTING TO MONGOOSE: "+error+". user+pass: "+process.env.dbuser+" "+process.env.password);
+    } else {
+      console.log("CONNECTED TO MONGODB");
+    }
   }
-});
+);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public', 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public

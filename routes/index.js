@@ -1,4 +1,4 @@
-var 
+var
 	Project = require('../models/Project'),
 	AppVersion = require('../models/AppVersion'),
 	BlogPost = require('../models/BlogPost'),
@@ -516,11 +516,11 @@ router.get('/api/goodreads_oauth_callback', function(req, res) {
 	if (authorized) {
 		console.log("Authorized!");
 		goodreadsOauth.getOAuthAccessToken(
-			goodreadsOauthToken, 
-			goodreadsOauthTokenSecret, 
-			null,  
+			goodreadsOauthToken,
+			goodreadsOauthTokenSecret,
+			null,
 			function (e, oauth_access_token, oauth_access_token_secret, results){
-				if (e) console.error(e);        
+				if (e) console.error(e);
 				console.log("ACCESS TOKEN: " + oauth_access_token + "\n ACCESS TOKEN SECRET: " + oauth_access_token_secret);
 				goodreadsOauthAccessToken = oauth_access_token;
 				goodreadsOauthAccessTokenSecret = oauth_access_token_secret;
@@ -605,7 +605,7 @@ router.get('/api/goodreads_shelf_books', function(req, res) {
 // for: '/', '/v/**', '/roulette', '/admin', '/project/**' routes
 router.get(/\/|\/v\/\p{L}*|\/roulette|\/admin|\/project\/\p{L}*/, function(req, res) {
 	var params = req.query;
-	return res.render('index', {base: req.baseUrl, host: req.get('Host'), params: params});
+	return res.render('index', {params: params});
 });
 
 // ================================================================================

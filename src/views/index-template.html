@@ -12,28 +12,9 @@
         <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
         <link rel="stylesheet" href="./../node_modules/font-awesome/css/font-awesome.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-        <script type="text/javascript" src="./scripts/common-build.min.js"></script>
-        <script>
-            var webpackManifestBuild = (function() {
-                var json = null;
-                $.ajax({
-                    'async': false,
-                    'global': false,
-                    'url': "./scripts/chunk-manifest-build.json",
-                    'dataType': "json",
-                    'success': function (data) {
-                        json = data;
-                    }
-                });
-                return json;
-            })();
-            var link = "./scripts/" + webpackManifestBuild["0"];
-            var element = document.createElement('script');
-            element.src = link;
-            window.onload = function() {
-                document.getElementsByTagName('body')[0].appendChild(element);
-            }
-            var basePath = "//<%= host %>";
+        <script type="text/javascript">
+        	var basePath = window.location.protocol + window.location.host;
+        	var context = context || this.rootContext || this.context;
         </script>
     </head>
     <body>
