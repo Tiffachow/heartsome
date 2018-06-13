@@ -8,7 +8,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var less = require('gulp-less');
 var uglifycss = require('gulp-uglifycss');
 var browserify = require('gulp-browserify');
-var rollup = require('gulp-rollup');
 var typescript = require('gulp-tsc');
 var rename = require('gulp-rename');
 var typedoc = require('gulp-typedoc');
@@ -58,7 +57,7 @@ gulp.task("test", function() {
 		.pipe(jasmine())
 });
 
-gulp.task('bundle:browserify', function() {
+gulp.task('bundle:browserify', function() { //for cjs, amd
 	return gulp.src('./public/client/scripts/modules.js')
 		.pipe(sourcemaps.init())
 		.pipe(browserify({
@@ -69,25 +68,14 @@ gulp.task('bundle:browserify', function() {
 		.pipe(gulp.dest('./public/client/scripts/'));
 });
 
-gulp.task('bundle:rollup', function() {
-	return gulp.src('./public/client/scripts/modules.js')
-		.pipe(sourcemaps.init())
-		.pipe(rollup({
-			entry: './public/client/scripts/modules.js'
-		}))
-		// .pipe(rename('bundle.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./public/client/scripts/bundle/'));
-});
-
 gulp.task('scripts', ['bundle:browserify'], function() {
 	// Minify and copy all JavaScript (except vendor scripts)
 	// with sourcemaps all the way down
 	return gulp.src([paths.client.scripts, '!./public/client/scripts/modules.js'])
-		.pipe(sourcemaps.init())
+		// .pipe(sourcemaps.init())
 		.pipe(uglify())
 		.pipe(concat('all.min.js'))
-		.pipe(sourcemaps.write())
+		// .pipe(sourcemaps.write())
 		.pipe(gulp.dest(paths.dist + 'scripts'));
 });
 
