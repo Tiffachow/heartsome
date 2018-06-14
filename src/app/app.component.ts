@@ -80,15 +80,21 @@ import {TagSuggestService} from './services/TagSuggestService';
 export class CombineComponents {
 	debug: boolean = false;
 
-	constructor(public messageService: MessageService, public versionsService: VersionsService, public profileService: ProfileService,
-		public projectsService: ProjectsService, public blogPostsService: BlogPostsService, public tagSuggestService: TagSuggestService) {}
+	constructor(
+		private messageService: MessageService,
+		private versionsService: VersionsService,
+		private projectsService: ProjectsService,
+		private blogPostsService: BlogPostsService,
+		private tagSuggestService: TagSuggestService,
+		private profileService: ProfileService
+	) {}
 
 	ngOnInit() {
-		this.profileService.getProfile();
-		this.versionsService.getAll();
-		this.blogPostsService.getAll();
-		this.projectsService.getAll();
-		this.tagSuggestService.getAll();
+		this.profileService.getProfile(false);
+		this.versionsService.getAll(false, false, false);
+		this.blogPostsService.getAll(false, false, false, false);
+		this.projectsService.getAll(false, false, false, false);
+		this.tagSuggestService.getAll(false);
 	}
 
 	ngAfterViewInit() {

@@ -2,6 +2,7 @@
 
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 
 import {ProfileService} from './ProfileService';
 import {MessageService} from './MessageService';
@@ -9,18 +10,20 @@ import {UtilsService} from './UtilsService';
 
 @Injectable()
 export class AccountService {
-	http: Http;
-	utilsService: UtilsService;
-	profileService: ProfileService;
-	messageService: MessageService;
-	loggedIn: Boolean;
+	loggedIn: boolean = false;
+	httpOptions: object = {
+		headers: new HttpHeaders({
+			'Content-Type':  'application/json',
+			'Authorization': 'my-auth-token'
+		})
+	};
 
-	constructor(http: Http, utilsService: UtilsService, profileService: ProfileService, messageService: MessageService) {
-		this.http = http;
-		this.profileService = profileService;
-		this.messageService = messageService;
-		this.utilsService = utilsService;
-		this.loggedIn = false;
+	constructor(
+		private http: Http,
+		private utilsService: UtilsService,
+		private profileService: ProfileService,
+		private messageService: MessageService
+	) {
 		this.updateLoginStatus();
 	}
 
@@ -31,9 +34,9 @@ export class AccountService {
 			this_.http.get(global.basePath + '/api/login')
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					this_.loggedIn = data.loggedIn;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					this_.loggedIn = parsedData["loggedIn"];
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
@@ -44,14 +47,15 @@ export class AccountService {
 	}
 
 	mockLogin() {
+		const loginData = {login: true};
 		var tryCount = 0;
 		(function tryRequest(this_) {
-			this_.http.post(global.basePath + '/api/login')
+			this_.http.post(global.basePath + '/api/login', loginData, this_.httpOptions)
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					this_.loggedIn = data.loggedIn;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					this_.loggedIn = parsedData["loggedIn"];
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
@@ -72,12 +76,12 @@ export class AccountService {
 			if (email == this.profileService.profile.email && pw == storedPW) {
 				var tryCount = 0;
 				(function tryRequest(this_) {
-					this_.http.post(global.basePath + '/api/login')
+					this_.http.post(global.basePath + '/api/login', {login: true}, this_.httpOptions)
 						.subscribe(
 						data => {
-							var data = JSON.parse(data._body);
-							console.log(data);
-							this_.loggedIn = data.loggedIn;
+							var parsedData = JSON.parse(data["_body"]);
+							console.log(parsedData);
+							this_.loggedIn = parsedData["loggedIn"];
 						},
 						err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 						() => {
@@ -96,9 +100,9 @@ export class AccountService {
 			this_.http.get(global.basePath + '/api/logout')
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					this_.loggedIn = data.loggedIn;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					this_.loggedIn = parsedData["loggedIn"];
 				},
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {

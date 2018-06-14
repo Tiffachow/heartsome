@@ -78,12 +78,18 @@ import {BlogPostsService} from './../../../services/BlogPostsService';
 })
 
 export class DashboardComponent {
-	activeCtrlCenter: Object;
+	activeCtrlCenter: object;
 	currentCtrlCenter: String;
 
 	// Constructor
-	constructor(public messageService: MessageService, public accountService: AccountService, public versionsService: VersionsService,
-		public profileService: ProfileService, public projectsService: ProjectsService, public blogPostsService: BlogPostsService) {}
+	constructor(
+		private messageService: MessageService,
+		private accountService: AccountService,
+		private versionsService: VersionsService,
+		private profileService: ProfileService,
+		private projectsService: ProjectsService,
+		private blogPostsService: BlogPostsService
+	) {}
 
 	// Functions
 	ngOnInit() {

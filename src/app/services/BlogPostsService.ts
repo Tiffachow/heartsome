@@ -7,17 +7,14 @@ import {UtilsService} from './UtilsService';
 
 @Injectable()
 export class BlogPostsService {
-	blogPosts: Array<Object>;
-	http: Http;
-	utilsService: UtilsService;
+	blogPosts: Array<object> = [];
 
-	constructor(http: Http, utilsService: UtilsService) {
-		this.http = http;
-		this.utilsService = utilsService;
-		this.blogPosts = [];
-	}
+	constructor(
+		private http: Http,
+		private utilsService: UtilsService
+	) {}
 
-	create(body, callback?) {
+	create(body, callback) {
 		console.log("TRYING TO CREATE NEW POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
@@ -26,10 +23,10 @@ export class BlogPostsService {
 			this_.http.post(global.basePath + '/api/blog/new', body, options)
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						this_.blogPosts = data.posts;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						this_.blogPosts = parsedData["posts"];
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -45,18 +42,18 @@ export class BlogPostsService {
 		})(this);
 	}
 
-	getAll(sortDate?, filterTag?, filterCategory?, callback?) {
+	getAll(sortDate, filterTag, filterCategory, callback) {
 		console.log("TRYING TO GET ALL POSTS");
 		var tryCount = 0;
 		(function tryRequest(this_) {
 			this_.http.get(global.basePath + '/api/blog/all')
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						this_.blogPosts = data.posts;
-						console.log(data.posts);
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						this_.blogPosts = parsedData["posts"];
+						console.log(parsedData["posts"]);
 					} else {
 						console.log("Error getting all blog posts");
 					}
@@ -71,7 +68,7 @@ export class BlogPostsService {
 		})(this);
 	}
 
-	getOne(id, callback?) {
+	getOne(id, callback) {
 		console.log("TRYING TO GET POST WITH ID "+id);
 		var tryCount = 0;
 		var result;
@@ -79,10 +76,10 @@ export class BlogPostsService {
 			this_.http.get(global.basePath + '/api/blog/post/'+id)
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						result = data.post;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						result = parsedData.post;
 					} else {
 						console.log("Error getting post");
 					}
@@ -97,7 +94,7 @@ export class BlogPostsService {
 		})(this);
 	}
 
-	edit(body, id, callback?) {
+	edit(body, id, callback) {
 		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
@@ -106,10 +103,10 @@ export class BlogPostsService {
 			this_.http.put(global.basePath + '/api/blog/post/'+id, body, options)
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						this_.blogPosts = data.posts;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						this_.blogPosts = parsedData["posts"];
 					} else {
 						console.log("Error getting all posts");
 					}
@@ -119,7 +116,7 @@ export class BlogPostsService {
 					console.log("completed put");
 					var result;
 					for (var i in this_.blogPosts){
-						if (this_.blogPosts[i].id == id) {
+						if (this_.blogPosts[i]["id"] == id) {
 							result = this_.blogPosts[i];
 						}
 					}
@@ -130,17 +127,17 @@ export class BlogPostsService {
 		})(this);
 	}
 
-	delete(id, callback?) {
+	delete(id, callback) {
 		console.log("TRYING TO DELETE POST WITH ID "+id);
 		var tryCount = 0;
 		(function tryRequest(this_) {
 			this_.http.delete(global.basePath + '/api/blog/post/'+id)
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						this_.blogPosts = data.posts;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						this_.blogPosts = parsedData["posts"];
 					} else {
 						console.log("Error getting all posts");
 					}

@@ -121,13 +121,18 @@ import {S3Service} from './../../../services/S3Service';
 
 export class BlogCtrlCenterComponent {
 	openEditor: String;
-	currentlyEditing: Object;
+	currentlyEditing: object;
 	messageSubscription: Subscription;
-	@ViewChild('postImg') postImgInput: ElementRef;
-	@ViewChild('previewImg') previewImgInput: ElementRef;
+	@ViewChild('postImg') postImgInput: any;
+	@ViewChild('previewImg') previewImgInput: any;
 
 	// Constructor
-	constructor(public messageService: MessageService, public blogPostsService: BlogPostsService, public tagSuggestService: TagSuggestService, public s3Service: S3Service){}
+	constructor(
+		private messageService: MessageService,
+		private blogPostsService: BlogPostsService,
+		private tagSuggestService: TagSuggestService,
+		private s3Service: S3Service
+	){}
 
 	// Functions
 	ngOnInit() {
@@ -182,7 +187,7 @@ export class BlogCtrlCenterComponent {
 		}.bind(this));
 	}
 
-	onSubmit(event, task, id?) {
+	onSubmit(event, task, id) {
 		event.preventDefault();
 		// if data valid:
 		var dataObject = {};

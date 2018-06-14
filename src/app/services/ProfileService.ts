@@ -8,52 +8,47 @@ import {UtilsService} from './UtilsService';
 
 @Injectable()
 export class ProfileService {
-	http: Http;
-	messageService: MessageService;
-	utilsService: UtilsService;
-	profile: Object;
+	profile: object = { //mock? retrieve from mongoDB later
+		id: 1,
+		firstName: "Tiffany",
+		lastName: "Chow",
+		title: "Web Developer",
+		location: "New York City",
+		email: "tiffachow@gmail.com",
+		websites: ["heartso.me"],
+		about: "Blah",
+		images: [],
+		dob: new Date(),
+		forHire: true,
+		skills:  [
+			{
+				type: "language",
+				name: "javascript",
+				experience: "2 years",
+				proficiency: "advanced",
+				works: ["heartsome"],
+			}
+		],
+		createdAt: new Date(),
+		password: "censored"
+	};
 
-	constructor(http: Http, messageService: MessageService, utilsService: UtilsService) {
-		this.http = http;
-		this.messageService = messageService;
-		this.utilsService = utilsService;
-		this.profile = { //mock? retrieve from mongoDB later
-			id: 1,
-			firstName: "Tiffany",
-			lastName: "Chow",
-			title: "Web Developer",
-			location: "New York City",
-			email: "tiffachow@gmail.com",
-			websites: ["heartso.me"],
-			about: "Blah",
-			images: [],
-			dob: new Date(),
-			forHire: true,
-			skills:  [
-				{
-					type: "language",
-					name: "javascript",
-					experience: "2 years",
-					proficiency: "advanced",
-					works: ["heartsome"],
-				}
-			],
-			createdAt: new Date(),
-			password: "censored"
-		};
-	}
+	constructor(
+		private http: Http,
+		private messageService: MessageService,
+		private utilsService: UtilsService
+	) {}
 
-	getProfile(callback?) {
-		console.log("TRYING TO GET PROFILE");
+	getProfile(callback) {
 		var tryCount = 0;
 		(function tryRequest(this_) {
 			this_.http.get(global.basePath + '/api/profile')
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						this_.profile = data.profile;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						this_.profile = parsedData["profile"];
 					} else {
 						console.log("Error getting profile");
 					}
@@ -68,7 +63,7 @@ export class ProfileService {
 		})(this);
 	}
 
-	edit(body, callback?) {
+	edit(body, callback) {
 		console.log("TRYING TO EDIT POST WITH DATA "+JSON.stringify(body));
 		var tryCount = 0;
 		(function tryRequest(this_) {
@@ -77,10 +72,10 @@ export class ProfileService {
 			this_.http.put(global.basePath + '/api/profile', body, options)
 				.subscribe(
 				data => {
-					var data = JSON.parse(data._body);
-					console.log(data);
-					if (data.success) {
-						this_.profile = data.profile;
+					var parsedData = JSON.parse(data["_body"]);
+					console.log(parsedData);
+					if (parsedData["success"]) {
+						this_.profile = parsedData["profile"];
 					} else {
 						console.log("Error getting profile");
 					}

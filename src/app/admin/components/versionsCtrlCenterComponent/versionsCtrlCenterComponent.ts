@@ -8,13 +8,16 @@ import {VersionsService} from './../../../services/VersionsService';
 	moduleId: module.id + '',
 	selector: 'app-vers-ctrl-center',
 	styles: [],
-	templateUrl: '/client/app/admin/components/versionsCtrlCenterComponent/versionsCtrlCenterComponent.html',
+	templateUrl: './versionsCtrlCenterComponent.html',
 })
 
 export class VersionsCtrlCenterComponent {
 
 	// Constructor
-	constructor(public messageService: MessageService, public versionsService: VersionsService) {}
+	constructor(
+		private messageService: MessageService,
+		private versionsService: VersionsService
+	) {}
 
 	// Functions
 	ngOnInit() {

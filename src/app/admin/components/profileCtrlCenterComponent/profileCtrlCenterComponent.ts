@@ -118,7 +118,13 @@ export class ProfileCtrlCenterComponent {
 	openEditor: boolean = false;
 
 	// Constructor
-	constructor(public messageService: MessageService, public profileService: ProfileService, public projectsService: ProjectsService, public tagSuggestService: TagSuggestService, public s3Service: S3Service) {}
+	constructor(
+		private messageService: MessageService,
+		private profileService: ProfileService,
+		private projectsService: ProjectsService,
+		private tagSuggestService: TagSuggestService,
+		private s3Service: S3Service
+	) {}
 
 	// Functions
 	ngOnInit() {

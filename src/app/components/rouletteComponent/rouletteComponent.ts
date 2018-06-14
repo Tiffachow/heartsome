@@ -30,13 +30,19 @@ import {ProjectsService} from './../../services/ProjectsService';
 export class RouletteComponent {
 	messageSubscription: Subscription;
 	routeSubscription: Subscription;
-	project: Object;
-	version: Object;
+	project: object;
+	version: object;
 	type: string = this.route.params["type"] || "versions";
 	alreadyInit: boolean = false;
 
 	// Constructor
-	constructor(public messageService: MessageService, public versionsService:VersionsService, public projectsService: ProjectsService, private router: Router, private route: ActivatedRoute) {}
+	constructor(
+		private messageService: MessageService,
+		private versionsService:VersionsService,
+		private projectsService: ProjectsService,
+		private router: Router,
+		private route: ActivatedRoute
+	) {}
 
 	// Functions
 

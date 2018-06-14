@@ -154,11 +154,15 @@ import {S3Service} from './../../../services/S3Service';
 export class ProjectsCtrlCenterComponent {
 	openEditor: String;
 	messageSubscription: Subscription;
-	currentlyEditing: Object;
+	currentlyEditing: object;
 
 	// Constructor
-	constructor(public messageService: MessageService, public projectsService: ProjectsService, public tagSuggestService: TagSuggestService,
-		public s3Service: S3Service) {}
+	constructor(
+		private messageService: MessageService,
+		private projectsService: ProjectsService,
+		private tagSuggestService: TagSuggestService,
+		private s3Service: S3Service
+	) {}
 
 	// Functions
 	ngOnInit() {
@@ -208,7 +212,7 @@ export class ProjectsCtrlCenterComponent {
 		}.bind(this));
 	}
 
-	onSubmit(event, task, id?) {
+	onSubmit(event, task, id) {
 		event.preventDefault();
 		// if data valid:
 		var dataObject = {};

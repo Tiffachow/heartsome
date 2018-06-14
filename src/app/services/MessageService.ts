@@ -6,8 +6,8 @@ import 'rxjs/add/operator/share';
 
 @Injectable()
 export class MessageService {
-	message$: Observable<Object>;
-	private _messageObserver: Observable<Object>;
+	message$: Observable<object>;
+	private _messageObserver: Observable<object>;
 
 	constructor() {
 		this.message$ = new Observable(observer => {

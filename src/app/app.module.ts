@@ -6,10 +6,10 @@ import {FormsModule}   from '@angular/forms';
 import {Routes, RouterModule} from '@angular/router';
 import {HttpModule, JsonpModule} from '@angular/http';
 
-import { CombineComponents } from './app.component';
 import { routing,
          appRoutingProviders } from './app.routing';
 
+import {CombineComponents} from './app.component';
 import {BaseComponent} from './components/baseComponent/baseComponent';
 import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
 
