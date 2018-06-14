@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class TagSuggestService {
-	tags: Array<Object>;
+	tags: Array<object>;
 
 	constructor() {
 		this.tags = [ //mock
@@ -29,16 +29,16 @@ export class TagSuggestService {
 		];
 	}
 
-	create(data, callback?) {
+	create(data, callback) {
 		var result = {};
 		return result;
 	}
 
-	getAll(callback?) {
+	getAll(callback) {
 
 	}
 
-	getStoredTags(type, callback?) { //types: blogTag, blogCategory, projectTech, versionTag
+	getStoredTags(type, callback) { //types: blogTag, blogCategory, projectTech, versionTag
 		var results = [];
 		for (var x in this.tags) {
 			if (this.tags[x]["type"] == type) {
@@ -49,13 +49,13 @@ export class TagSuggestService {
 		return results;
 	}
 
-	edit(data, callback?) {
+	edit(data, callback) {
 		// callback on success
 		var result = {};
 		return result;
 	}
 
-	delete(data, callback?) {
+	delete(data, callback) {
 	}
 
 	initTagSuggestOnInput(inputId, type) { //types: blogTag, blogCategory, projectTech, versionTag

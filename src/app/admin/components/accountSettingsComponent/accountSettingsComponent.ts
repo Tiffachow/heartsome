@@ -19,7 +19,11 @@ import {ProfileService} from './../../../services/ProfileService';
 export class AccountSettingsComponent {
 
 	// Constructor
-	constructor(public messageService: MessageService, public accountService: AccountService, public profileService: ProfileService) {}
+	constructor(
+		private messageService: MessageService,
+		private accountService: AccountService,
+		private profileService: ProfileService
+	) {}
 
 	// Functions
 	ngOnInit() {

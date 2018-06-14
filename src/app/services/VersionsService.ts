@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class VersionsService {
-	versions: Array<Object>;
+	versions: Array<object>;
 
 	constructor() {
 		this.versions = [ //mock? retrieve from mongoDB later
@@ -41,12 +41,12 @@ export class VersionsService {
 		];
 	}
 
-	create(data, callback?) {
+	create(data, callback) {
 		var result = {};
 		return result;
 	}
 
-	getAll(sortDate?, filterTag?, callback?) {
+	getAll(sortDate, filterTag, callback) {
 		// in callback to API request on complete:
 		var result = [];
 		return result;
@@ -56,17 +56,17 @@ export class VersionsService {
 		return this.versions[ Math.floor( Math.random() * this.versions.length ) ];
 	}
 
-	getOne(id, callback?) {
+	getOne(id, callback) {
 		var result = {};
 		return result;
 	}
 
-	edit(data, id, callback?) {
+	edit(data, id, callback) {
 		// callback on success
 		var result = {};
 		return result;
 	}
 
-	delete(id, callback?) {
+	delete(id, callback) {
 	}
 }

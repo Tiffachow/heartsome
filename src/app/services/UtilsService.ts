@@ -67,7 +67,7 @@ export class UtilsService {
 		return results;
 	}
 
-	retryRequest(err, tryCount, request, thisVar?, fourthTime?) {
+	retryRequest(err, tryCount, request, thisVar, fourthTime) {
 		console.log("REQUEST FAILED. Error: " + err);
 		setTimeout(function(){
 			if (tryCount <= 3) {

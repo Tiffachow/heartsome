@@ -14,10 +14,13 @@ import {Subscription} from 'rxjs/Subscription';
 })
 
 export class BaseComponent {
-	routeSubscription: Subscription;
+	private routeSubscription: Subscription;
 
 	// Constructor
-	constructor(private router: Router, private route: ActivatedRoute) {
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute
+	) {
 	}
 
 	// Functions

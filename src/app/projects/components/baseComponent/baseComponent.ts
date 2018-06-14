@@ -20,10 +20,14 @@ export class ProjectComponent {
 	@Input() projectName: string;
 	routeSubscription: Subscription;
 	project: string;
-	routeParams: Object;
+	routeParams: object;
 
 	// Constructor
-	constructor(public messageService: MessageService, private router: Router, private route: ActivatedRoute) {}
+	constructor(
+		private messageService: MessageService,
+		private router: Router,
+		private route: ActivatedRoute
+	) {}
 
 	// Functions
 	ngOnInit() {

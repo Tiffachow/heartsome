@@ -1,0 +1,47 @@
+ebooks-download h1 {
+  font-size: 30px;
+  line-height: 1em;
+}
+ebooks-download h1 a.goodreads-user-name {
+  font-size: 2rem;
+  font-weight: 600;
+}
+ebooks-download h1 img#goodreads-logo {
+  margin-top: 0;
+  height: 1.2em;
+  width: auto;
+}
+ebooks-download .ui.segment,
+ebooks-download .ui.segments .segment {
+  padding: 5em;
+}
+ebooks-download .ui.card > .content > .header:not(.ui),
+ebooks-download .ui.cards > .card > .content > .header:not(.ui) {
+  font-size: 12px;
+}
+ebooks-download .ui.cards > .card > .content > .meta + .description {
+  max-height: 150px;
+  overflow: scroll;
+}
+ebooks-download .ui.card > .content p:last-child,
+ebooks-download .ui.cards > .card > .content p:last-child {
+  font-size: 10px;
+}
+ebooks-download .ui.two.statistics .statistic {
+  margin: 0;
+}
+ebooks-download .ui.two.statistics {
+  margin: 1em 0 0 0;
+}
+ebooks-download .ui.statistic > .value,
+ebooks-download .ui.statistics .statistic > .value {
+  font-size: 1.5rem !important;
+}
+ebooks-download .ui.statistic > .label,
+ebooks-download .ui.statistics .statistic > .label {
+  font-size: 0.5em;
+}
+ebooks-download .ui.tabular.menu + .attached:not(.top).segment {
+  max-height: 70vh !important;
+  overflow: scroll !important;
+}
