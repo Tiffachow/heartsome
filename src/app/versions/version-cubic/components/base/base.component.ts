@@ -3,12 +3,12 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 
 @Component({
 	moduleId: module.id + '',
-	selector: 'version-material',
+	selector: 'version-cubic',
 	styles: [],
-	templateUrl: '/client/app/versions/version-material/components/baseComponent/baseComponent.html',
+	template: require('./base.component.html'),
 })
 
-export class VersionMaterialComponent {
+export class VersionCubicComponent {
 
 
 	// Constructor

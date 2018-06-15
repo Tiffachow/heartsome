@@ -12,11 +12,12 @@ module.exports = [
     },
     mode: process.env.ENV,
     resolve: {
-      extensions: [".ts", ".tsx", ".js"]
+      extensions: [".ts", ".tsx", ".js", ".html"]
     },
     module: {
       rules: [
         { test: /\.ts$/, use: "ts-loader" },
+        { test: /\.html$/, use: "html-loader" },
         { test: /\.css$/,
           use: [
             { loader: "style-loader" },

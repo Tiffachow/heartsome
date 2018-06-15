@@ -1,25 +1,22 @@
 /// <reference path="../../../../vendor.d.ts"/>
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {Router, RouterLink, RouterOutlet, ActivatedRoute, Params} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageService} from './../../../services/MessageService';
+import {VersionsService} from './../../../services/VersionsService';
 
 @Component({
 	moduleId: module.id + '',
-	selector: 'project-container',
+	selector: 'version-container',
 	styles: [],
-	template: `
-		<span>Projects Holder Working</span>
-		<!-- include project components here-->
-		<ebooks-download *ngIf="project == 'download-wishlist-ebooks'"></ebooks-download>
-	`
+	template: require('./base.component.html'),
 })
 
-export class ProjectComponent {
-	@Input() projectName: string;
+export class VersionComponent {
+	@Input() versionName: string;
 	routeSubscription: Subscription;
-	project: string;
+	version: string;
 	routeParams: object;
 
 	// Constructor
@@ -31,7 +28,7 @@ export class ProjectComponent {
 
 	// Functions
 	ngOnInit() {
-		this.routeSubscription = this.route.params.subscribe((params: Params) => {
+		this.routeSubscription = this.route.params.subscribe((params: any) => {
 			console.log("PARAMS CHANGED", params);
 			this.routeParams = params;
 			this.ngAfterViewInit();
@@ -39,6 +36,6 @@ export class ProjectComponent {
 	}
 
 	ngAfterViewInit() {
-		this.project = this.routeParams['name'] ? this.routeParams['name'].toSlug() : this.projectName.toSlug();
+		this.version = this.routeParams['version'] ? this.routeParams['version'].toSlug() : this.versionName.toSlug();
 	}
 }

@@ -10,23 +10,23 @@ import { routing,
          appRoutingProviders } from './app.routing';
 
 import {CombineComponents} from './app.component';
-import {BaseComponent} from './components/baseComponent/baseComponent';
-import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
+import {BaseComponent} from './components/base/base.component';
+import {RouletteComponent} from './components/roulette/roulette.component';
 
-import {DashboardComponent} from './admin/components/baseComponent/baseComponent';
-import {AccountSettingsComponent} from './admin/components/AccountSettingsComponent/AccountSettingsComponent';
-import {BlogCtrlCenterComponent} from './admin/components/BlogCtrlCenterComponent/BlogCtrlCenterComponent';
-import {ProfileCtrlCenterComponent} from './admin/components/ProfileCtrlCenterComponent/ProfileCtrlCenterComponent';
-import {ProjectsCtrlCenterComponent} from './admin/components/ProjectsCtrlCenterComponent/ProjectsCtrlCenterComponent';
-import {VersionsCtrlCenterComponent} from './admin/components/VersionsCtrlCenterComponent/VersionsCtrlCenterComponent';
+import {DashboardComponent} from './admin/components/base/base.component';
+import {AccountSettingsComponent} from './admin/components/AccountSettings/AccountSettings.component';
+import {BlogCtrlCenterComponent} from './admin/components/BlogCtrlCenter/BlogCtrlCenter.component';
+import {ProfileCtrlCenterComponent} from './admin/components/ProfileCtrlCenter/ProfileCtrlCenter.component';
+import {ProjectsCtrlCenterComponent} from './admin/components/ProjectsCtrlCenter/ProjectsCtrlCenter.component';
+import {VersionsCtrlCenterComponent} from './admin/components/VersionsCtrlCenter/VersionsCtrlCenter.component';
 
-import {ProjectComponent} from './projects/components/baseComponent/baseComponent';
-import {DownloadWishlistEbooksComponent} from './projects/download-wishlist-ebooks/components/baseComponent/baseComponent';
+import {ProjectComponent} from './projects/components/base/base.component';
+import {DownloadWishlistEbooksComponent} from './projects/download-wishlist-ebooks/components/base/base.component';
 
-import {VersionComponent} from './versions/components/baseComponent/baseComponent';
-import {VersionCubicComponent} from './versions/version-cubic/components/baseComponent/baseComponent';
-import {VersionMaterialComponent} from './versions/version-material/components/baseComponent/baseComponent';
-import {VersionTypographyComponent} from './versions/version-typography/components/baseComponent/baseComponent';
+import {VersionComponent} from './versions/components/base/base.component';
+import {VersionCubicComponent} from './versions/version-cubic/components/base/base.component';
+import {VersionMaterialComponent} from './versions/version-material/components/base/base.component';
+import {VersionTypographyComponent} from './versions/version-typography/components/base/base.component';
 
 import {VersionsService} from './services/VersionsService';
 import {MessageService} from './services/MessageService';
