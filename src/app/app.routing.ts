@@ -1,11 +1,11 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {BaseComponent} from './components/baseComponent/baseComponent';
-import {RouletteComponent} from './components/rouletteComponent/rouletteComponent';
-import {DashboardComponent} from './admin/components/baseComponent/baseComponent';
-import {ProjectComponent} from './projects/components/baseComponent/baseComponent';
-import {VersionComponent} from './versions/components/baseComponent/baseComponent';
+import {BaseComponent} from './components/base/base.component';
+import {RouletteComponent} from './components/roulette/roulette.component';
+import {DashboardComponent} from './admin/components/base/base.component';
+import {ProjectComponent} from './projects/components/base/base.component';
+import {VersionComponent} from './versions/components/base/base.component';
 
 export const appRoutes: Routes = [
 	{

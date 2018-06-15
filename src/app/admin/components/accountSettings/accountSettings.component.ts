@@ -9,11 +9,7 @@ import {ProfileService} from './../../../services/ProfileService';
 	moduleId: module.id + '',
 	selector: 'account-settings',
 	styles: [],
-	template: `
-		<span>account settings component</span>
-
-		<!-- TO DO: display data w/ functions to edit and logout-->
-	`
+	template: require('./accountSettings.component.html'),
 })
 
 export class AccountSettingsComponent {

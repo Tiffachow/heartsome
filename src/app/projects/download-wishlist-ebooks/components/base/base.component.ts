@@ -8,8 +8,7 @@ import {UtilsService} from './../../../../services/UtilsService';
 @Component({
 	moduleId: module.id + '',
 	selector: 'ebooks-download',
-	styles: [],
-	templateUrl: './baseComponent.html',
+	template: require('./base.component.html'),
 })
 
 export class DownloadWishlistEbooksComponent {
@@ -34,6 +33,7 @@ export class DownloadWishlistEbooksComponent {
 
 	// Functions
 	ngOnInit() {
+		console.log(this.authorizationLoaded);
 	}
 
 	ngAfterViewInit() {
@@ -61,6 +61,7 @@ export class DownloadWishlistEbooksComponent {
 				err => { tryCount++; this_.utilsService.retryRequest(err, tryCount, tryRequest, this_, true); },
 				() => {
 					window.location = "https://www.goodreads.com/oauth/authorize?oauth_token=" + oauth_token;
+					console.log(this_.authorizationLoaded);
 				}
 				);
 		})(this);

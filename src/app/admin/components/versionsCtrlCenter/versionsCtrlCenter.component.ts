@@ -8,7 +8,7 @@ import {VersionsService} from './../../../services/VersionsService';
 	moduleId: module.id + '',
 	selector: 'app-vers-ctrl-center',
 	styles: [],
-	templateUrl: './versionsCtrlCenterComponent.html',
+	template: require('./versionsCtrlCenter.component.html'),
 })
 
 export class VersionsCtrlCenterComponent {
