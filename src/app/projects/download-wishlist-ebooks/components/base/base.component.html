@@ -5,7 +5,7 @@
 		<div class="ui text loader">Loading</div>
 	</div>
 </div>
-<div *ngIf="goodreads.userName && authorizationLoaded" class="authorized">
+<div *ngIf="authorizationLoaded" class="authorized"> <!--goodreads.userName && -->
 	<h1 class="ui center aligned icon header">
 		<a class="goodreads-user-name" href="{{goodreads.userLink}}" target="_blank">{{goodreads.userName}}</a>'s
 		<img class="ui image" id="goodreads-logo" src="//s.gr-assets.com/assets/layout/header/goodreads_logo.svg">

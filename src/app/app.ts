@@ -11,7 +11,7 @@ require('underscore');
 require('bootstrap');
 require('../../node_modules/bootstrap-markdown/js/bootstrap-markdown.js');
 require('markdown');
-require('../stylesheets/main.css');
+require('../stylesheets/main.less');
 
 import {enableProdMode}      	  from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

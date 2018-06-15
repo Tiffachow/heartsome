@@ -24,6 +24,17 @@ module.exports = [
             { loader: "css-loader" },
           ],
         },
+        { test: /\.less$/,
+          use: [{
+            loader: "style-loader" // creates style nodes from JS strings
+          }, {
+            loader: "css-loader" // translates CSS into CommonJS
+          }, {
+            loader: "less-loader" // compiles Less to CSS
+          }, {
+            loader: 'import-glob-loader' // globs files
+          }]
+        },
         { test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.(woff|woff2)$|\.ttf$|\.wav$|\.mp3$|\.eot$/,
           use: [
             { loader: "url-loader" },
